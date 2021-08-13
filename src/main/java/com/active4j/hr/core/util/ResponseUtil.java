@@ -66,11 +66,11 @@ public class ResponseUtil {
 		try {
 
 			String result = null;
-
+			Long totalPage = (lstResult.getTotal()-1)/lstResult.getSize()+1;
 			if (StringUtils.isNotEmpty(footer)) {
-				result = listtojson(dataGrid.getField().split(","), lstResult.getTotal(), lstResult.getSize(), lstResult.getRecords(), footer);
+				result = listtojson(dataGrid.getField().split(","), lstResult.getTotal(), totalPage, lstResult.getRecords(), footer);
 			} else {
-				result = listtojson(dataGrid.getField().split(","), lstResult.getTotal(), lstResult.getSize(), lstResult.getRecords(), null);
+				result = listtojson(dataGrid.getField().split(","), lstResult.getTotal(), totalPage, lstResult.getRecords(), null);
 			}
 
 			PrintWriter pw = response.getWriter();
