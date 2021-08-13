@@ -17,8 +17,8 @@
                 </div>
 
                 <div class="ibox-content">
-                    <button class="btn btn-primary" style="    margin-bottom: 5px" type="button" onclick="daochuIndex('${xuexiaoName}');"><i class="fa fa-level-up"></i>导出</button>
-                    <button class="btn btn-primary" style="    margin-bottom: 5px" type="button" onclick="reload();"><i class="fa fa-refresh"></i>刷新</button>
+                    <button class="btn btn-primary" style="margin-bottom: 5px" type="button" onclick="daochuIndex('${xuexiaoName}');"><i class="fa fa-level-up"></i>导出</button>
+                    <button class="btn btn-primary" style="margin-bottom: 5px" type="button" onclick="reload();"><i class="fa fa-refresh"></i>刷新</button>
                     <table class="table table-hover">
 
                         <thead>
@@ -45,7 +45,7 @@
                         <c:forEach var="im" items="${indexmodelSchoolList}" varStatus="s">
                             <tr>
                                 <td>${s.count}</td>
-                                <td><span class="label " style="font-size: 13px;">${im.nianjiName}</span></td>
+                                <td><span class="label ">${im.nianjiName}</span></td>
                                 <td><span class="label ">${im.xuepingxian}</span></td>
                                 <td><span class="label ">${im.yiwaixian}</span></td>
                                 <td><span class="label ">${im.jianhurenxian}</span></td>

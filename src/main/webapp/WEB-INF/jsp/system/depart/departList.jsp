@@ -44,10 +44,10 @@
 		<%--<t:dgCol name="description" label="职能描述" width="200"></t:dgCol>--%>
 		<t:dgCol name="id" label="ID" width="200"></t:dgCol>
 		<t:dgCol name="opt" label="操作" width="140"></t:dgCol>
-		<t:dgDelOpt label="删除" url="sys/dept/del?id={id}"/>
+		<t:dgDelOpt label="删除" url="sys/dept/del?id={id}" operationCode="sys:dept:del"/>
 		<t:dgFunOpt label="查看人员" funName="getUsersByDepart(id)" icon="fa fa-check"></t:dgFunOpt>
 		<t:dgToolBar url="sys/dept/add" type="add" width="60%"></t:dgToolBar>
-		<t:dgToolBar url="sys/dept/update" type="edit" width="60%"></t:dgToolBar>
+		<t:dgToolBar url="sys/dept/update" type="edit" width="60%" ></t:dgToolBar>
 		<t:dgToolBar label="导入" icon="fa fa-file-o" type="import" funName="arrowDown" operationCode="sys:dept:importschool" ></t:dgToolBar>
 		<t:dgToolBar type="refresh"></t:dgToolBar>
 	</t:datagrid>

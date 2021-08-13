@@ -47,7 +47,7 @@
                                 <td>${s.count}</td>
                                 <td>
                                     <span class="label label-primary" >
-                                        <a href="webController/toQuxianIndex?name=${im.quxianName}" style="color: white;font-size: 13px;">${im.quxianName}</a>
+                                        <a href="webController/toQuxianIndex?name=${im.quxianName}" style="color: white;">${im.quxianName}</a>
                                     </span>
                                 </td>
                                 <td><span class="label ">${im.xuepingxian}</span></td>
