@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration debug="true" scan="true" scanPeriod="30 seconds">
-	<property name="APP_Name" value="active4j-oa" />
+	<property name="APP_Name" value="hbd" />
 	<!-- kafka生产准生产在一台机器，由此区分 -->
-	<property name="Project_Name" value="active4j-oa" />
-	<property name="LOG_NAME" value="active4j-oa" />
-	<property name="LOG_DIR" value="c:/logs" />
+	<property name="Project_Name" value="hbd" />
+	<property name="LOG_NAME" value="hbd" />
+	<property name="LOG_DIR" value="logs" />
 	<property name="logFileNamePattern" value="${LOG_NAME}_%d{yyyy-MM-dd}_%i" />
 	<property name="fileLayoutPattern" value="[${APP_Name}] [${Project_Name}] [%d] [%level] [%F] [%M] [%t:%L] [] [] [%m]%n" />
 	
