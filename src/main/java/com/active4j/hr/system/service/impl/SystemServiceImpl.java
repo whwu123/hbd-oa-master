@@ -66,6 +66,7 @@ public class SystemServiceImpl implements SystemService {
 			for(SysDicEntity dic : lstDics) {
 				QueryWrapper<SysDicValueEntity> queryWrapper = new QueryWrapper<SysDicValueEntity>();
 				queryWrapper.eq("PARENT_ID", dic.getId());
+				queryWrapper.orderByDesc("CREATE_DATE");
 				List<SysDicValueEntity> lstValues = sysDicValueService.list(queryWrapper);
 				if(null != lstValues && lstValues.size() > 0) {
 					List<SysDicValueEntity> lst = new ArrayList<SysDicValueEntity>();

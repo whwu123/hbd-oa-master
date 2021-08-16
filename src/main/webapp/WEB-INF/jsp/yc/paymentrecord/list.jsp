@@ -40,17 +40,18 @@
 		<t:dgCol name="studentSchool" label="学校名称" width="120" ></t:dgCol>
 	</c:if>
 	<t:dgCol name="studentName" label="学生名字" width="90" query="true"></t:dgCol>
-	<t:dgCol name="studentCard" label="身份证" width="120" query="true"></t:dgCol>
+	<t:dgCol name="studentCard" label="身份证" width="100" query="true"></t:dgCol>
 	<t:dgCol name="studentNianji" label="年级" width="90" query="true" dictionary="school_nianji" display="nianji"></t:dgCol>
 
 	<t:dgCol name="studentBanji" label="班级" width="60"  query="true"></t:dgCol>
-	<t:dgCol name="type" label="险种"  width="120" replace="监护人责任险_监护人责任险,交通意外、重大疾病险_交通意外、重大疾病险,学生平安保险_学生平安保险" query="true"></t:dgCol>
+	<t:dgCol name="type" label="险种"  width="125" replace="监护人责任险_监护人责任险,交通意外、重大疾病险_交通意外、重大疾病险,学生平安保险_学生平安保险" query="true" display="baoxian_type"></t:dgCol>
 	<t:dgCol name="baofeiMoney" label="保险金额" width="70" ></t:dgCol>
-	<t:dgCol name="casName" label="方案名称" width="90" query="true" dictionary="case_name" display="case_name"></t:dgCol>
+
 	<t:dgCol name="zhifuNumber" label="支付流水号" width="90" query="true"></t:dgCol>
 	<t:dgCol name="payMoney" label="支付金额" width="70" ></t:dgCol>
-
+	<t:dgCol name="casName" label="方案名称" width="120" query="true" dictionary="case_name" display="case_name"></t:dgCol>
 	<t:dgCol name="createDate" label="缴费日期" width="120" ></t:dgCol>
+
 	<%--<t:dgCol name="supplier" label="供应商" width="90" ></t:dgCol>--%>
 	<t:dgCol name="toubaorenName" label="投保人姓名" width="70" query="true"></t:dgCol>
 	<t:dgCol name="toubaorenPhone" label="投保人电话" width="90" query="true"></t:dgCol>

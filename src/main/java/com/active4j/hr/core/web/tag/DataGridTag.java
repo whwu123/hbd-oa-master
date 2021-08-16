@@ -521,7 +521,17 @@ public class DataGridTag extends TagSupport {
 						}else if(StringUtils.equals("quxianShow", column.getDisplay())) {
 							sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label\">" + map.get(key) + "</span>").append("'; ");
 						}else if(StringUtils.equals("case_name", column.getDisplay())) {
-							sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label label-warning\">" + map.get(key) + "</span>").append("'; ");
+							sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label\">" + map.get(key) + "</span>").append("'; ");
+						}else if(StringUtils.equals("baoxian_type", column.getDisplay())) {
+							if(StringUtils.equals(key, "学生平安保险")) {
+								sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label label-primary\">" + map.get(key) + "</span>").append("'; ");
+							}else if(StringUtils.equals(key, "监护人责任险")) {
+								sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label \">" + map.get(key) + "</span>").append("'; ");
+							}else if(StringUtils.equals(key, "交通意外、重大疾病险")) {
+								sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label label-warning\">" + map.get(key) + "</span>").append("'; ");
+							}else{
+								sb.append("if(cellvalue == '").append(key).append("') return '").append(map.get(key)).append("'; ");
+							}
 						}
 
 
