@@ -520,6 +520,8 @@ public class DataGridTag extends TagSupport {
 							sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label label-danger\">" + map.get(key) + "</span>").append("'; ");
 						}else if(StringUtils.equals("quxianShow", column.getDisplay())) {
 							sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label\">" + map.get(key) + "</span>").append("'; ");
+						}else if(StringUtils.equals("case_name", column.getDisplay())) {
+							sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label label-warning\">" + map.get(key) + "</span>").append("'; ");
 						}
 
 
