@@ -90,7 +90,7 @@ public class SysUserController extends BaseController {
 	public void datagrid(SysUserEntity sysUserEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		//拼接查询条件
 		QueryWrapper<SysUserEntity> queryWrapper = QueryUtils.installQueryWrapper(sysUserEntity, request.getParameterMap(), dataGrid);
-		
+		queryWrapper.ne("user_name","admin");
 		//执行查询
 		IPage<SysUserEntity> lstResult = sysUserService.page(new Page<SysUserEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
 		

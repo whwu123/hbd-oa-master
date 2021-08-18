@@ -35,13 +35,13 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">密码*：</label>
 	                                <div class="col-sm-8">
-	                                    <input id="password" name="password" minlength="2" maxlength="20" type="password" class="form-control" required="">
+	                                    <input id="password" name="password" minlength="2" maxlength="20" value="111111" type="password" class="form-control" required="">
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">重复密码*：</label>
 	                                <div class="col-sm-8">
-	                                    <input id="repassword" name="repassword" minlength="2" maxlength="20" type="password" class="form-control" required="" equalTo='#password' >
+	                                    <input id="repassword" name="repassword" minlength="2" maxlength="20" value="111111" type="password" class="form-control" required="" equalTo='#password' >
 	                                </div>
 	                            </div>
                             </c:if>
