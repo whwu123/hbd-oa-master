@@ -27,12 +27,12 @@
         <h3>怀保代</h3>
         <form class="form-horizontal m-t" id="signupForm" action="login" method="post">
             <div class="form-group">
-                <input type="text" name="userName" id="userName" value="admin" class="form-control" placeholder="用户名" required="">
+                <input type="text" name="userName" id="userName" value="" class="form-control" placeholder="用户名" required="">
             </div>
             <div class="form-group">
-                <input type="password" name="password" id="password" value="123456" class="form-control" placeholder="密码" required="">
+                <input type="password" name="password" id="password" value="" class="form-control" placeholder="密码" required="">
             </div>
-            <!-- <div class="form-group">
+            <!-- <div class="form-group 123456" >
                 <input id="randCode" name="randCode" type="text" class="form-control" placeholder="验证码" required="" style="width: 60%">
                 <div style="float: right; margin-top: -3.4rem;">
                      <img id="randCodeImage" src="verCode" />
