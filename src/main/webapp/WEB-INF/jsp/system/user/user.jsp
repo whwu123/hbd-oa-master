@@ -28,7 +28,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">真实姓名*：</label>
                                 <div class="col-sm-8">
-                                    <input id="realName" name="realName" minlength="2" maxlength="10" type="text" class="form-control" required="" value="${user.realName }">
+                                    <input id="realName" name="realName" minlength="2"  type="text" class="form-control" required="" value="${user.realName }">
                                 </div>
                             </div>
                             <c:if test="${empty user.id }">
