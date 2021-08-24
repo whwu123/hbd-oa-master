@@ -99,7 +99,12 @@
                     <input  type="text" class="form-control" id="toubaorenPhone" value="${ycUpdateStulog.toubaorenPhone}" placeholder="请输入真实电话号码" readonly/>
                 </div>
             </div>
-
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea id="memo" name="memo" class="form-control" rows="2" readonly>${ycUpdateStulog.memo}</textarea>
+                </div>
+            </div>
             <%--<button type="button" class="btn btn-primary block full-width m-b" onclick="CloseWebPage();">关闭</button>--%>
 
 

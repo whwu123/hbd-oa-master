@@ -87,6 +87,12 @@
                                     <input id="toubaorenPhone" name="toubaorenPhone" type="text" class="form-control" required=""  value="${stu.toubaorenPhone }">
                                 </div>
                             </div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">备注：</label>
+								<div class="col-sm-8">
+									<textarea id="memo" name="memo" class="form-control" rows="3">${stu.memo }</textarea>
+								</div>
+							</div>
 
 
 						</t:formvalid>

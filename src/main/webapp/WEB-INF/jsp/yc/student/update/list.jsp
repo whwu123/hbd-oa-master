@@ -47,10 +47,10 @@
 	<t:dgCol name="studentBanji" label="班级" width="80"  query="true"></t:dgCol>
 	<t:dgCol name="toubaorenName" label="投保人姓名" width="90" query="true"></t:dgCol>
 	<t:dgCol name="toubaorenPhone" label="投保人电话" width="90" query="true"></t:dgCol>
-	<t:dgCol name="createDate" label="修改时间" datefmt="yyyy-MM-dd HH:mm"  width="120"></t:dgCol>
+	<t:dgCol name="createDate" label="修改时间" datefmt="yyyy-MM-dd HH:mm:ss"  width="120"></t:dgCol>
 	<t:dgCol name="state" label="状态" replace="未审核_1,已审核_2,已完成_0" width="60" display="level"></t:dgCol>
 	<t:dgCol name="opt" label="操作" width="80"></t:dgCol>
-	<%--<t:dgDelOpt label="删除" url="sys/user/del?id={id}" />--%>
+	<t:dgDelOpt label="删除" url="ycUpdateStulogController/del?id={id}" />
 	<t:dgFunOpt label="审核" funName="auditingStu(id,studentName)" icon="fa fa-check"></t:dgFunOpt>
 	<t:dgToolBar url="ycUpdateStulogController/updateStu" type="edit" width="60%" ></t:dgToolBar>
 	<t:dgToolBar type="refresh"></t:dgToolBar>

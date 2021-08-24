@@ -116,7 +116,12 @@
                     <input  type="text" class="form-control" id="toubaorenPhone" name="toubaorenPhone" value="${ycPaymentRecord.toubaorenPhone}" placeholder="请输入真实电话号码"/>
                 </div>
             </div>
-
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea id="memo" name="memo" class="form-control" rows="2"></textarea>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary block full-width m-b" >提交</button>
 
 
