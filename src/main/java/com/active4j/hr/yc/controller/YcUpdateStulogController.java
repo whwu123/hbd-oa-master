@@ -121,6 +121,30 @@ public class YcUpdateStulogController extends BaseController {
 		return "yc/student/update/list3";
 	}
 
+	@RequestMapping(value = "/index4", method = RequestMethod.GET)
+	public String index4(Model model) {
+		String isquxianAdmin = "0";
+		//获取当前用户id
+		String userId = ShiroUtils.getSessionUserId();
+		SysUserModel user = sysUserService.getInfoByUserId(userId);
+		//获取角色集合
+		List<SysRoleEntity> sysRoleEntities = sysUserService.getUserRoleByUserId(userId);
+		for(int i= 0 ; i<sysRoleEntities.size();i++){
+			SysRoleEntity roleEntity = sysRoleEntities.get(i);
+			if(roleEntity.getRoleCode().equals("quxianAdmin")){
+				isquxianAdmin = "1";
+			}else if(roleEntity.getRoleCode().equals("xuexiaoAdmin")){
+				isquxianAdmin = "2";
+			}else if(isquxianAdmin.equals("0")){
+				// 给区县查询条件中的下拉框准备数据
+				List<SysDeptEntity> lstDeparts = sysDeptService.getChildDeptsByDeptId("137b1112dcef19b7adab2b85c0624c4d");
+				model.addAttribute("departsReplace", ListUtils.listToReplaceStr(lstDeparts, "name", "name"));
+			}
+		}
+		model.addAttribute("isquxianAdmin",isquxianAdmin);
+		return "yc/student/update/list4";
+	}
+
 	/**
 	 *
 	 * @description
@@ -202,6 +226,32 @@ public class YcUpdateStulogController extends BaseController {
 		}
 		if(ycUpdateStulog.getState()==null || ycUpdateStulog.getState().isEmpty()){
 			ycUpdateStulog.setState("0");
+		}
+		//拼接查询条件
+		QueryWrapper<YcUpdateStulog> queryWrapper = QueryUtils.installQueryWrapper(ycUpdateStulog, request.getParameterMap(), dataGrid);
+		//执行查询
+		IPage<YcUpdateStulog> lstResult = ycUpdateStulogService.page(new Page<YcUpdateStulog>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
+		//输出结果
+		ResponseUtil.writeJson(response, dataGrid, lstResult);
+	}
+
+	@RequestMapping("/datagrid4")
+	public void datagrid4(YcUpdateStulog ycUpdateStulog, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		//获取当前用户id
+		String userId = ShiroUtils.getSessionUserId();
+		SysUserModel user = sysUserService.getInfoByUserId(userId);
+		//获取角色集合
+		List<SysRoleEntity> sysRoleEntities = sysUserService.getUserRoleByUserId(userId);
+		for(int i= 0 ; i<sysRoleEntities.size();i++){
+			SysRoleEntity roleEntity = sysRoleEntities.get(i);
+			if(roleEntity.getRoleCode().equals("quxianAdmin")){
+				ycUpdateStulog.setQuxianDepartment(user.getDeptName());
+			}else if(roleEntity.getRoleCode().equals("xuexiaoAdmin")){
+				ycUpdateStulog.setStudentSchool(user.getDeptName());
+			}
+		}
+		if(ycUpdateStulog.getState()==null || ycUpdateStulog.getState().isEmpty()){
+			ycUpdateStulog.setState("-1");
 		}
 		//拼接查询条件
 		QueryWrapper<YcUpdateStulog> queryWrapper = QueryUtils.installQueryWrapper(ycUpdateStulog, request.getParameterMap(), dataGrid);
@@ -314,7 +364,9 @@ public class YcUpdateStulogController extends BaseController {
 			}
 			ActiveUser user = ShiroUtils.getSessionUser();
 			//删除用户
-			ycUpdateStulogService.removeById(id);
+			YcUpdateStulog ycUpdateStulog = ycUpdateStulogService.getById(id);
+			ycUpdateStulog.setState("-1");
+			ycUpdateStulogService.saveOrUpdate(ycUpdateStulog);
 			log.info("用户：" + user.getUserName() + "删除了id为：" + id + "的学生审核信息");
 		}catch(Exception e) {
 			log.error("删除学生审核信息报错，错误信息：{}", e.getMessage());

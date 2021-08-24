@@ -468,6 +468,8 @@ public class DataGridTag extends TagSupport {
 							}else if(StringUtils.equals(key, "2")) {
 								//紧急
 								sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label label-danger\">" + map.get(key) + "</span>").append("'; ");
+							}else if(StringUtils.equals(key, "-1")) {
+								sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label label-danger\">" + map.get(key) + "</span>").append("'; ");
 							}else{
 								sb.append("if(cellvalue == '").append(key).append("') return '").append(map.get(key)).append("'; ");
 							}
