@@ -16,7 +16,11 @@ import com.active4j.hr.system.model.ActiveUser;
 import com.active4j.hr.system.model.SysUserModel;
 import com.active4j.hr.system.service.SysDeptService;
 import com.active4j.hr.system.service.SysUserService;
+import com.active4j.hr.yc.entity.YcPaymentRecord;
+import com.active4j.hr.yc.entity.YcStudentEntity;
 import com.active4j.hr.yc.entity.YcUpdateStulog;
+import com.active4j.hr.yc.service.YcPaymentRecordService;
+import com.active4j.hr.yc.service.YcStudentService;
 import com.active4j.hr.yc.service.YcUpdateStulogService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -46,6 +50,10 @@ public class YcUpdateStulogController extends BaseController {
 	private SysUserService sysUserService;
 	@Autowired
 	private SysDeptService sysDeptService;
+	@Autowired
+	private YcStudentService ycStudentService;
+	@Autowired
+	private YcPaymentRecordService ycPaymentRecordService;
 
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -305,6 +313,36 @@ public class YcUpdateStulogController extends BaseController {
 				stu = ycUpdateStulogService.getById(id);
 				stu.setState("2");
 				ycUpdateStulogService.saveOrUpdate(stu);
+				//更新到学生表
+				//1.通过学生ID拿到学生信息
+				YcStudentEntity ycStudentEntity = ycStudentService.getById(stu.getStudentId());
+				ycStudentEntity.setStudentCard(stu.getStudentCard());
+				ycStudentEntity.setStudentName(stu.getStudentName());
+				ycStudentEntity.setStudentNianji(stu.getStudentNianji());
+				ycStudentEntity.setStudentBanji(stu.getStudentBanji());
+				ycStudentService.saveOrUpdate(ycStudentEntity);
+
+
+				//通过学生身份证拿到学生缴费记录
+				QueryWrapper<YcPaymentRecord> queryWrapper = new QueryWrapper<>();
+				queryWrapper.eq("student_card",ycStudentEntity.getStudentCard());
+				List<YcPaymentRecord> recordList =  ycPaymentRecordService.list(queryWrapper);
+				if(stu.getToubaorenName()!=null && !stu.getToubaorenName().isEmpty()){
+					if(recordList.size()>0){
+						//进行修改
+						for (int i=0;i<recordList.size();i++){
+							YcPaymentRecord ycPaymentRecord = recordList.get(i);
+							ycPaymentRecord.setToubaorenName(stu.getToubaorenName());
+							ycPaymentRecord.setToubaorenPhone(stu.getToubaorenPhone());
+							ycPaymentRecord.setStudentCard(stu.getStudentCard());
+							ycPaymentRecord.setStudentName(stu.getStudentName());
+							ycPaymentRecord.setStudentNianji(stu.getStudentNianji());
+							ycPaymentRecord.setStudentBanji(stu.getStudentBanji());
+							ycPaymentRecordService.saveOrUpdate(ycPaymentRecord);
+						}
+					}
+				}
+
 				j.setSuccess(true);
 				j.setMsg("审核学生《"+stu.getStudentName()+"》信息成功");
 				return j;

@@ -52,7 +52,6 @@
 	<t:dgCol name="casName" label="方案名称" width="120" query="true" dictionary="case_name" display="case_name"></t:dgCol>
 	<t:dgCol name="createDate" label="缴费日期" width="120" ></t:dgCol>
 
-	<%--<t:dgCol name="supplier" label="供应商" width="90" ></t:dgCol>--%>
 	<t:dgCol name="toubaorenName" label="投保人姓名" width="70" query="true"></t:dgCol>
 	<t:dgCol name="toubaorenPhone" label="投保人电话" width="90" query="true"></t:dgCol>
 

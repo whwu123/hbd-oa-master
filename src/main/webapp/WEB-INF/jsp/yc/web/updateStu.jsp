@@ -50,6 +50,7 @@
             <h3 style="text-align: left;">学生信息</h3>
             <hr class="hr_new"/>
             <input  type="hidden" class="form-control" id="quxianDepartment"  name="quxianDepartment" value="${ycPaymentRecord.quxianDepartment}" />
+            
             <div class="form-group">
                 <label class="col-sm-4 control-label">身份证号：</label>
                 <div class="col-sm-8">

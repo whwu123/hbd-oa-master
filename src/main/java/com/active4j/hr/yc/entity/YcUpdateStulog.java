@@ -57,4 +57,8 @@ public class YcUpdateStulog extends BaseEntity {
     @TableField("yc_state")
     @QueryField(queryColumn="yc_state", condition= QueryCondition.eq)
     private String state;
+
+    @TableField("student_id")
+    @QueryField(queryColumn="student_id", condition= QueryCondition.eq)
+    private String studentId;
 }

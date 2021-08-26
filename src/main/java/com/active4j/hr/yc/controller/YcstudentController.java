@@ -142,17 +142,21 @@ public class YcstudentController extends BaseController {
 			ycUpdateStulog.setStudentName(ycStudentEntity.getStudentName());
 			ycUpdateStulog.setStudentNianji(ycStudentEntity.getStudentNianji());
 			ycUpdateStulog.setStudentCard(ycStudentEntity.getStudentCard());
+			ycUpdateStulog.setStudentId(ycStudentEntity.getId());
 			ycUpdateStulog.setState("2");
 
 			//根据身份证拿到投保人信息
 			List<YcPaymentRecord> recordList = new ArrayList<>();
 			QueryWrapper<YcPaymentRecord> queryWrapper = new QueryWrapper<>();
-			queryWrapper.eq("studentCard",ycStudentEntity.getStudentCard());
-			recordList =ycPaymentRecordService.list();
-			if(recordList.size()>0){
-				ycUpdateStulog.setToubaorenName(recordList.get(0).getToubaorenName());
-				ycUpdateStulog.setToubaorenPhone(recordList.get(0).getToubaorenPhone());
+			if(ycStudentEntity.getStudentCard()!=null && !ycStudentEntity.getStudentCard().isEmpty()){
+				queryWrapper.eq("student_card",ycStudentEntity.getStudentCard());
+				recordList =ycPaymentRecordService.list(queryWrapper);
+				if(recordList.size()>0){
+					ycUpdateStulog.setToubaorenName(recordList.get(0).getToubaorenName());
+					ycUpdateStulog.setToubaorenPhone(recordList.get(0).getToubaorenPhone());
+				}
 			}
+
 			ycUpdateStulogService.saveOrUpdate(ycUpdateStulog);
 			j.setSuccess(true);
 			j.setMsg("审核编辑学生《"+ycUpdateStulog.getStudentName()+"》信息成功");

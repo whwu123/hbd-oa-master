@@ -4,8 +4,10 @@ import com.active4j.hr.base.controller.BaseController;
 import com.active4j.hr.common.constant.GlobalConstant;
 import com.active4j.hr.yc.entity.Indexmodel;
 import com.active4j.hr.yc.entity.YcPaymentRecord;
+import com.active4j.hr.yc.entity.YcStudentEntity;
 import com.active4j.hr.yc.entity.YcUpdateStulog;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
+import com.active4j.hr.yc.service.YcStudentService;
 import com.active4j.hr.yc.service.YcUpdateStulogService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,8 @@ public class WebController extends BaseController {
 
     @Autowired
     private YcPaymentRecordService ycPaymentRecordService;
+    @Autowired
+    private YcStudentService ycStudentService;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(Model model) {
@@ -81,6 +85,8 @@ public class WebController extends BaseController {
             model.addAttribute("prList",list);
             model.addAttribute("ycPaymentRecord",list.get(0));
         }
+
+
         return "yc/web/updateStu";
     }
 
@@ -88,8 +94,15 @@ public class WebController extends BaseController {
     public String doUpdateStu(Model model, YcUpdateStulog ycUpdateStulog) {
         if(ycUpdateStulog!=null){
             ycUpdateStulog.setState("1");
+            QueryWrapper<YcStudentEntity> stuWrapper = new QueryWrapper<>();
+            stuWrapper.eq("student_card",ycUpdateStulog.getStudentCard());
+            YcStudentEntity ycStudentEntity = ycStudentService.getOne(stuWrapper);
+            ycUpdateStulog.setStudentId(ycStudentEntity.getId());
             ycUpdateStulogService.save(ycUpdateStulog);
             model.addAttribute("ycUpdateStulog",ycUpdateStulog);
+
+
+
         }
         return "yc/web/updateSuc";
     }
