@@ -76,7 +76,7 @@ public class ReportFormController extends BaseController {
 
         List<YcPaymentRecord> list = lstResult.getRecords();
         //excel标题
-        String[] title = {"区县部门名称","学生姓名","学校名称","身份证","年级","班级","保费","险种","支付流水号","投保人姓名","投保人电话"};
+        String[] title = {"区县部门名称","学生姓名","学校名称","身份证","年级","班级","保费","险种","支付流水号","支付金额","投保人姓名","投保人电话"};
         //excel文件名
         String fileName = "学生缴费记录表"+System.currentTimeMillis()+".xls";
         //sheet名
@@ -93,8 +93,10 @@ public class ReportFormController extends BaseController {
             content[i][6] = obj.getBaofeiMoney();
             content[i][7] = obj.getType();
             content[i][8] = obj.getZhifuNumber();
-            content[i][9] = obj.getToubaorenName();
-            content[i][10] = obj.getToubaorenPhone();
+            content[i][9] = obj.getPayMoney();
+            content[i][10] = obj.getToubaorenName();
+            content[i][11] = obj.getToubaorenPhone();
+
         }
         //创建HSSFWorkbook
         HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName, title, content, null);

@@ -85,7 +85,7 @@
                         <p>支付流水号：<span class="label label-danger "> ${ycPaymentRecord.zhifuNumber}</span></p>
                         <p>缴费时间：<span class="label " ><fmt:formatDate value="${ycPaymentRecord.createDate}" pattern="yyyy-MM-dd HH:mm"/></span></p>
                         <c:forEach items="${prList}" var="l">
-                            <p> <c:out value="${l.type}" ></c:out>：<span span class="label label-danger "> ${l.payMoney}</span> 元</p>
+                            <p> <c:out value="${l.type}" ></c:out>：<span span class="label label-danger "> ${l.baofeiMoney}</span> 元</p>
 
                         </c:forEach>
                     </div>
