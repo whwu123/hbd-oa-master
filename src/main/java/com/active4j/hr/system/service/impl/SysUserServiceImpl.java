@@ -67,7 +67,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 			for(int i = 0; i < 10; i++) {
 				if(StringUtils.isNotEmpty(deptId)) {
 					dept = sysDeptService.getById(deptId);
-					if(StringUtils.equals(dept.getType(), "2")) {
+					if(dept.getLevel()==2) {
 						break;
 					}else {
 						deptId = dept.getParentId();
