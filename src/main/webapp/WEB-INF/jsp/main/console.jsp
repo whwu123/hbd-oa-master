@@ -18,6 +18,7 @@
 
                 <div class="ibox-content">
                     <button class="btn btn-primary" style="    margin-bottom: 5px" type="button" onclick="daochuIndex('${quxianModel.quxianName}');"><i class="fa fa-level-up"></i>导出</button>
+
                     <button class="btn btn-primary" style="    margin-bottom: 5px" type="button" onclick="reload();"><i class="fa fa-refresh"></i>刷新</button>
                     <table class="table table-hover">
 

@@ -70,11 +70,12 @@ public class ReportFormController extends BaseController {
         }
        //获取数据
         //拼接查询条件
+
         QueryWrapper<YcPaymentRecord> queryWrapper = QueryUtils.installQueryWrapper(ycPaymentRecord, request.getParameterMap(), dataGrid);
         //执行查询
-        IPage<YcPaymentRecord> lstResult = ycPaymentRecordService.page(new Page<YcPaymentRecord>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
+        //IPage<YcPaymentRecord> lstResult = ycPaymentRecordService.page(new Page<YcPaymentRecord>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
 
-        List<YcPaymentRecord> list = lstResult.getRecords();
+        List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
         //excel标题
         String[] title = {"区县部门名称","学生姓名","学校名称","身份证","年级","班级","保费","险种","支付流水号","支付金额","投保人姓名","投保人电话"};
         //excel文件名
