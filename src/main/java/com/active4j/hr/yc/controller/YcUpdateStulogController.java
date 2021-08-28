@@ -314,26 +314,26 @@ public class YcUpdateStulogController extends BaseController {
 				stu.setState("2");
 				ycUpdateStulogService.saveOrUpdate(stu);
 				//更新到学生表
-				//1.通过学生ID拿到学生信息
+				/*//1.通过学生ID拿到学生信息
 				YcStudentEntity ycStudentEntity = ycStudentService.getById(stu.getStudentId());
 				ycStudentEntity.setStudentCard(stu.getStudentCard());
 				ycStudentEntity.setStudentName(stu.getStudentName());
 				ycStudentEntity.setStudentNianji(stu.getStudentNianji());
 				ycStudentEntity.setStudentBanji(stu.getStudentBanji());
-				ycStudentService.saveOrUpdate(ycStudentEntity);
+				ycStudentService.saveOrUpdate(ycStudentEntity);*/
 
 
 				//通过学生身份证拿到学生缴费记录
 				QueryWrapper<YcPaymentRecord> queryWrapper = new QueryWrapper<>();
-				queryWrapper.eq("student_card",ycStudentEntity.getStudentCard());
+				queryWrapper.eq("student_card",stu.getStudentCard());
 				List<YcPaymentRecord> recordList =  ycPaymentRecordService.list(queryWrapper);
-				if(stu.getToubaorenName()!=null && !stu.getToubaorenName().isEmpty()){
+			//	if(stu.getToubaorenName()!=null && !stu.getToubaorenName().isEmpty()){
 					if(recordList.size()>0){
 						//进行修改
 						for (int i=0;i<recordList.size();i++){
 							YcPaymentRecord ycPaymentRecord = recordList.get(i);
-							ycPaymentRecord.setToubaorenName(stu.getToubaorenName());
-							ycPaymentRecord.setToubaorenPhone(stu.getToubaorenPhone());
+							/*ycPaymentRecord.setToubaorenName(stu.getToubaorenName());
+							ycPaymentRecord.setToubaorenPhone(stu.getToubaorenPhone());*/
 							ycPaymentRecord.setStudentCard(stu.getStudentCard());
 							ycPaymentRecord.setStudentName(stu.getStudentName());
 							ycPaymentRecord.setStudentNianji(stu.getStudentNianji());
@@ -341,7 +341,7 @@ public class YcUpdateStulogController extends BaseController {
 							ycPaymentRecordService.saveOrUpdate(ycPaymentRecord);
 						}
 					}
-				}
+				//}
 
 				j.setSuccess(true);
 				j.setMsg("审核学生《"+stu.getStudentName()+"》信息成功");

@@ -47,7 +47,7 @@
 
         <form class="form-horizontal m-t" id="signupForm" action="webController/doUpdateStu" method="post">
 
-            <h3 style="text-align: left;">学生信息</h3>
+            <h3 style="text-align: left;">学生信息</h3><span>修改学校信息，请联系班主任</span>
             <hr class="hr_new"/>
             <input  type="hidden" class="form-control" id="quxianDepartment"  name="quxianDepartment" value="${ycPaymentRecord.quxianDepartment}" />
             
@@ -105,7 +105,7 @@
             </div>
 
 
-            <div class="form-group">
+          <%-- <div class="form-group" >
                 <label class="col-sm-4 control-label">投保人姓名：</label>
                 <div class="col-sm-8">
                     <input  type="text" class="form-control" id="toubaorenName"  name="toubaorenName" value="${ycPaymentRecord.toubaorenName}" placeholder="请输入真实姓名"/>
@@ -116,13 +116,18 @@
                 <div class="col-sm-8">
                     <input  type="text" class="form-control" id="toubaorenPhone" name="toubaorenPhone" value="${ycPaymentRecord.toubaorenPhone}" placeholder="请输入真实电话号码"/>
                 </div>
-            </div>
+            </div>--%>
+
             <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
+                <label class="col-sm-4 control-label">备注：</label>
                 <div class="col-sm-8">
-                    <textarea id="memo" name="memo" class="form-control" rows="2"></textarea>
+                    <textarea id="memo" name="memo" class="form-control" rows="3" placeholder="以上修改内容不足的话可以描述一些内容问题"></textarea>
+
+
                 </div>
             </div>
+
+
             <button type="submit" class="btn btn-primary block full-width m-b" >提交</button>
 
 

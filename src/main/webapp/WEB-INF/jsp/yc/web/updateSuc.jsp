@@ -87,7 +87,7 @@
             </div>
 
 
-            <div class="form-group">
+           <%-- <div class="form-group">
                 <label class="col-sm-4 control-label">投保人姓名：</label>
                 <div class="col-sm-8">
                     <input  type="text" class="form-control" id="toubaorenName"  value="${ycUpdateStulog.toubaorenName}" placeholder="请输入真实姓名" readonly/>
@@ -98,9 +98,9 @@
                 <div class="col-sm-8">
                     <input  type="text" class="form-control" id="toubaorenPhone" value="${ycUpdateStulog.toubaorenPhone}" placeholder="请输入真实电话号码" readonly/>
                 </div>
-            </div>
+            </div>--%>
             <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
+                <label class="col-sm-4 control-label">备注：</label>
                 <div class="col-sm-8">
                     <textarea id="memo" name="memo" class="form-control" rows="2" readonly>${ycUpdateStulog.memo}</textarea>
                 </div>

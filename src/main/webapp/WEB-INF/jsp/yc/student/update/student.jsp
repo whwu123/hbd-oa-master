@@ -75,7 +75,7 @@
 									</div>
 								</div>
 
-							<div class="form-group">
+							<%--<div class="form-group">
 								<label class="col-sm-3 control-label">投保人姓名*：</label>
 								<div class="col-sm-8">
 									<input id="toubaorenName" name="toubaorenName" type="text" class="form-control" required=""  value="${stu.toubaorenName }">
@@ -86,7 +86,7 @@
                                 <div class="col-sm-8">
                                     <input id="toubaorenPhone" name="toubaorenPhone" type="text" class="form-control" required=""  value="${stu.toubaorenPhone }">
                                 </div>
-                            </div>
+                            </div>--%>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">备注：</label>
 								<div class="col-sm-8">

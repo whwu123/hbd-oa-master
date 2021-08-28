@@ -97,7 +97,9 @@ public class WebController extends BaseController {
             QueryWrapper<YcStudentEntity> stuWrapper = new QueryWrapper<>();
             stuWrapper.eq("student_card",ycUpdateStulog.getStudentCard());
             YcStudentEntity ycStudentEntity = ycStudentService.getOne(stuWrapper);
-            ycUpdateStulog.setStudentId(ycStudentEntity.getId());
+            if(ycStudentEntity!=null){
+                ycUpdateStulog.setStudentId(ycStudentEntity.getId());
+            }
             ycUpdateStulogService.save(ycUpdateStulog);
             model.addAttribute("ycUpdateStulog",ycUpdateStulog);
 
