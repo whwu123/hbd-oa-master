@@ -2,12 +2,10 @@ package com.active4j.hr.yc.controller;
 
 import com.active4j.hr.base.controller.BaseController;
 import com.active4j.hr.common.constant.GlobalConstant;
-import com.active4j.hr.yc.entity.Indexmodel;
-import com.active4j.hr.yc.entity.YcPaymentRecord;
-import com.active4j.hr.yc.entity.YcStudentEntity;
-import com.active4j.hr.yc.entity.YcUpdateStulog;
+import com.active4j.hr.yc.entity.*;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
 import com.active4j.hr.yc.service.YcStudentService;
+import com.active4j.hr.yc.service.YcUpdateLogService;
 import com.active4j.hr.yc.service.YcUpdateStulogService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -27,15 +25,16 @@ public class WebController extends BaseController {
 
     @Autowired
     private YcUpdateStulogService ycUpdateStulogService;
-
     @Autowired
     private YcPaymentRecordService ycPaymentRecordService;
     @Autowired
     private YcStudentService ycStudentService;
+    @Autowired
+    private YcUpdateLogService ycUpdateLogService;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(Model model) {
-        return "yc/web/selectStu";
+        return "yc/web/selectStu222";
     }
     @RequestMapping(value = "/selectStuContent", method = RequestMethod.POST)
     public String index(Model model,String xueshengCard,String payNum,String toubaorenPhone) {
@@ -250,5 +249,22 @@ public class WebController extends BaseController {
             model.addAttribute("indexmodelList",indexmodelList);
         }
         return "main/console";
+    }
+
+
+    @RequestMapping(value = "/updateLog", method = RequestMethod.GET)
+    public String updateLog(Model model) {
+        return "yc/web/updatelog";
+    }
+
+
+    @RequestMapping(value = "/doUpdatelog", method = RequestMethod.POST)
+    public String doUpdatelog(YcUpdateLog ycUpdateLog, Model model) {
+        if(ycUpdateLog!=null){
+            ycUpdateLog.setState("1");
+            ycUpdateLogService.saveOrUpdate(ycUpdateLog);
+            model.addAttribute("ycUpdateLog",ycUpdateLog);
+        }
+        return "yc/web/updatelogSuc";
     }
 }
