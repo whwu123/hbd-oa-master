@@ -11,6 +11,7 @@ import com.active4j.hr.system.model.SysUserModel;
 import com.active4j.hr.system.service.SysDeptService;
 import com.active4j.hr.system.service.SysUserService;
 import com.active4j.hr.yc.entity.Indexmodel;
+import com.active4j.hr.yc.entity.PaymentRecordModel;
 import com.active4j.hr.yc.entity.YcPaymentRecord;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
 import com.active4j.hr.yc.util.ExcelUtil;
@@ -74,8 +75,27 @@ public class ReportFormController extends BaseController {
         QueryWrapper<YcPaymentRecord> queryWrapper = QueryUtils.installQueryWrapper(ycPaymentRecord, request.getParameterMap(), dataGrid);
         //执行查询
         //IPage<YcPaymentRecord> lstResult = ycPaymentRecordService.page(new Page<YcPaymentRecord>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
-
+       // queryWrapper.groupBy("student_name");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
+
+        List< PaymentRecordModel > listNew = new ArrayList<>();
+        //循环表格,处理数据
+        //循环完成用身份证查询数据，然后整理成一条
+       /* for(int j = 0; j<list.size();j++){
+                String studentCard = list.get(j).getStudentCard();
+                QueryWrapper<YcPaymentRecord> queryWrapper2 =new QueryWrapper<>();
+                queryWrapper2.eq("student_card",studentCard);
+                List<YcPaymentRecord> list2 = ycPaymentRecordService.list(queryWrapper2);
+                for (int k = 0; k<list2.size();k++){
+
+
+
+
+
+
+                }
+
+        }*/
         //excel标题
         String[] title = {"区县部门名称","学生姓名","学校名称","身份证","年级","班级","保费","险种","支付流水号","支付金额","投保人姓名","投保人电话"};
         //excel文件名

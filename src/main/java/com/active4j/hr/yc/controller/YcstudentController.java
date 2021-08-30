@@ -79,6 +79,30 @@ public class YcstudentController extends BaseController {
 		return "yc/student/list";
 	}
 
+	@RequestMapping(value = "/index2", method = RequestMethod.GET)
+	public String index2(Model model) {
+		String isquxianAdmin = "0";
+		//获取当前用户id
+		String userId = ShiroUtils.getSessionUserId();
+		SysUserModel user = sysUserService.getInfoByUserId(userId);
+		//获取角色集合
+		List<SysRoleEntity> sysRoleEntities = sysUserService.getUserRoleByUserId(userId);
+		for(int i= 0 ; i<sysRoleEntities.size();i++){
+			SysRoleEntity roleEntity = sysRoleEntities.get(i);
+			if(roleEntity.getRoleCode().equals("quxianAdmin")){
+				isquxianAdmin = "1";
+			}else if(roleEntity.getRoleCode().equals("xuexiaoAdmin")){
+				isquxianAdmin = "2";
+			}else if(isquxianAdmin.equals("0")){
+				// 给区县查询条件中的下拉框准备数据
+				List<SysDeptEntity> lstDeparts = sysDeptService.getChildDeptsByDeptId("137b1112dcef19b7adab2b85c0624c4d");
+				model.addAttribute("departsReplace", ListUtils.listToReplaceStr(lstDeparts, "name", "name"));
+			}
+		}
+		model.addAttribute("isquxianAdmin",isquxianAdmin);
+		return "yc/student/list2";
+	}
+
 	/**
 	 *
 	 * @description
@@ -114,6 +138,45 @@ public class YcstudentController extends BaseController {
 		ResponseUtil.writeJson(response, dataGrid, lstResult);
 
 	}
+
+
+	/**
+	 *
+	 * @description
+	 *  	表格数据显示
+	 * @return void
+	 * @author 麻木神
+	 * @time 2020年1月25日 下午9:46:12
+	 */
+	@RequestMapping("/datagrid2")
+	public void datagrid2(YcPaymentRecord ycPaymentRecord, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+
+		//获取当前用户id
+		String userId = ShiroUtils.getSessionUserId();
+		SysUserModel user = sysUserService.getInfoByUserId(userId);
+		//获取角色集合
+		List<SysRoleEntity> sysRoleEntities = sysUserService.getUserRoleByUserId(userId);
+		for(int i= 0 ; i<sysRoleEntities.size();i++){
+			SysRoleEntity roleEntity = sysRoleEntities.get(i);
+			if(roleEntity.getRoleCode().equals("quxianAdmin")){
+				ycPaymentRecord.setQuxianDepartment(user.getDeptName());
+			}else if(roleEntity.getRoleCode().equals("xuexiaoAdmin")){
+				ycPaymentRecord.setStudentSchool(user.getDeptName());
+			}
+		}
+
+		//拼接查询条件
+		QueryWrapper<YcPaymentRecord> queryWrapper = QueryUtils.installQueryWrapper(ycPaymentRecord, request.getParameterMap(), dataGrid);
+		queryWrapper.groupBy("student_name");
+		//执行查询
+		IPage<YcPaymentRecord> lstResult = ycPaymentRecordService.page(new Page<YcPaymentRecord>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
+
+		//输出结果
+		ResponseUtil.writeJson(response, dataGrid, lstResult);
+
+	}
+
+
 
 	@RequestMapping("/updateStu")
 	public ModelAndView updateStu(YcStudentEntity ycStudentEntity, HttpServletRequest req) {
