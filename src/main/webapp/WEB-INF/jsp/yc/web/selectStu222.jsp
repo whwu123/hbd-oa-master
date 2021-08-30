@@ -1,4 +1,4 @@
-﻿<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <!DOCTYPE html>
 <html>
@@ -45,7 +45,7 @@
 <body class="gray-bg">
 <div class="middle-box text-center loginscreen  animated fadeInDown">
 
-        <form class="form-horizontal m-t" id="signupForm" action="webController/doUpdatelog" method="post">
+        <form class="form-horizontal m-t" id="signupForm" action="webController/doUpdatelog" method="post"  onsubmit="return toVaild()">
 
             <h3 style="text-align: left;">学生信息</h3>
 
@@ -54,7 +54,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">学生所在县区名称：</label>
                 <div class="col-sm-8">
-                    <select class="form-control help-block m-b-none" name="quxianDepartment">
+                    <select class="form-control help-block m-b-none" name="quxianDepartment" id="quxianDepartment">
                         <option value="请选择" >请选择</option>
                         <option value="市辖区经理室" >市直</option>
                         <option value="鹤城区经理室" >鹤城区</option>
@@ -92,7 +92,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">订单流水号：</label>
                 <div class="col-sm-8">
-                    <input  type="text" class="form-control" id="memoThree" name="memoThree" value="" placeholder="请输入缴费后的订单号"/>
+                    <input  type="text" class="form-control" id="memoThree" name="memoThree" value="" placeholder="身份证号输入错误的，就需要填写订单号。"/>
                 </div>
             </div>
             <div class="form-group">
@@ -105,13 +105,13 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">错误信息：</label>
                 <div class="col-sm-8">
-                    <textarea id="memoOne" name="memoOne" class="form-control" rows="3" placeholder="输入您填写错误的信息"></textarea>
+                    <textarea id="memoOne" name="memoOne" class="form-control" rows="3" placeholder="输入您填写错误的信息：例如年级错误"></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">修改信息：</label>
                 <div class="col-sm-8">
-                    <textarea id="memoTwo" name="memoTwo" class="form-control" rows="3" placeholder="您想要修改的正确信息"></textarea>
+                    <textarea id="memoTwo" name="memoTwo" class="form-control" rows="3" placeholder="您想要修改的正确信息：例如修改为三年级"></textarea>
 
 
                 </div>
@@ -129,6 +129,50 @@
 <script src="static/login/js/login.js"></script>
 <script src="static/toastr/js/toastr.min.js"></script>
 <script>
+
+    function toVaild(){
+       // alert('11111111')
+
+        var quxianDepartment = $("#quxianDepartment").val();
+        var studentName = $("#studentName").val();
+        var studentCard = $("#studentCard").val();
+        var studentSchool = $("#studentSchool").val();
+        var memoThree = $("#memoThree").val();
+        var memoOne = $("#memoOne").val();
+        var memoTwo = $("#memoTwo").val();
+
+
+        //  var toubaorenPhone = $("#toubaorenPhone").val();
+        if(quxianDepartment === '' ){
+            alert('请完成所有信息填写');
+            return false
+        }else if(studentName === '' ){
+            alert('请完成所有信息填写');
+            return false
+        }else if(studentCard === '' ){
+            alert('请完成所有信息填写');
+            return false
+        }else if(studentSchool === '' ){
+            alert('请完成所有信息填写');
+            return false
+        }else if(studentSchool === '' ){
+            alert('请完成所有信息填写');
+            return false
+        }if(memoThree === '' ){
+            alert('请完成所有信息填写');
+            return false
+        }else if(memoOne === '' ){
+            alert('请完成所有信息填写');
+            return false
+        }else if(memoTwo === '' ){
+            alert('请完成所有信息填写');
+            return false
+        }else {
+            return true
+        }
+    }
+
+
 
 
     function doNxet() {

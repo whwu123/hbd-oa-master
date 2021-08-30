@@ -57,7 +57,7 @@
                 <label class="control-label">学生姓名： ${ycUpdateLog.studentName}</label>
             </div>
             <div class="form-group"style="text-align: left">
-                <label class="control-label">订单流水号： ${ycUpdateLog.studentName}</label>
+                <label class="control-label">订单流水号： ${ycUpdateLog.memoThree}</label>
             </div>
             <div class="form-group"style="text-align: left">
                 <label class="control-label">学生身份证号：${ycUpdateLog.studentCard}</label>
