@@ -47,7 +47,7 @@
 
         <form class="form-horizontal m-t" id="signupForm">
 
-            <h3 style="text-align: left;">学生信息提交成功</h3>
+            <h3 style="text-align: left;">学生信息修改提交成功</h3>
 
             <hr class="hr_new"/>
             <div class="form-group" style="text-align: left">

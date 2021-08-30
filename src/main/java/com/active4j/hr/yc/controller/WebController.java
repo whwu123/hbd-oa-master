@@ -2,6 +2,8 @@ package com.active4j.hr.yc.controller;
 
 import com.active4j.hr.base.controller.BaseController;
 import com.active4j.hr.common.constant.GlobalConstant;
+import com.active4j.hr.core.annotation.Log;
+import com.active4j.hr.core.model.LogType;
 import com.active4j.hr.yc.entity.*;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
 import com.active4j.hr.yc.service.YcStudentService;
@@ -259,6 +261,7 @@ public class WebController extends BaseController {
 
 
     @RequestMapping(value = "/doUpdatelog", method = RequestMethod.POST)
+    @Log(type = LogType.save, name = "新增了学生信息修改记录", memo = "新增了学生信息修改记录")
     public String doUpdatelog(YcUpdateLog ycUpdateLog, Model model) {
         if(ycUpdateLog!=null){
             ycUpdateLog.setState("1");

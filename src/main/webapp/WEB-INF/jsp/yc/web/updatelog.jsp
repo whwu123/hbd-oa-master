@@ -181,7 +181,7 @@
             }
         });
     }
-    
+
     function checkboxOnclick() {
         var chk_value =[];//定义一个数组
         var total = 0
