@@ -64,6 +64,6 @@ public class YcUpdateLog extends BaseEntity {
 
 
     @TableField("error_type")
-    @QueryField(queryColumn="error_type", condition= QueryCondition.eq)
+    @QueryField(queryColumn="error_type", condition= QueryCondition.like)
     private String errorType;
 }

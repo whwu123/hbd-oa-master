@@ -35,10 +35,10 @@
 	<t:dgCol name="flagPay" label="是否缴费" width="50" replace="是_是,否_否" query="true"></t:dgCol>
 	<t:dgCol name="memoThree" label="订单流水号" width="90" query="true"></t:dgCol>
 	<t:dgCol name="jiazhengPhone" label="家长联系方式" width="90" query="true" ></t:dgCol>
-	<t:dgCol name="errorType" label="错误类型" width="90" query="true" replace="无_无,加保_加保,身份证被占用_身份证被占用,监护人信息错误_监护人信息错误,入学年份错误_入学年份错误,年级错误_年级错误,班级错误_班级错误"></t:dgCol>
+	<t:dgCol name="errorType" label="错误类型" width="90" query="true" replace="无_无,加保_加保,身份证被占用_身份证被占用,入学年份错误_入学年份错误,年级错误_年级错误,班级错误_班级错误,学生学校名称错误_学生学校名称错误,监护人信息错误_监护人信息错误"></t:dgCol>
 	<t:dgCol name="memoOne" label="错误信息" ></t:dgCol>
 	<t:dgCol name="memoTwo" label="修改信息"  ></t:dgCol>
-	<t:dgCol name="createDate" label="修改时间"  ></t:dgCol>
+	<t:dgCol name="createDate" label="创建时间"  ></t:dgCol>
 	<t:dgCol name="opt" label="操作" width="60"></t:dgCol>
 	<t:dgToolBar url="updateController/addUpdate" type="add" width="60%" ></t:dgToolBar>
 	<t:dgToolBar url="updateController/addUpdate" type="edit" width="60%" ></t:dgToolBar>

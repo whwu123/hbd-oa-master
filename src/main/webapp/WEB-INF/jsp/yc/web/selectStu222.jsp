@@ -110,6 +110,7 @@
                         <option value="加保">加购险种</option>
                         <option value="年级错误">年级错误</option>
                         <option value="班级错误">班级错误</option>
+                        <option value="学生学校名称错误">学生学校名称错误</option>
                         <option value="身份证被占用">身份证被占用</option>
                         <option value="监护人信息错误">监护人信息错误</option>
                         <option value="入学年份错误">入学年份错误</option>

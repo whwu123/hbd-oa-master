@@ -57,6 +57,7 @@
                                         <option value="加保"  <c:if test="${ycUpdateLog.errorType=='加保'}">selected</c:if> >加保</option>
                                         <option value="年级错误" <c:if test="${ycUpdateLog.errorType=='年级错误'}">selected</c:if>>年级错误</option>
                                         <option value="班级错误" <c:if test="${ycUpdateLog.errorType=='班级错误'}">selected</c:if>>班级错误</option>
+                                        <option value="学生学校名称错误" <c:if test="${ycUpdateLog.errorType=='学生学校名称错误'}">selected</c:if>>学生学校名称错误</option>
                                         <option value="身份证被占用"  <c:if test="${ycUpdateLog.errorType=='身份证被占用'}">selected</c:if> >身份证被占用</option>
                                         <option value="监护人信息错误"  <c:if test="${ycUpdateLog.errorType=='监护人信息错误'}">selected</c:if> >监护人信息错误</option>
                                         <option value="入学年份错误"  <c:if test="${ycUpdateLog.errorType=='入学年份错误'}">selected</c:if> >入学年份错误</option>
@@ -73,7 +74,7 @@
                                 <label class="col-sm-3 control-label">家长联系方式：</label>
                                 <div class="col-sm-8">
 
-                                    <input   type="text" class="form-control" id="jiazhengPhone" name="jiazhengPhone" value="${ycUpdateLog.memoThree}"  placeholder="请输入家长电话"/>
+                                    <input   type="text" class="form-control" id="jiazhengPhone" name="jiazhengPhone" value="${ycUpdateLog.jiazhengPhone}"  placeholder="请输入家长电话"/>
                                 </div>
                             </div>
                             <div class="form-group">
