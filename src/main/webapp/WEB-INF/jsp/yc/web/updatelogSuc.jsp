@@ -72,6 +72,9 @@
                 <label class="control-label">家长联系方式：${ycUpdateLog.jiazhengPhone}</label>
             </div>
             <div class="form-group"style="text-align: left">
+                <label class="control-label">错误类型：${ycUpdateLog.errorType}</label>
+            </div>
+            <div class="form-group"style="text-align: left">
                 <label class="control-label">错误信息：${ycUpdateLog.memoOne}</label>
             </div>
             <div class="form-group"style="text-align: left">

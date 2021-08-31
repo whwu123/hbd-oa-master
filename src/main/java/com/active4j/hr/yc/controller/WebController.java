@@ -265,6 +265,7 @@ public class WebController extends BaseController {
     public String doUpdatelog(YcUpdateLog ycUpdateLog, Model model) {
         if(ycUpdateLog!=null){
             ycUpdateLog.setState("1");
+
             ycUpdateLogService.saveOrUpdate(ycUpdateLog);
             model.addAttribute("ycUpdateLog",ycUpdateLog);
         }

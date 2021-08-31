@@ -210,12 +210,13 @@ public class ExportChargeController extends BaseController {
                     String payMoney = row.getCell(9).getStringCellValue();
                     String typeXianzhong = row.getCell(10).getStringCellValue();
                     String baoxianMoney = row.getCell(11).getStringCellValue();
-                    String creatDate =  row.getCell(20).getStringCellValue();;
+                    String creatDate =  row.getCell(21).getStringCellValue();;
                     String zhifNumber = row.getCell(14).getStringCellValue();
                     String gongyingshang = row.getCell(15).getStringCellValue();
                     String tbrName = row.getCell(17).getStringCellValue();
                     String tbrPhone = row.getCell(18).getStringCellValue();
-                    String careatName = row.getCell(19).getStringCellValue();
+                    String tbrCard = row.getCell(19).getStringCellValue();
+                    String careatName = row.getCell(20).getStringCellValue();
 
                     //插入到缴费记录表
                     YcPaymentRecord ycPaymentRecord = new YcPaymentRecord();
@@ -239,6 +240,7 @@ public class ExportChargeController extends BaseController {
                     ycPaymentRecord.setToubaorenName(tbrName);
                     ycPaymentRecord.setToubaorenPhone(tbrPhone);
                     ycPaymentRecord.setCreateName(careatName);
+                    ycPaymentRecord.setToubaorenCard(tbrCard);
                     ycPaymentRecordService.save(ycPaymentRecord);
                 }
             }

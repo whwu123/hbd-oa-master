@@ -61,4 +61,9 @@ public class YcUpdateLog extends BaseEntity {
     @TableField("student_id")
     @QueryField(queryColumn="student_id", condition= QueryCondition.eq)
     private String studentId;
+
+
+    @TableField("error_type")
+    @QueryField(queryColumn="error_type", condition= QueryCondition.eq)
+    private String errorType;
 }

@@ -79,4 +79,8 @@ public class YcPaymentRecord extends BaseEntity {
     @TableField("toubaoren_phone")
     @QueryField(queryColumn="toubaoren_phone", condition= QueryCondition.like)
     private String toubaorenPhone;
+
+    @TableField("toubaoren_card")
+    @QueryField(queryColumn="toubaoren_card", condition= QueryCondition.like)
+    private String toubaorenCard;
 }

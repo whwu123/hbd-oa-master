@@ -103,6 +103,20 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-4 control-label">错误类型：</label>
+                <div class="col-sm-8">
+                    <select class="form-control help-block m-b-none" name="errorType" id="errorType">
+                        <option value="无" >请选择</option>
+                        <option value="加保">加购险种</option>
+                        <option value="年级错误">年级错误</option>
+                        <option value="班级错误">班级错误</option>
+                        <option value="身份证被占用">身份证被占用</option>
+                        <option value="监护人信息错误">监护人信息错误</option>
+                        <option value="入学年份错误">入学年份错误</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-4 control-label">错误信息：</label>
                 <div class="col-sm-8">
                     <textarea id="memoOne" name="memoOne" class="form-control" rows="3" placeholder="输入您填写错误的信息：例如年级错误"></textarea>

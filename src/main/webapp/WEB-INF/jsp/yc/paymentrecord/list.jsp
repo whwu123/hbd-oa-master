@@ -54,7 +54,7 @@
 
 	<t:dgCol name="toubaorenName" label="投保人姓名" width="70" query="true"></t:dgCol>
 	<t:dgCol name="toubaorenPhone" label="投保人电话" width="90" query="true"></t:dgCol>
-
+	<t:dgCol name="toubaorenCard" label="投保人身份证" width="90" query="true"></t:dgCol>
     <t:dgToolBar label="导出"  type="export" funName="arrowUp"></t:dgToolBar>
 	<t:dgToolBar label="导入"  type="import" funName="importPay" operationCode="hbd:paymentrecord:import"> </t:dgToolBar>
 
