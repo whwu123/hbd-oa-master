@@ -40,12 +40,25 @@
 	<t:dgCol name="memoTwo" label="修改信息"  ></t:dgCol>
 	<t:dgCol name="createDate" label="创建时间"  ></t:dgCol>
 	<t:dgCol name="opt" label="操作" width="60"></t:dgCol>
+	<t:dgToolBar label="导出"  type="export" funName="arrowUp"></t:dgToolBar>
 	<t:dgToolBar url="updateController/addUpdate" type="add" width="60%" ></t:dgToolBar>
 	<t:dgToolBar url="updateController/addUpdate" type="edit" width="60%" ></t:dgToolBar>
 	<t:dgFunOpt label="审核" funName="auditingStu(id,studentName)" icon="fa fa-check"></t:dgFunOpt>
 	<t:dgToolBar type="refresh"></t:dgToolBar>
 </t:datagrid>
 <script type="text/javascript">
+	function arrowUp() {
+		var quxianDepartment = $("#quxianDepartment").val();
+		var studentSchool = $("#studentSchool").val();
+		var studentName = $("#studentName").val();
+		var studentCard = $("#studentCard").val();
+		var flagPay = $("#flagPay").val();
+		var memoThree = $("#memoThree").val();
+		var jiazhengPhone = $("#jiazhengPhone").val();
+		var errorType = $("#errorType").val();
+		window.location.href="reportController/export3?quxianDepartment="+quxianDepartment+"&studentSchool="+studentSchool+"&studentName="+studentName+"&studentCard="+studentCard+"&flagPay="+flagPay+"&memoThree="+memoThree+"&jiazhengPhone="+jiazhengPhone+"&errorType="+errorType+"&state=1";
+	}
+
 	function auditingStu(id,studentName) {
 		//alert(id);
 		qhConfirm("确定要审核学生《" + studentName + "》的信息吗?", function (index) {

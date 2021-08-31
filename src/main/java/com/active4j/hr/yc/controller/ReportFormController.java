@@ -13,7 +13,9 @@ import com.active4j.hr.system.service.SysUserService;
 import com.active4j.hr.yc.entity.Indexmodel;
 import com.active4j.hr.yc.entity.PaymentRecordModel;
 import com.active4j.hr.yc.entity.YcPaymentRecord;
+import com.active4j.hr.yc.entity.YcUpdateLog;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
+import com.active4j.hr.yc.service.YcUpdateLogService;
 import com.active4j.hr.yc.util.ExcelUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -43,6 +45,8 @@ public class ReportFormController extends BaseController {
     private SysUserService sysUserService;
     @Autowired
     private SysDeptService sysDeptService;
+    @Autowired
+    private YcUpdateLogService ycUpdateLogService;
 
     /**
      * 导出报表
@@ -79,23 +83,7 @@ public class ReportFormController extends BaseController {
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
         List< PaymentRecordModel > listNew = new ArrayList<>();
-        //循环表格,处理数据
-        //循环完成用身份证查询数据，然后整理成一条
-       /* for(int j = 0; j<list.size();j++){
-                String studentCard = list.get(j).getStudentCard();
-                QueryWrapper<YcPaymentRecord> queryWrapper2 =new QueryWrapper<>();
-                queryWrapper2.eq("student_card",studentCard);
-                List<YcPaymentRecord> list2 = ycPaymentRecordService.list(queryWrapper2);
-                for (int k = 0; k<list2.size();k++){
 
-
-
-
-
-
-                }
-
-        }*/
         //excel标题
         String[] title = {"区县部门名称","学生姓名","学校名称","身份证","年级","班级","保费","险种","支付流水号","支付金额","投保人姓名","投保人电话","投保人身份证"};
         //excel文件名
@@ -135,7 +123,123 @@ public class ReportFormController extends BaseController {
     }
 
 
+    /**
+     * 导出报表
+     * @return
+     */
+    @RequestMapping(value = "/export2")
+    @ResponseBody
+    public void export2(YcPaymentRecord ycPaymentRecord, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) throws Exception {
+        //获取当前用户id
+        String userId = ShiroUtils.getSessionUserId();
+        SysUserModel user = sysUserService.getInfoByUserId(userId);
+        //获取角色集合
+        List<SysRoleEntity> sysRoleEntities = sysUserService.getUserRoleByUserId(userId);
+        for(int i= 0 ; i<sysRoleEntities.size();i++){
+            SysRoleEntity roleEntity = sysRoleEntities.get(i);
+            if(roleEntity.getRoleCode().equals("quxianAdmin")){
+                ycPaymentRecord.setQuxianDepartment(user.getDeptName());
+            }else if(roleEntity.getRoleCode().equals("xuexiaoAdmin")){
+                //通过部门ID拿到部门
+                SysDeptEntity sysDeptEntity = sysUserService.getUserDepart(userId);
+                String parentId = sysDeptEntity.getParentId();
+                SysDeptEntity sysXueXiaoDeptEntity = sysDeptService.getById(parentId);
+                ycPaymentRecord.setQuxianDepartment(sysXueXiaoDeptEntity.getName());
+                ycPaymentRecord.setStudentSchool(user.getDeptName());
+            }
+        }
+        //获取数据
+        //拼接查询条件
 
+        QueryWrapper<YcPaymentRecord> queryWrapper = QueryUtils.installQueryWrapper(ycPaymentRecord, request.getParameterMap(), dataGrid);
+        queryWrapper.groupBy("student_name");
+        List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
+
+        List< PaymentRecordModel > listNew = new ArrayList<>();
+
+        //excel标题
+        String[] title = {"区县部门名称","学生姓名","学校名称","身份证","年级","班级","支付流水号","支付金额","投保人姓名","投保人电话","投保人身份证"};
+        //excel文件名
+        String fileName = "学生修改日志记录表"+System.currentTimeMillis()+".xls";
+        //sheet名
+        String sheetName = "学生修改日志记录表";
+        String[][] content = new String[list.size()+1][title.length];
+        for (int i = 0; i < list.size(); i++) {
+            YcPaymentRecord obj = list.get(i);
+            content[i][0] = obj.getQuxianDepartment();
+            content[i][1] = obj.getStudentName();
+            content[i][2] = obj.getStudentSchool();
+            content[i][3] = obj.getStudentCard();
+            content[i][4] = obj.getStudentNianji();
+            content[i][5] = obj.getStudentBanji();
+            content[i][6] = obj.getZhifuNumber();
+            content[i][7] = obj.getPayMoney();
+            content[i][8] = obj.getToubaorenName();
+            content[i][9] = obj.getToubaorenPhone();
+            content[i][10] = obj.getToubaorenCard();
+
+
+        }
+        //创建HSSFWorkbook
+        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName, title, content, null);
+        //响应到客户端
+        try {
+            this.setResponseHeader(response, fileName);
+            OutputStream os = response.getOutputStream();
+            wb.write(os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 导出报表
+     * @return
+     */
+    @RequestMapping(value = "/export3")
+    @ResponseBody
+    public void export3(YcUpdateLog ycUpdateLog, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) throws Exception {
+        //获取数据
+        //拼接查询条件
+        QueryWrapper<YcUpdateLog> queryWrapper = QueryUtils.installQueryWrapper(ycUpdateLog, request.getParameterMap(), dataGrid);
+
+        List<YcUpdateLog> list =ycUpdateLogService.list(queryWrapper);
+        //excel标题
+        String[] title = {"学生所在区县名称","学生所在学校名称","学生姓名","学生身份证号","是否缴费","订单流水号","家长联系方式","错误类型","错误信息","修改信息"};
+        //excel文件名
+        String fileName = "学生缴费记录表"+System.currentTimeMillis()+".xls";
+        //sheet名
+        String sheetName = "学生缴费记录表";
+        String[][] content = new String[list.size()+1][title.length];
+        for (int i = 0; i < list.size(); i++) {
+            YcUpdateLog obj = list.get(i);
+            content[i][0] = obj.getQuxianDepartment();
+            content[i][1] = obj.getStudentSchool();
+            content[i][2] = obj.getStudentName();
+            content[i][3] = obj.getStudentCard();
+            content[i][4] = obj.getFlagPay();
+            content[i][5] = obj.getMemoThree();
+            content[i][6] = obj.getJiazhengPhone();
+            content[i][7] = obj.getErrorType();
+            content[i][8] = obj.getMemoOne();
+            content[i][9] = obj.getMemoTwo();
+        }
+        //创建HSSFWorkbook
+        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName, title, content, null);
+        //响应到客户端
+        try {
+            this.setResponseHeader(response, fileName);
+            OutputStream os = response.getOutputStream();
+            wb.write(os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //发送响应流方法
     public void setResponseHeader(HttpServletResponse response, String fileName) {

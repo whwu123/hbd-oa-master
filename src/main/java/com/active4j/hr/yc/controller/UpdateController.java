@@ -161,4 +161,27 @@ public class UpdateController extends BaseController {
         }
         return j;
     }
+
+
+    @RequestMapping(value = "/dele", method = RequestMethod.POST)
+    @ResponseBody
+    @Log(type = LogType.update, name = "编辑了学生信息", memo = "编辑了学生信息")
+    public AjaxJson dele(String id, HttpServletRequest req) {
+        AjaxJson j = new AjaxJson();
+        try {
+            YcUpdateLog ycUpdateLog = ycUpdateLogService.getById(id);
+            ycUpdateLog.setState("-1");
+            ycUpdateLogService.saveOrUpdate(ycUpdateLog);
+            j.setSuccess(true);
+            j.setMsg("删除学生《"+ycUpdateLog.getStudentName()+"》信息成功");
+            return j;
+
+        }catch(Exception e) {
+            log.error("删除学生信息错误:" + e.getMessage());
+            j.setSuccess(false);
+            j.setMsg("删除学生信息错误");
+            e.printStackTrace();
+        }
+        return j;
+    }
 }
