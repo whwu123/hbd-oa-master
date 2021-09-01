@@ -12,19 +12,19 @@
 
     <div class="row  border-bottom white-bg dashboard-header">
         <div class="col-sm-5">
-            <h2>Hello！</h2>
-            <small>欢迎扫描以下二维码进行缴费：</small>
+            <h2>Hello！欢迎来的怀保代后台查询系统</h2>
+            <small>使用微信扫码以下二维码进行缴费：</small>
             <br>
             <br>
-            <img src="hbd/1628036816.png" width="100%" style="max-width:264px;">
+            <img src="index/img/123.png" width="100%" style="max-width:264px;">
             <br>
         </div>
         <div class="col-sm-5">
-            <h2>Hello！</h2>
-            <small>学生信息修改二维码</small>
+            <h2>Hello！欢迎来的怀保代后台查询系统</h2>
+            <small>学生信息修改留言二维码</small>
             <br>
             <br>
-            <img src="hbd/123.png" width="100%" style="max-width:264px;">
+            <img src="index/img/4.png" width="100%" style="max-width:264px;">
             <br>
         </div>
         <%--<div class="col-sm-4">
@@ -60,9 +60,9 @@
                     <div class="ibox-content">
                         <p><i class="fa fa-send-o"></i> 联系电话：<a href="http://www.active4j.com/" target="_blank">0745-2289827</a>
                         </p>
-                        <p><i class="fa fa-qq"></i> QQ：<a href="javascript:;" target="_blank">472997069</a>
+                        <p><i class="fa fa-qq"></i> QQ邮箱：<a href="javascript:;" target="_blank">472997069@qq.com</a>
                         </p>
-                        <p><i class="fa fa-weixin"></i> 微信号：<a href="javascript:;">wuchunhui</a>
+                        <p><i class="fa fa-weixin"></i> 微信号：<a href="javascript:;">18665022235</a>
                         </p>
                        <%-- <p><i class="fa fa-credit-card"></i> qq群：<a href="javascript:;">203802692</a>
                         </p>--%>

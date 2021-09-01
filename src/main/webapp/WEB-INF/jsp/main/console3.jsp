@@ -49,6 +49,7 @@
                                     <span class="label label-primary" >
                                         <a href="webController/toQuxianIndex?name=${im.quxianName}" style="color: white;">${im.quxianName}</a>
                                     </span>
+
                                 </td>
                                 <td><span class="label ">${im.xuepingxian}</span></td>
                                 <td><span class="label ">${im.yiwaixian}</span></td>
@@ -76,6 +77,9 @@
 
     function daochuIndex(diquName){
         window.location.href="reportController/exportDiqu?name="+diquName;
+    }
+    function goPersonInfo() {
+        $(".profile-element").removeClass("open");
     }
 </script>
 

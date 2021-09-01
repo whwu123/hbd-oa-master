@@ -145,7 +145,7 @@
                                 <i class="fa fa-user"></i>${user.realName }
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="J_menuItem" href="sys/user/goinfo" onclick="goPersonInfo();">个人资料</a>
+                                <li><a class="J_menuItem" href="sys/user/goinfo" onclick="goPersonInfo();">个人资料2</a>
                                 </li>
                                 <li><a class="J_menuItem" href="sys/user/gopwd" onclick="goPersonInfo();">修改密码</a>
                                 </li>
@@ -155,11 +155,12 @@
                                 </li>
                             </ul>
                         </li>
-                       <%-- <li class="dropdown">
+                       <li class="dropdown">
                             <a class="dropdown-toggle count-info J_menuItem6" data-toggle="dropdown" href="oaInfoMailController.do?list" title="收件箱">
                                 <i class="fa fa-envelope"></i> <span class="label label-warning">${noReadNo }</span>
                             </a>
                         </li>
+                        <%--
                          <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                                 <i class="fa fa-bell"></i> <span class="label label-primary">${totalMsgCount }</span>
