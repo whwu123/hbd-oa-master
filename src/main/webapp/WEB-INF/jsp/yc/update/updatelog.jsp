@@ -50,6 +50,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">是否已经缴费：</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control help-block m-b-none" name="flagPay" id="flagPay">
+                                        <option value="是" >是</option>
+                                        <option value="否" >否</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">错误类型：</label>
                                 <div class="col-sm-8">
                                     <select class="form-control help-block m-b-none" name="errorType" id="errorType">

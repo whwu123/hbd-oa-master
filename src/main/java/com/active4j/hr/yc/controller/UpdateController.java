@@ -148,6 +148,9 @@ public class UpdateController extends BaseController {
     public AjaxJson saveUpdatelog(YcUpdateLog ycUpdateLog, HttpServletRequest req) {
         AjaxJson j = new AjaxJson();
         try {
+            if(ycUpdateLog.getId()==null || ycUpdateLog.getId().isEmpty()){
+                ycUpdateLog.setState("1");
+            }
             ycUpdateLogService.saveOrUpdate(ycUpdateLog);
             j.setSuccess(true);
             j.setMsg("编辑学生《"+ycUpdateLog.getStudentName()+"》信息成功");
