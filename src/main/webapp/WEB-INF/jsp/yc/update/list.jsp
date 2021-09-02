@@ -25,7 +25,7 @@
 
 
 <!-- 脚本部分 -->
-<t:datagrid actionUrl="updateController/datagrid" tableContentId="jqGrid_wrapper" searchGroupId="searchGroupId" fit="true" caption="学生管理" name="table_list_2"  sortName="createDate"  sortOrder="desc">
+<t:datagrid actionUrl="updateController/datagrid" tableContentId="jqGrid_wrapper" searchGroupId="searchGroupId" fit="true" caption="日志管理" name="table_list_2"  sortName="createDate"  sortOrder="desc">
 
 	<t:dgCol name="id" label="编号" hidden="true" key="true" width="20"></t:dgCol>
 	<t:dgCol name="quxianDepartment" label="学生所在县区名称" width="90"  query="true"  ></t:dgCol>
@@ -39,6 +39,7 @@
 	<t:dgCol name="memoOne" label="错误信息" ></t:dgCol>
 	<t:dgCol name="memoTwo" label="修改信息"  ></t:dgCol>
 	<t:dgCol name="createDate" label="创建时间"  ></t:dgCol>
+
 	<t:dgCol name="opt" label="操作" width="60"></t:dgCol>
 	<t:dgToolBar label="导出"  type="export" funName="arrowUp"></t:dgToolBar>
 	<t:dgToolBar url="updateController/addUpdate" type="add" width="60%" ></t:dgToolBar>

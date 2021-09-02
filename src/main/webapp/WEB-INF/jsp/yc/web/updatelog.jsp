@@ -119,13 +119,13 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">错误信息：</label>
                 <div class="col-sm-8">
-                    <textarea id="memoOne" name="memoOne" class="form-control" rows="3" placeholder="输入您填写错误的信息"></textarea>
+                    <input type="text" id="memoOne" name="memoOne" class="form-control" rows="3" placeholder="输入您填写错误的信息" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">修改信息：</label>
                 <div class="col-sm-8">
-                    <textarea id="memoTwo" name="memoTwo" class="form-control" rows="3" placeholder="您想要修改的正确信息"></textarea>
+                    <input type="text" id="memoTwo" name="memoTwo" class="form-control" rows="3" placeholder="您想要修改的正确信息" />
 
 
                 </div>
@@ -143,7 +143,56 @@
 <script src="static/login/js/login.js"></script>
 <script src="static/toastr/js/toastr.min.js"></script>
 <script>
+    var tagname='';
+    var attrid='';
+    var tagvalue='';
+    var flag =true;
+    document.oninput = function(e){
+        alert('11')
+        var o = e.srcElement || e.target;
+        getValue(o);
+        if(tagname !='' && tagname=='INPUT'){
+            if(tagvalue != '' && !/^[^\<>]*$/.test(tagvalue)){
+                //包含<>返回false
+                //alert("输入内容不能包含特殊字符,如尖括号（<>）");
+                var str = tagvalue.replace('<', '<').replace('>', '>');
+                $(o).val(str);//把过滤特殊字符后的内容赋值给文本框
+                tagvalue='';//当输入第一个字符为特殊字符，回退键删除后会有缓存
+                if(flag){
+                    alert("您输入的内容中包含了特殊字符如尖括号<>，系统已自动过滤！");
+                    flag=false;
+                }
 
+                return false;
+            }
+            return true;
+        }
+        if(tagname !='' && tagname=='TEXTAREA'){
+            if(tagvalue != '' && !/^[^\<>]*$/.test(tagvalue)){
+                //包含<>返回false
+                //alert("输入内容不能包含特殊字符");
+                var str = tagvalue.replace('<', '<').replace('>', '>');
+                $(o).val(str);//把过滤特殊字符后的内容赋值给文本框
+                tagvalue='';
+                alert("您输入的内容中包含了特殊字符如尖括号<>，系统已自动为你转译！");
+                return false;
+            }
+            return true;
+        }
+        //escape2Html();
+    }
+
+    function getValue(o){
+        if(o.tagName!=''){
+            tagname=o.tagName;
+        }
+        if($(o).attr('id')){
+            attrid=$(o).attr('id');
+        }
+        if($(o).val()){
+            tagvalue=$(o).val();
+        }
+    }
 
     function doNxet() {
        // window.location.href="hh_quxian";

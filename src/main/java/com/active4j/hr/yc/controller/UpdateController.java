@@ -151,6 +151,9 @@ public class UpdateController extends BaseController {
             if(ycUpdateLog.getId()==null || ycUpdateLog.getId().isEmpty()){
                 ycUpdateLog.setState("1");
             }
+
+            ycUpdateLog.setMemoOne(ycUpdateLog.getMemoOne().trim());
+            ycUpdateLog.setMemoTwo(ycUpdateLog.getMemoTwo().trim());
             ycUpdateLogService.saveOrUpdate(ycUpdateLog);
             j.setSuccess(true);
             j.setMsg("编辑学生《"+ycUpdateLog.getStudentName()+"》信息成功");

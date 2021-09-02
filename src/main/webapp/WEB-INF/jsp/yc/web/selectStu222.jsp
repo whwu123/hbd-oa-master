@@ -120,14 +120,13 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label">错误信息：</label>
                 <div class="col-sm-8">
-                    <textarea id="memoOne" name="memoOne" class="form-control" rows="3" placeholder="输入您填写错误的信息：例如年级错误"></textarea>
+                    <input type="text" id="memoOne" name="memoOne" class="form-control" placeholder="例如填到二年级了" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">修改信息：</label>
                 <div class="col-sm-8">
-                    <textarea id="memoTwo" name="memoTwo" class="form-control" rows="3" placeholder="您想要修改的正确信息：例如修改为三年级"></textarea>
-
+                    <input type="text" id="memoTwo" name="memoTwo" class="form-control" placeholder="例如修改为三年级" />
 
                 </div>
             </div>
@@ -148,13 +147,13 @@
     function toVaild(){
        // alert('11111111')
 
-        var quxianDepartment = $("#quxianDepartment").val();
-        var studentName = $("#studentName").val();
-        var studentCard = $("#studentCard").val();
-        var studentSchool = $("#studentSchool").val();
-        var memoThree = $("#memoThree").val();
-        var memoOne = $("#memoOne").val();
-        var memoTwo = $("#memoTwo").val();
+        var quxianDepartment = $("#quxianDepartment").val().trim();
+        var studentName = $("#studentName").val().trim();
+        var studentCard = $("#studentCard").val().trim();
+        var studentSchool = $("#studentSchool").val().trim();
+        var memoThree = $("#memoThree").val().trim();
+        var memoOne = $("#memoOne").val().trim();
+        var memoTwo = $("#memoTwo").val().trim();
 
 
         //  var toubaorenPhone = $("#toubaorenPhone").val();
