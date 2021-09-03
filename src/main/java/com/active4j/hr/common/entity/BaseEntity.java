@@ -2,6 +2,8 @@ package com.active4j.hr.common.entity;
 
 import java.util.Date;
 
+import com.active4j.hr.core.annotation.QueryField;
+import com.active4j.hr.core.query.QueryCondition;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -38,6 +40,7 @@ public class BaseEntity extends Model<BaseEntity>{
 	private String createName;
 	
 	@TableField(value="CREATE_DATE", fill=FieldFill.INSERT)
+	@QueryField(queryColumn="CREATE_DATE", condition= QueryCondition.range)
 	private Date createDate;
 	
 	@TableField(value="UPDATE_NAME", fill=FieldFill.UPDATE)
