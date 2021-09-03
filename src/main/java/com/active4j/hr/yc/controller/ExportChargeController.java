@@ -8,6 +8,7 @@ import com.active4j.hr.yc.entity.YcPaymentRecord;
 import com.active4j.hr.yc.entity.YcStudentEntity;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
 import com.active4j.hr.yc.service.YcStudentService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -295,7 +296,9 @@ public class ExportChargeController extends BaseController {
                     String studentBanJi = row.getCell(7).getStringCellValue();
 
                     //通过身份证去查询是否缴费过。
-                   // ycPaymentRecordService.
+                    QueryWrapper<YcPaymentRecord> queryWrapper = new QueryWrapper<>();
+                    queryWrapper.eq("student_card",studentCard);
+                    YcPaymentRecord ycPaymentRecord = ycPaymentRecordService.getOne(queryWrapper);
 
 
 
