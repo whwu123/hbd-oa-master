@@ -167,7 +167,7 @@ public class YcstudentController extends BaseController {
 
 		//拼接查询条件
 		QueryWrapper<YcPaymentRecord> queryWrapper = QueryUtils.installQueryWrapper(ycPaymentRecord, request.getParameterMap(), dataGrid);
-		queryWrapper.groupBy("zhifu_number");
+		queryWrapper.groupBy("student_card");
 		//执行查询
 		IPage<YcPaymentRecord> lstResult = ycPaymentRecordService.page(new Page<YcPaymentRecord>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
 

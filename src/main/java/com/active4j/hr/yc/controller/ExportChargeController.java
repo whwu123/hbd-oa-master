@@ -104,6 +104,11 @@ public class ExportChargeController extends BaseController {
         return "yc/paymentrecord/export";
     }
 
+    @RequestMapping(value = "/index4", method = RequestMethod.GET)
+    public String index4(Model model) {
+        return "yc/paymentrecord/export4";
+    }
+
     @RequestMapping("/export2")
     @ResponseBody
     public AjaxJson uploadFiles2(String db, MultipartHttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -249,6 +254,58 @@ public class ExportChargeController extends BaseController {
             j.setSuccess(false);
             j.setMsg("导入数据是失敗");
             log.error("导入数据是失敗报错，错误信息：｛｝", e.getMessage());
+        }
+
+        return j;
+    }
+
+
+    /**
+     * 导入缴费记录
+     */
+    @RequestMapping("/exportStudent")
+    @ResponseBody
+    public AjaxJson exportStudent(String db, MultipartHttpServletRequest request, HttpServletResponse response) throws IOException {
+        AjaxJson j = new AjaxJson();
+        try{
+            String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+            SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+            Map<String, MultipartFile> fileMap = request.getFileMap();
+            for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+
+                MultipartFile mf = entity.getValue();// 获取上传文件对象
+                InputStream in = mf.getInputStream();
+                // 1.创建workbook对象，读取整个文档
+                XSSFWorkbook wb = new XSSFWorkbook(in);
+                // 2.读取页脚sheet
+                XSSFSheet sheet = wb.getSheetAt(0);
+
+                // 3.循环读取某一行
+                int index = 0;
+                for (Row row : sheet) {
+                    // 4.读取每一行的单元格
+                    if (index == 0) {
+                        index++;
+                        continue;
+                    }
+                    String schoolName = row.getCell(0).getStringCellValue();
+                    String studentName = row.getCell(1).getStringCellValue();
+                    String studentCard = row.getCell(2).getStringCellValue();
+                    String studentNianJi = row.getCell(6).getStringCellValue();
+                    String studentBanJi = row.getCell(7).getStringCellValue();
+
+                    //通过身份证去查询是否缴费过。
+                   // ycPaymentRecordService.
+
+
+
+                }
+            }
+
+        }catch(Exception e){
+            j.setSuccess(false);
+            j.setMsg("排查数据是失敗");
+            log.error("排查数据是失敗报错，错误信息：｛｝", e.getMessage());
         }
 
         return j;

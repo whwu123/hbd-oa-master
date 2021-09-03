@@ -57,7 +57,7 @@
 	<t:dgCol name="toubaorenCard" label="投保人身份证" width="90" query="true"></t:dgCol>
     <t:dgToolBar label="导出"  type="export" funName="arrowUp"></t:dgToolBar>
 	<t:dgToolBar label="导入"  type="import" funName="importPay" operationCode="hbd:paymentrecord:import"> </t:dgToolBar>
-
+	<t:dgToolBar label="排查" icon="glyphicon glyphicon-resize-full" type="define" funName="paicha"></t:dgToolBar>
 	<t:dgToolBar type="refresh"></t:dgToolBar>
 	<%--<t:dgToolBar label="上传"  type="upload" funName="arrowUp"></t:dgToolBar>--%>
 
@@ -66,6 +66,36 @@
 
 </t:datagrid>
 <script type="text/javascript">
+
+	function paicha() {
+		var url ="exportChargeController/index4";
+		parent.layer.open({
+			type: 2,
+			title: '导入数据',
+			shadeClose: true,
+			shade: 0.8,
+			area: ['20%', '18%'],
+			content: url, //iframe的url
+			/*	btn : [  '取消' ],*/
+			yes : function(index, layero) {
+				//确定按钮回调
+				//表单提交
+				parent.frames['layui-layer-iframe' + index].submitL();
+
+			},
+			btn2 : function(index, layero) {
+				//取消按钮回调
+
+			},
+			end: function() {
+				// 操作结束，刷新表格
+				$("#table_dic_list").trigger("reloadGrid");
+			}
+		});
+	}
+
+
+
 	function arrowUp() {
 		var quxianDepartment = $("#quxianDepartment").val();
 		var studentSchool = $("#studentSchool").val();
