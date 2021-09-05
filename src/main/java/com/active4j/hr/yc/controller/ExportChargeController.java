@@ -88,6 +88,7 @@ public class ExportChargeController extends BaseController {
                     sysDeptService.save(sysDeptEntity);
                 }
             }
+            log.info("======导入部门数据完成======");
         }catch(Exception e){
             j.setSuccess(false);
             j.setMsg("導入數據是失敗");
@@ -174,7 +175,7 @@ public class ExportChargeController extends BaseController {
                     ycStudentService.save(ycStudentEntity);
                 }
             }
-
+            log.info("======导入学生数据完成======");
         }catch(Exception e){
             j.setSuccess(false);
             j.setMsg("導入數據是失敗");
@@ -258,7 +259,7 @@ public class ExportChargeController extends BaseController {
                     ycPaymentRecordService.save(ycPaymentRecord);
                 }
             }
-
+            log.info("======导入缴费记录数据完成======");
         }catch(Exception e){
             j.setSuccess(false);
             j.setMsg("导入数据是失敗");

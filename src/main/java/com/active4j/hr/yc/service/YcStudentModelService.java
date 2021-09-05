@@ -6,4 +6,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 public interface YcStudentModelService extends IService<YcStudentModel>{
 
+
+    public void getUuidUpdateState(Integer state, String uuidmodel);
 }

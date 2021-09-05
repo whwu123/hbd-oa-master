@@ -15,4 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class YcStudentServiceModelImpl extends ServiceImpl<YcStudentModelDao, YcStudentModel> implements YcStudentModelService {
 
+    @Override
+    public void getUuidUpdateState(Integer state, String uuidmodel) {
+        this.baseMapper.getUuidUpdateState(state,uuidmodel);
+    }
 }

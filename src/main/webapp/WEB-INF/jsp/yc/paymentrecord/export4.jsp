@@ -60,9 +60,8 @@
 
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
         uploader2.on('uploadSuccess', function(file, response) {
-
-            console.log(response);
-            window.location.href="reportController/export?quxianDepartment=鹤城区经理室"
+            console.log(response.msg);
+            window.location.href="reportController/exportStudentModel?uuidModel="+response.msg;
             qhTipSuccess('上传完成4....filePath='+file.name);
             $("#fileList2").html(file.name);
 

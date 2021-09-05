@@ -15,6 +15,7 @@ import com.active4j.hr.yc.entity.YcStudentModel;
 import com.active4j.hr.yc.entity.YcPaymentRecord;
 import com.active4j.hr.yc.entity.YcUpdateLog;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
+import com.active4j.hr.yc.service.YcStudentModelService;
 import com.active4j.hr.yc.service.YcUpdateLogService;
 import com.active4j.hr.yc.util.ExcelUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -45,6 +46,8 @@ public class ReportFormController extends BaseController {
     private SysDeptService sysDeptService;
     @Autowired
     private YcUpdateLogService ycUpdateLogService;
+    @Autowired
+    private YcStudentModelService ycStudentModelService;
 
     /**
      * 导出报表
@@ -555,6 +558,63 @@ public class ReportFormController extends BaseController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+
+
+    /**
+     * 导出未缴费学生报表
+     * @return
+     */
+    @RequestMapping(value = "/exportStudentModel")
+    @ResponseBody
+    public void exportStudentModel(String uuidModel, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) throws Exception {
+
+        //获取数据
+        //拼接查询条件
+
+        QueryWrapper<YcStudentModel> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("model_uuid",uuidModel);
+        queryWrapper.eq("state",1);
+        List<YcStudentModel> list = ycStudentModelService.list(queryWrapper);
+        String schoolName = null;
+        //excel标题
+        String[] title = {"市部门名称","区县部门名称","学校名称","学生姓名","学生身份证","学生年级","学生班级","缴费状态"};
+        //excel文件名
+        String fileName = "学生排查结果表"+System.currentTimeMillis()+".xls";
+        //sheet名
+        String sheetName = "学生排查结果";
+        String[][] content = new String[list.size()+1][title.length];
+        if(list.size()>0){
+            schoolName = list.get(0).getStudentSchool();
+            for (int i = 0; i < list.size(); i++) {
+                YcStudentModel obj = list.get(i);
+                content[i][0] = obj.getShiDepartment();
+                content[i][1] = obj.getQuxianDepartment();
+                content[i][2] = obj.getStudentSchool();
+                content[i][3] = obj.getStudentName();
+                content[i][4] = obj.getStudentCard();
+                content[i][5] = obj.getStudentNianji();
+                content[i][6] = obj.getStudentBanji();
+                content[i][7] = obj.getState()==1?"未缴费":"已缴费";
+            }
+        }
+
+
+        //导出成功后，根据UUID修改这批学生的状态为2
+        ycStudentModelService.getUuidUpdateState(2,uuidModel);
+        //创建HSSFWorkbook
+        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName, title, content, null);
+        //响应到客户端
+        try {
+            this.setResponseHeader(response, fileName);
+            OutputStream os = response.getOutputStream();
+            wb.write(os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
