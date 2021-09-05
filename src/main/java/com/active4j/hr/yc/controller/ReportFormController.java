@@ -11,15 +11,13 @@ import com.active4j.hr.system.model.SysUserModel;
 import com.active4j.hr.system.service.SysDeptService;
 import com.active4j.hr.system.service.SysUserService;
 import com.active4j.hr.yc.entity.Indexmodel;
-import com.active4j.hr.yc.entity.PaymentRecordModel;
+import com.active4j.hr.yc.entity.YcStudentModel;
 import com.active4j.hr.yc.entity.YcPaymentRecord;
 import com.active4j.hr.yc.entity.YcUpdateLog;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
 import com.active4j.hr.yc.service.YcUpdateLogService;
 import com.active4j.hr.yc.util.ExcelUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +80,7 @@ public class ReportFormController extends BaseController {
        // queryWrapper.groupBy("student_name");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
-        List< PaymentRecordModel > listNew = new ArrayList<>();
+        List<YcStudentModel> listNew = new ArrayList<>();
 
         //excel标题
         String[] title = {"区县部门名称","学生姓名","学校名称","身份证","年级","班级","保费","险种","支付流水号","支付金额","投保人姓名","投保人电话","投保人身份证"};
@@ -152,17 +150,17 @@ public class ReportFormController extends BaseController {
         //拼接查询条件
 
         QueryWrapper<YcPaymentRecord> queryWrapper = QueryUtils.installQueryWrapper(ycPaymentRecord, request.getParameterMap(), dataGrid);
-        queryWrapper.groupBy("student_name");
+        queryWrapper.groupBy("student_card");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
-        List< PaymentRecordModel > listNew = new ArrayList<>();
+        List<YcStudentModel> listNew = new ArrayList<>();
 
         //excel标题
         String[] title = {"区县部门名称","学生姓名","学校名称","身份证","年级","班级","支付流水号","支付金额","投保人姓名","投保人电话","投保人身份证"};
         //excel文件名
-        String fileName = "学生修改日志记录表"+System.currentTimeMillis()+".xls";
+        String fileName = "学生信息表"+System.currentTimeMillis()+".xls";
         //sheet名
-        String sheetName = "学生修改日志记录表";
+        String sheetName = "学生信息表";
         String[][] content = new String[list.size()+1][title.length];
         for (int i = 0; i < list.size(); i++) {
             YcPaymentRecord obj = list.get(i);

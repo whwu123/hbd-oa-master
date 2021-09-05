@@ -59,9 +59,11 @@
         });
 
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-        uploader2.on('uploadSuccess', function(file, data) {
-           // var filePath = data.attributes.filePath;
-            qhTipSuccess('上传完成....filePath='+file.name);
+        uploader2.on('uploadSuccess', function(file, response) {
+
+            console.log(response);
+            window.location.href="reportController/export?quxianDepartment=鹤城区经理室"
+            qhTipSuccess('上传完成4....filePath='+file.name);
             $("#fileList2").html(file.name);
 
         });
@@ -73,7 +75,7 @@
 
         // 完成上传完了，成功或者失败，先删除进度条。
         uploader2.on('uploadComplete', function(file) {
-            qhTipSuccess('上传完成....');
+            //qhTipSuccess('上传完成22....');
         });
 
     });

@@ -73,7 +73,7 @@
 
         // 完成上传完了，成功或者失败，先删除进度条。
         uploader2.on('uploadComplete', function(file) {
-            qhTipSuccess('上传完成....');
+           // qhTipSuccess('上传完成....');
         });
 
     });

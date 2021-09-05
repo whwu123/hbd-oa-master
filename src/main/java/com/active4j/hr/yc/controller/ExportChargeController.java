@@ -2,11 +2,14 @@ package com.active4j.hr.yc.controller;
 
 import com.active4j.hr.base.controller.BaseController;
 import com.active4j.hr.core.model.AjaxJson;
+import com.active4j.hr.core.util.StringUtil;
 import com.active4j.hr.system.entity.SysDeptEntity;
 import com.active4j.hr.system.service.SysDeptService;
+import com.active4j.hr.yc.entity.YcStudentModel;
 import com.active4j.hr.yc.entity.YcPaymentRecord;
 import com.active4j.hr.yc.entity.YcStudentEntity;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
+import com.active4j.hr.yc.service.YcStudentModelService;
 import com.active4j.hr.yc.service.YcStudentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +28,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 
 @Controller
@@ -43,6 +48,9 @@ public class ExportChargeController extends BaseController {
 
     @Autowired
     private YcPaymentRecordService ycPaymentRecordService;
+
+    @Autowired
+    private YcStudentModelService ycStudentModelService;
 
     @RequestMapping("/export")
     @ResponseBody
@@ -70,7 +78,7 @@ public class ExportChargeController extends BaseController {
                     String stringCellValue2 = row.getCell(1).getStringCellValue();
                     String stringCellValue3 = row.getCell(2).getStringCellValue();
                     //int stringCellValue4 = (int)row.getCell(3).getNumericCellValue();
-                   //插入到部门数据库
+                    //插入到部门数据库
                     SysDeptEntity sysDeptEntity = new SysDeptEntity();
                     sysDeptEntity.setDeptNo(stringCellValue2);
                     sysDeptEntity.setLevel(2);
@@ -261,16 +269,14 @@ public class ExportChargeController extends BaseController {
     }
 
 
-    /**
-     * 导入缴费记录
-     */
     @RequestMapping("/exportStudent")
     @ResponseBody
-    public AjaxJson exportStudent(String db, MultipartHttpServletRequest request, HttpServletResponse response) throws IOException {
+    public AjaxJson  exportStudent(String db, MultipartHttpServletRequest request, HttpServletResponse response) throws IOException {
         AjaxJson j = new AjaxJson();
         try{
             String strDateFormat = "yyyy-MM-dd HH:mm:ss";
             SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+            String uidModel = UUID.randomUUID().toString().replace("-","");
             Map<String, MultipartFile> fileMap = request.getFileMap();
             for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
 
@@ -289,28 +295,59 @@ public class ExportChargeController extends BaseController {
                         index++;
                         continue;
                     }
-                    String schoolName = row.getCell(0).getStringCellValue();
-                    String studentName = row.getCell(1).getStringCellValue();
-                    String studentCard = row.getCell(2).getStringCellValue();
-                    String studentNianJi = row.getCell(6).getStringCellValue();
-                    String studentBanJi = row.getCell(7).getStringCellValue();
-
+                    String shidept = row.getCell(0).getStringCellValue();
+                    String quxiandept = row.getCell(1).getStringCellValue();
+                    String studentSchool = row.getCell(2).getStringCellValue();
+                    String studentName = row.getCell(3).getStringCellValue();
+                    String studentCard = row.getCell(4).getStringCellValue();
+                    String studentNianji = row.getCell(5).getStringCellValue();
+                    String studentBanji = row.getCell(6).getStringCellValue();
                     //通过身份证去查询是否缴费过。
                     QueryWrapper<YcPaymentRecord> queryWrapper = new QueryWrapper<>();
                     queryWrapper.eq("student_card",studentCard);
                     YcPaymentRecord ycPaymentRecord = ycPaymentRecordService.getOne(queryWrapper);
+                    if(ycPaymentRecord==null){
+                        //不存在
+                        YcStudentModel model = new YcStudentModel();
+                        model.setStudentSchool(studentSchool);
+                        model.setStudentName(studentName);
+                        model.setStudentCard(studentCard);
+                        model.setStudentNianji(studentNianji);
+                        model.setStudentBanji(studentBanji);
+                        model.setState(1);
+                        model.setModelUUid(uidModel);
+                        model.setShiDepartment(shidept);
+                        model.setQuxianDepartment(quxiandept);
+                        ycStudentModelService.save(model);
 
-
-
+                    }
                 }
             }
-
+            j.setMsg(uidModel);
+            log.info("==========排查数据完成，将结果已插入数据库===============");
         }catch(Exception e){
             j.setSuccess(false);
-            j.setMsg("排查数据是失敗");
-            log.error("排查数据是失敗报错，错误信息：｛｝", e.getMessage());
+            j.setMsg("导入数据是失敗");
+            log.error("导入数据是失敗报错，错误信息：｛｝", e.getMessage());
         }
-
         return j;
+
+    }
+    //发送响应流方法
+    public void setResponseHeader(HttpServletResponse response, String fileName) {
+        try {
+            try {
+                fileName = new String(fileName.getBytes(),"ISO8859-1");
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            response.setContentType("application/octet-stream;charset=ISO8859-1");
+            response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
+            response.addHeader("Pargam", "no-cache");
+            response.addHeader("Cache-Control", "no-cache");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

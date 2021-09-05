@@ -39,6 +39,8 @@
 	<t:dgCol name="memoOne" label="错误信息" ></t:dgCol>
 	<t:dgCol name="memoTwo" label="修改信息"  ></t:dgCol>
 	<t:dgCol name="createDate" label="创建时间"  datefmt="yyyy-MM-dd HH:mm:ss" query="true" queryModel="group" datePlugin="laydate"></t:dgCol>
+	<t:dgCol name="updateDate" label="修改时间"></t:dgCol>
+
 	<t:dgCol name="opt" label="操作" width="60"></t:dgCol>
 	<t:dgToolBar label="导出"  type="export" funName="arrowUp"></t:dgToolBar>
 	<t:dgToolBar url="updateController/addUpdate" type="edit" width="60%" ></t:dgToolBar>
