@@ -223,7 +223,7 @@ public class LoginController {
 				if(totaljhrShiSUm == null){
 					totaljhrShiSUm = "0";
 				}
-				shiModel.setJianhurenxian(totaljhrShiSUm+"人/"+totaljhrShiSUm+"元");;
+				shiModel.setJianhurenxian(totalJhrShiCount+"人/"+totaljhrShiSUm+"元");;
 				int totalShiCount = Integer.parseInt(totalXpxShiCount)+ Integer.parseInt(totalYwShiCount)+ Integer.parseInt(totaljhrShiSUm);
 				int totalShilSum = Integer.parseInt(totalXpxShilSUm)+ Integer.parseInt(totalYwShiSUm)+ Integer.parseInt(totaljhrShiSUm);
 				shiModel.setTotal(totalShiCount+"人次/"+totalShilSum+"元");

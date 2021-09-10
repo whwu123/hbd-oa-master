@@ -119,6 +119,11 @@ public class ExportChargeController extends BaseController {
         return "yc/paymentrecord/export4";
     }
 
+    @RequestMapping(value = "/index5", method = RequestMethod.GET)
+    public String index5(Model model) {
+        return "yc/student/export5";
+    }
+
     @RequestMapping("/export2")
     @ResponseBody
     public AjaxJson uploadFiles2(String db, MultipartHttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -350,5 +355,59 @@ public class ExportChargeController extends BaseController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+
+    @RequestMapping("/export5")
+    @ResponseBody
+    public AjaxJson  export5(String db, MultipartHttpServletRequest request, HttpServletResponse response) throws IOException {
+        AjaxJson j = new AjaxJson();
+        try{
+            String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+            SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+            String uidModel = UUID.randomUUID().toString().replace("-","");
+            Map<String, MultipartFile> fileMap = request.getFileMap();
+            for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+
+                MultipartFile mf = entity.getValue();// 获取上传文件对象
+                InputStream in = mf.getInputStream();
+                // 1.创建workbook对象，读取整个文档
+                XSSFWorkbook wb = new XSSFWorkbook(in);
+                // 2.读取页脚sheet
+                XSSFSheet sheet = wb.getSheetAt(0);
+
+                // 3.循环读取某一行
+                int index = 0;
+                for (Row row : sheet) {
+                    // 4.读取每一行的单元格
+                    if (index == 0) {
+                        index++;
+                        continue;
+                    }
+                    String studentName = row.getCell(0).getStringCellValue();
+                    String studentSex = row.getCell(1).getStringCellValue();
+                    String studentCard = row.getCell(3).getStringCellValue();
+                    String studentSchool = row.getCell(7).getStringCellValue();
+                    String studentNianji = row.getCell(11).getStringCellValue();
+                    String studentBanji = row.getCell(12).getStringCellValue();
+                    //通过身份证去查询是否缴费过。
+                    QueryWrapper<YcPaymentRecord> queryWrapper = new QueryWrapper<>();
+                    queryWrapper.eq("student_card",studentCard);
+                    YcPaymentRecord ycPaymentRecord = ycPaymentRecordService.getOne(queryWrapper);
+                    if(ycPaymentRecord==null){
+
+
+                    }
+                }
+            }
+            j.setMsg(uidModel);
+            log.info("==========排查数据完成，将结果已插入数据库===============");
+        }catch(Exception e){
+            j.setSuccess(false);
+            j.setMsg("导入数据是失敗");
+            log.error("导入数据是失敗报错，错误信息：｛｝", e.getMessage());
+        }
+        return j;
+
     }
 }

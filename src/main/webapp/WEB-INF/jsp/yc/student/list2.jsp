@@ -56,7 +56,7 @@
 	<t:dgCol name="toubaorenPhone" label="投保人电话" width="90" query="true"></t:dgCol>
 	<t:dgCol name="toubaorenCard" label="投保人身份证" width="90" query="true"></t:dgCol>
 	<t:dgToolBar label="导出"  type="export" funName="arrowUp"></t:dgToolBar>
-	<%--<t:dgToolBar label="导入"  type="import" funName="importPay" operationCode="hbd:paymentrecord:import"> </t:dgToolBar>--%>
+	<t:dgToolBar label="更新导入"   type="define"  funName="importPay" operationCode="hbd:paymentrecord:import"> </t:dgToolBar>
 
 	<t:dgToolBar type="refresh"></t:dgToolBar>
 	<%--<t:dgToolBar label="上传"  type="upload" funName="arrowUp"></t:dgToolBar>--%>
@@ -81,7 +81,7 @@
 	}
 
 	function importPay() {
-		var url ="exportChargeController/index3";
+		var url ="exportChargeController/index5";
 		parent.layer.open({
 			type: 2,
 			title: '导入数据',
