@@ -4,12 +4,6 @@
 <html>
 <head>
 <t:base type="default,select2,icheck"></t:base>
-	<script type="text/javascript">
-		$(function() {
-			$("#roleid").val("${roleId}".split(",")).trigger("change");
-		});
-	
-	</script>
 </head>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated fadeInRight">
@@ -32,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">学生身份证：</label>
+                                <label class="col-sm-3 control-label">学生身份证*：</label>
                                 <div class="col-sm-8">
                                     <input   type="text" class="form-control" id="studentCard" name="studentCard" value="${refund.studentCard}" placeholder="请输入有效的学生身份证"/>
                                 </div>

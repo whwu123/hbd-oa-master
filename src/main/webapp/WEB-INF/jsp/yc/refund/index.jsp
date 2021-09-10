@@ -28,11 +28,11 @@
 <t:datagrid actionUrl="ycRefunController/datagrid" tableContentId="jqGrid_wrapper" searchGroupId="searchGroupId" fit="true" caption="学生管理" name="table_list_2"  sortName="createDate"  sortOrder="desc">
 
 	<t:dgCol name="id" label="编号" hidden="true" key="true" width="20"></t:dgCol>
-	<t:dgCol name="payNumber" label="订单流水号" width="120" ></t:dgCol>
+	<t:dgCol name="payNumber" label="订单流水号" width="130" ></t:dgCol>
 	<t:dgCol name="studentCard" label="学生身份证" width="90" ></t:dgCol>
-	<t:dgCol name="studentName" label="学生姓名" width="90" query="true"></t:dgCol>
-	<t:dgCol name="payMoney" label="购买金额" width="90" query="true"></t:dgCol>
-	<t:dgCol name="state" label="状态" replace="送审中_1,已送审_2,已删除_-1" query="true" display="refund"></t:dgCol>
+	<t:dgCol name="studentName" label="学生姓名" width="70" query="true"></t:dgCol>
+	<t:dgCol name="payMoney" label="购买金额" width="70" query="true"></t:dgCol>
+	<t:dgCol name="state" label="状态" replace="送审中_1,已送审_2,已删除_-1" width="70" query="true" display="refund"></t:dgCol>
 	<t:dgCol name="tbrPhone" label="家长联系电话" width="90" query="true"></t:dgCol>
 	<t:dgCol name="content" label="退款理由" width="150" ></t:dgCol>
 	<t:dgCol name="createDate" label="创建时间"  datefmt="yyyy-MM-dd HH:mm:ss" query="true" queryModel="group" datePlugin="laydate"></t:dgCol>

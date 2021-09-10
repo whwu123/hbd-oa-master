@@ -121,6 +121,24 @@ public class YcRefundController extends BaseController {
 		try {
 			ycRefundEntity.setState(1);
 			if(StringUtils.isEmpty(ycRefundEntity.getId())) {
+				if(StringUtils.isEmpty(ycRefundEntity.getStudentName())) {
+					j.setSuccess(false);
+					j.setMsg("学生姓名不能为空");
+					return j;
+				}
+
+				if(StringUtils.isEmpty(ycRefundEntity.getPayNumber())) {
+					j.setSuccess(false);
+					j.setMsg("支付流水单号不能为空");
+					return j;
+				}
+
+
+				if(StringUtils.isEmpty(ycRefundEntity.getStudentCard())) {
+					j.setSuccess(false);
+					j.setMsg("学生身份证不能为空");
+					return j;
+				}
 				//状态
 				ycRefunService.save(ycRefundEntity);
 			}else {
