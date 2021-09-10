@@ -50,11 +50,10 @@
 	<t:dgCol name="zhifuNumber" label="支付流水号" width="90" query="true"></t:dgCol>
 	<t:dgCol name="payMoney" label="支付金额" width="70" ></t:dgCol>
 	<t:dgCol name="casName" label="方案名称" width="120" query="true" dictionary="case_name" display="case_name"></t:dgCol>
-	<t:dgCol name="createDate" label="缴费日期" width="120" datefmt="yyyy-MM-dd" query="true" queryModel="group" datePlugin="laydate"></t:dgCol>
-
 	<t:dgCol name="toubaorenName" label="投保人姓名" width="70" query="true"></t:dgCol>
 	<t:dgCol name="toubaorenPhone" label="投保人电话" width="90" query="true"></t:dgCol>
 	<t:dgCol name="toubaorenCard" label="投保人身份证" width="90" query="true"></t:dgCol>
+	<t:dgCol name="createDate" label="缴费日期" width="120" datefmt="yyyy-MM-dd HH:mm:ss" query="true" queryModel="group" datePlugin="laydate"></t:dgCol>
     <t:dgToolBar label="导出"  type="export" funName="arrowUp"></t:dgToolBar>
 	<t:dgToolBar label="导入"  type="import" funName="importPay" operationCode="hbd:paymentrecord:import"> </t:dgToolBar>
 	<%--<t:dgToolBar label="排查" icon="glyphicon glyphicon-resize-full" type="define" funName="paicha"></t:dgToolBar>--%>
@@ -67,8 +66,8 @@
 </t:datagrid>
 <script type="text/javascript">
 	$(function(){
-		laydate({elem:"#createDate_begin",event:"focus",istime: true, format: 'YYYY-MM-DD '});
-		laydate({elem:"#createDate_end",event:"focus",istime: true, format: 'YYYY-MM-DD'});
+		laydate({elem:"#createDate_begin",event:"focus",istime: true, format: 'YYYY-MM-DD hh:mm:ss'});
+		laydate({elem:"#createDate_end",event:"focus",istime: true, format: 'YYYY-MM-DD hh:mm:ss'});
 	});
 	function paicha() {
 		var url ="exportChargeController/index4";

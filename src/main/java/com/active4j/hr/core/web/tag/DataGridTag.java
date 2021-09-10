@@ -534,6 +534,14 @@ public class DataGridTag extends TagSupport {
 							}else{
 								sb.append("if(cellvalue == '").append(key).append("') return '").append(map.get(key)).append("'; ");
 							}
+						}else if(StringUtils.equals("refund", column.getDisplay())) {
+							if(StringUtils.equals(key, "1")) {
+								sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label label-primary\">" + map.get(key) + "</span>").append("'; ");
+							}else if(StringUtils.equals(key, "2")) {
+								sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label \">" + map.get(key) + "</span>").append("'; ");
+							}else if(StringUtils.equals(key, "-1")) {
+								sb.append("if(cellvalue == '").append(key).append("') return '").append("<span class=\"label label-warning\">" + map.get(key) + "</span>").append("'; ");
+							}
 						}
 
 
