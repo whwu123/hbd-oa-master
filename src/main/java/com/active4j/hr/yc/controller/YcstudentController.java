@@ -188,6 +188,53 @@ public class YcstudentController extends BaseController {
 		return view;
 	}
 
+	@RequestMapping("/editStudent")
+	public ModelAndView editStudent(YcPaymentRecord ycPaymentRecord, HttpServletRequest req) {
+		ModelAndView view = new ModelAndView("yc/student/ycStudent2");
+		if(!StringUtils.isEmpty(ycPaymentRecord.getId())) {
+			ycPaymentRecord = ycPaymentRecordService.getById(ycPaymentRecord.getId());
+			view.addObject("pay",ycPaymentRecord);
+		}
+		return view;
+	}
+
+	@RequestMapping("/saveStu2")
+	@ResponseBody
+	@Log(type = LogType.save, name = "编辑了用户信息", memo = "编辑保存了学生信息")
+	public AjaxJson saveStu2(HttpServletRequest req, YcPaymentRecord ycPaymentRecord) {
+		AjaxJson j = new AjaxJson();
+		try {
+			if(!StringUtils.isEmpty(ycPaymentRecord.getId())) {
+				ycPaymentRecordService.saveOrUpdate(ycPaymentRecord);
+			}
+
+			YcUpdateStulog ycUpdateStulog = new YcUpdateStulog();
+			ycUpdateStulog.setQuxianDepartment(ycPaymentRecord.getQuxianDepartment());
+			ycUpdateStulog.setStudentSchool(ycPaymentRecord.getStudentSchool());
+			ycUpdateStulog.setStudentBanji(ycPaymentRecord.getStudentBanji());
+			ycUpdateStulog.setStudentName(ycPaymentRecord.getStudentName());
+			ycUpdateStulog.setStudentNianji(ycPaymentRecord.getStudentNianji());
+			ycUpdateStulog.setStudentCard(ycPaymentRecord.getStudentCard());
+			ycUpdateStulog.setStudentId(ycPaymentRecord.getId());
+			ycUpdateStulog.setState("2");
+			ycUpdateStulogService.save(ycUpdateStulog);
+			j.setSuccess(true);
+			j.setMsg("审核编辑学生《"+ycUpdateStulog.getStudentName()+"》信息成功");
+
+
+		}catch(Exception e) {
+			log.error("审核时编辑学生信息报错，错误信息:" + e.getMessage());
+			j.setSuccess(false);
+			j.setMsg("审核时编辑学生信息错误");
+			e.printStackTrace();
+		}
+
+		return j;
+	}
+
+
+
+
 	@RequestMapping("/saveStu")
 	@ResponseBody
 	@Log(type = LogType.save, name = "编辑了用户信息", memo = "编辑保存了学生信息")

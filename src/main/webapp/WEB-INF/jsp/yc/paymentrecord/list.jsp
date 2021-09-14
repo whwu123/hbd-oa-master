@@ -56,7 +56,7 @@
 	<t:dgCol name="createDate" label="缴费日期" width="120" datefmt="yyyy-MM-dd HH:mm:ss" query="true" queryModel="group" datePlugin="laydate"></t:dgCol>
     <t:dgToolBar label="导出"  type="export" funName="arrowUp"></t:dgToolBar>
 	<t:dgToolBar label="导入"  type="import" funName="importPay" operationCode="hbd:paymentrecord:import"> </t:dgToolBar>
-	<%--<t:dgToolBar label="排查" icon="glyphicon glyphicon-resize-full" type="define" funName="paicha"></t:dgToolBar>--%>
+	<t:dgToolBar label="排查" icon="glyphicon glyphicon-resize-full" type="define" funName="paicha"></t:dgToolBar>
 	<t:dgToolBar type="refresh"></t:dgToolBar>
 	<%--<t:dgToolBar label="上传"  type="upload" funName="arrowUp"></t:dgToolBar>
 
