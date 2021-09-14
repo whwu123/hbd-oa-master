@@ -88,7 +88,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">备注：</label>
                             <div class="col-sm-8">
-                                <textarea id="memo" name="memo" class="form-control" rows="5" placeholder="身份证修改或者学生变更写到这里"></textarea>
+                                <textarea id="memo" name="memo" class="form-control" rows="5" placeholder="身份证修改或者学校变更请写到这里"></textarea>
                             </div>
                         </div>
                     </t:formvalid>
