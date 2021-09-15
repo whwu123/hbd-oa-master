@@ -125,9 +125,18 @@ public class UpdateController extends BaseController {
         AjaxJson j = new AjaxJson();
         try {
             ycUpdateLog = ycUpdateLogService.getById(id);
-            ycUpdateLog.setState("2");
-            ycUpdateLogService.saveOrUpdate(ycUpdateLog);
+            if(ycUpdateLog!=null){
+                String card = ycUpdateLog.getStudentCard();
 
+                QueryWrapper<YcUpdateLog> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("student_card",card);
+                List<YcUpdateLog> list = ycUpdateLogService.list(queryWrapper);
+                for(int i=0; i<list.size();i++){
+                    YcUpdateLog ycUpdateLog1 = list.get(i);
+                    ycUpdateLog1.setState("2");
+                    ycUpdateLogService.saveOrUpdate(ycUpdateLog1);
+                }
+            }
             j.setSuccess(true);
             j.setMsg("审核学生《"+ycUpdateLog.getStudentName()+"》信息成功");
             return j;

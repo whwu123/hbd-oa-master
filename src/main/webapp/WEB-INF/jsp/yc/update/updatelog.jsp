@@ -63,7 +63,7 @@
                                 <div class="col-sm-8">
                                     <select class="form-control help-block m-b-none" name="errorType" id="errorType">
                                         <option value="无" <c:if test="${ycUpdateLog.errorType==''}">selected</c:if>>请选择</option>
-                                        <option value="加保"  <c:if test="${ycUpdateLog.errorType=='加保'}">selected</c:if> >加保</option>
+                                        <option value="加保"  <c:if test="${ycUpdateLog.errorType=='加保'}">selected</c:if> >加购险种</option>
                                         <option value="年级错误" <c:if test="${ycUpdateLog.errorType=='年级错误'}">selected</c:if>>年级错误</option>
                                         <option value="班级错误" <c:if test="${ycUpdateLog.errorType=='班级错误'}">selected</c:if>>班级错误</option>
                                         <option value="学生学校名称错误" <c:if test="${ycUpdateLog.errorType=='学生学校名称错误'}">selected</c:if>>学生学校名称错误</option>
