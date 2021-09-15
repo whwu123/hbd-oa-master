@@ -65,6 +65,7 @@ public class ReportFormController extends BaseController {
             SysRoleEntity roleEntity = sysRoleEntities.get(i);
             if(roleEntity.getRoleCode().equals("quxianAdmin")){
                 ycPaymentRecord.setQuxianDepartment(user.getDeptName());
+
             }else if(roleEntity.getRoleCode().equals("xuexiaoAdmin")){
                 //通过部门ID拿到部门
                 SysDeptEntity sysDeptEntity = sysUserService.getUserDepart(userId);
@@ -81,6 +82,7 @@ public class ReportFormController extends BaseController {
         //执行查询
         //IPage<YcPaymentRecord> lstResult = ycPaymentRecordService.page(new Page<YcPaymentRecord>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
        // queryWrapper.groupBy("student_name");
+        queryWrapper.last("limit 0,65535");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
         List<YcStudentModel> listNew = new ArrayList<>();
