@@ -82,7 +82,7 @@ public class ReportFormController extends BaseController {
         //执行查询
         //IPage<YcPaymentRecord> lstResult = ycPaymentRecordService.page(new Page<YcPaymentRecord>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
        // queryWrapper.groupBy("student_name");
-        queryWrapper.last("limit 0,65535");
+        queryWrapper.last("limit 0,62356");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
         List<YcStudentModel> listNew = new ArrayList<>();

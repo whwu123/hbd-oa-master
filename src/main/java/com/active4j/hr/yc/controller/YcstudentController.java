@@ -205,9 +205,21 @@ public class YcstudentController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
 			if(!StringUtils.isEmpty(ycPaymentRecord.getId())) {
-				ycPaymentRecordService.saveOrUpdate(ycPaymentRecord);
-			}
 
+				String studentCard = ycPaymentRecord.getStudentCard();
+				QueryWrapper<YcPaymentRecord> queryWrapper = new QueryWrapper<>();
+				queryWrapper.eq("student_card",studentCard);
+				List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
+				if(list.size()>0){
+					for (int i=0;i<list.size();i++){
+						YcPaymentRecord ycPaymentRecord1 = list.get(i);
+						ycPaymentRecord1.setStudentName(ycPaymentRecord.getStudentName());
+						ycPaymentRecord1.setStudentBanji(ycPaymentRecord.getStudentBanji());
+						ycPaymentRecord1.setStudentNianji(ycPaymentRecord.getStudentNianji());
+						ycPaymentRecordService.saveOrUpdate(ycPaymentRecord1);
+					}
+				}
+			}
 			YcUpdateStulog ycUpdateStulog = new YcUpdateStulog();
 			ycUpdateStulog.setQuxianDepartment(ycPaymentRecord.getQuxianDepartment());
 			ycUpdateStulog.setStudentSchool(ycPaymentRecord.getStudentSchool());
