@@ -156,6 +156,7 @@ public class ReportFormController extends BaseController {
 
         QueryWrapper<YcPaymentRecord> queryWrapper = QueryUtils.installQueryWrapper(ycPaymentRecord, request.getParameterMap(), dataGrid);
         queryWrapper.groupBy("student_card");
+        queryWrapper.last("limit 0,62356");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
         List<YcStudentModel> listNew = new ArrayList<>();
