@@ -132,7 +132,7 @@ public class ReportFormController extends BaseController {
      */
     @RequestMapping(value = "/export2")
     @ResponseBody
-    public void export2(YcPaymentRecord ycPaymentRecord, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) throws Exception {
+    public void export2(YcPaymentRecord ycPaymentRecord, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid,String createDate_begin,String createDate_end) throws Exception {
         //获取当前用户id
         String userId = ShiroUtils.getSessionUserId();
         SysUserModel user = sysUserService.getInfoByUserId(userId);
@@ -154,7 +154,8 @@ public class ReportFormController extends BaseController {
         //获取数据
         //拼接查询条件
 
-        QueryWrapper<YcPaymentRecord> queryWrapper = QueryUtils.installQueryWrapper(ycPaymentRecord, request.getParameterMap(), dataGrid);
+        QueryWrapper<YcPaymentRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.between("CREATE_DATE",createDate_begin,createDate_end);
         queryWrapper.groupBy("student_card");
         queryWrapper.last("limit 0,62356");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
