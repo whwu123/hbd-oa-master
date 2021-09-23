@@ -154,13 +154,15 @@ public class ReportFormController extends BaseController {
         //获取数据
         //拼接查询条件
 
-        QueryWrapper<YcPaymentRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.between("CREATE_DATE",createDate_begin,createDate_end);
+        QueryWrapper<YcPaymentRecord> queryWrapper = QueryUtils.installQueryWrapper(ycPaymentRecord, request.getParameterMap(), dataGrid);
+        if(createDate_begin != null && !createDate_begin .isEmpty() && createDate_end != null && !createDate_end .isEmpty()){
+            queryWrapper.between("CREATE_DATE",createDate_begin,createDate_end);
+        }
         queryWrapper.groupBy("student_card");
         queryWrapper.last("limit 0,62356");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
-        List<YcStudentModel> listNew = new ArrayList<>();
+        //List<YcStudentModel> listNew = new ArrayList<>();
 
         //excel标题
         String[] title = {"区县部门名称","学生姓名","学校名称","身份证","年级","班级","支付流水号","支付金额","投保人姓名","投保人电话","投保人身份证"};
