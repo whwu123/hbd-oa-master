@@ -6,7 +6,7 @@
 		SELECT DISTINCT
 			student_school
 		FROM
-			`yc_paymentrecord` where quxian_department = #{quxianName}
+			`yc_paymentrecord` where quxian_department = #{quxianName} ORDER BY CREATE_DATE desc
 	</select>
 
 	<select id="getCount" resultType="java.lang.String">
@@ -57,7 +57,7 @@
 
 	<!--根据市名称拿到区县部门名称-->
     <select id="getQuxianNameByShibumenName" resultType="java.lang.String">
-		SELECT DISTINCT quxian_department FROM `yc_paymentrecord` where shi_department = #{shibumenName}
+		SELECT DISTINCT quxian_department FROM `yc_paymentrecord` where shi_department = #{shibumenName} ORDER BY CREATE_DATE desc
 	</select>
 	<select id="getCountShi" resultType="java.lang.String">
 		SELECT COUNT(zhifu_number)  FROM `yc_paymentrecord` where shi_department  = #{shiDepartment} and type = #{typebaoxian};

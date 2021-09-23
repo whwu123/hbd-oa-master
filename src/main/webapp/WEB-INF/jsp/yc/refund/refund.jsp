@@ -11,7 +11,7 @@
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						<t:formvalid action="ycRefunController/saveUpdate">
+						<t:formvalid beforeSubmit="toVaild()" action="ycRefunController/saveUpdate">
 							<input type="hidden" name="id" id="id" value="${refund.id }">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">支付流水号*：</label>
@@ -57,7 +57,15 @@
 	</div>
 </body>
 <script>
+    function toVaild(){
+        var payNumber = $("#payNumber").val().trim();
+        var studentName = $("#studentName").val().trim();
+        var studentCard = $("#studentCard").val().trim();
+        var tbrPhone = $("#tbrPhone").val().trim();
+        //alert(studentName);
+        return true;
 
+    }
 </script>
 </html>
 

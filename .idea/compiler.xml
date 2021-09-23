@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="hbd-oa-master" />
         <module name="hbd-oa" />
+        <module name="hbd" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="hbd" options="-parameters" />
       <module name="hbd-oa" options="-parameters" />
       <module name="hbd-oa-master" options="-parameters" />
     </option>
