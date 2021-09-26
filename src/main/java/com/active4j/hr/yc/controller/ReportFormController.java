@@ -158,7 +158,7 @@ public class ReportFormController extends BaseController {
         if(createDate_begin != null && !createDate_begin .isEmpty() && createDate_end != null && !createDate_end .isEmpty()){
             queryWrapper.between("CREATE_DATE",createDate_begin,createDate_end);
         }
-        queryWrapper.groupBy("student_card");
+        queryWrapper.groupBy("zhifu_number");
         queryWrapper.last("limit 0,62356");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
