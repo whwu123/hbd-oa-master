@@ -109,8 +109,10 @@
 		var zhifuNumber = $("#zhifuNumber").val();
 		var toubaorenName = $("#toubaorenName").val();
 		var toubaorenPhone = $("#toubaorenPhone").val();
+		var createDate_begin = $("#createDate_begin").val();
+		var createDate_end = $("#createDate_end").val();
 
-		window.location.href="reportController/export?quxianDepartment="+quxianDepartment+"&studentSchool="+studentSchool+"&studentName="+studentName+"&studentCard="+studentCard+"&studentNianji="+studentNianji+"&studentBanji="+studentBanji+"&type="+type+"&zhifuNumber="+zhifuNumber+"&toubaorenName="+toubaorenName+"&toubaorenPhone="+toubaorenPhone;
+		window.location.href="reportController/export?quxianDepartment="+quxianDepartment+"&studentSchool="+studentSchool+"&studentName="+studentName+"&studentCard="+studentCard+"&studentNianji="+studentNianji+"&studentBanji="+studentBanji+"&type="+type+"&zhifuNumber="+zhifuNumber+"&toubaorenName="+toubaorenName+"&toubaorenPhone="+toubaorenPhone+"&createDate_begin="+createDate_begin+"&createDate_end="+createDate_end;
 	}
 
 	function importPay() {

@@ -82,7 +82,7 @@ public class ReportFormController extends BaseController {
         //执行查询
         //IPage<YcPaymentRecord> lstResult = ycPaymentRecordService.page(new Page<YcPaymentRecord>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
        // queryWrapper.groupBy("student_name");
-        queryWrapper.last("limit 0,62356");
+        queryWrapper.last("limit 0,64356");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
         List<YcStudentModel> listNew = new ArrayList<>();
@@ -159,7 +159,7 @@ public class ReportFormController extends BaseController {
             queryWrapper.between("CREATE_DATE",createDate_begin,createDate_end);
         }
         queryWrapper.groupBy("zhifu_number");
-        queryWrapper.last("limit 0,62356");
+        queryWrapper.last("limit 0,64356");
         List<YcPaymentRecord> list = ycPaymentRecordService.list(queryWrapper);
 
         //List<YcStudentModel> listNew = new ArrayList<>();
