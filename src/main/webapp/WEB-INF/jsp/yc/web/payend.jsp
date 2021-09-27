@@ -2,11 +2,9 @@
 <%@include file="/context/mytags.jsp"%>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="format-detection" content="telephone=yes"/>
     <title>怀保代</title>
     <meta name="keywords" content="怀保代">
     <meta name="description" content="怀保代">
@@ -47,9 +45,94 @@
 <body class="gray-bg">
 <div class="middle-box text-center loginscreen  animated fadeInDown">
 
-        <p style="text-align: left;font-size: 16px">线上缴费系统已经关闭，不再支持线上缴费及退费和修改信息。</p>
-        <p style="text-align: left;font-size: 14px">如有需要请联系公司客服：<a href="tel:17374537783">17374537783</a></p>
-        <p style="text-align: left;font-size: 14px">座机（工作日：9:00-17:30）<a href="tel:0745-2289827">0745-2289827</a></p>
+        <form class="form-horizontal m-t" id="signupForm" action="webController/doUpdatelog" method="post"  onsubmit="return toVaild()">
+
+            <h3 style="text-align: left;">学生信息</h3>
+
+            <hr class="hr_new"/>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label">学生所在县区名称：</label>
+                <div class="col-sm-8">
+                    <select class="form-control help-block m-b-none" name="quxianDepartment" id="quxianDepartment">
+                        <option value="请选择" >请选择</option>
+                        <option value="市辖区经理室" >市直</option>
+                        <option value="鹤城区经理室" >鹤城区</option>
+                        <option value="沅陵县经理室" >沅陵县</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">学生姓名：</label>
+                <div class="col-sm-8">
+                    <input  type="text" class="form-control" id="studentName" name="studentName" value=""  placeholder="请输入学生真实姓名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">学生身份证：</label>
+                <div class="col-sm-8">
+                    <input   type="text" class="form-control" id="studentCard" name="studentCard" value="" placeholder="请输入有效的学生身份证"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">学生所在学校名称：</label>
+                <div class="col-sm-8">
+                    <input   type="text" class="form-control" id="studentSchool" name="studentSchool" value=""  placeholder="请输入学校名称" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">是否已经缴费：</label>
+                <div class="col-sm-8">
+                    <select class="form-control help-block m-b-none" name="flagPay">
+                        <option value="是" >是</option>
+                        <option value="否" >否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">订单流水号：</label>
+                <div class="col-sm-8">
+                    <input  type="text" class="form-control" id="memoThree" name="memoThree" value="" placeholder="身份证号输入错误的，就需要填写订单号。"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">家长联系方式：</label>
+                <div class="col-sm-8">
+
+                    <input   type="text" class="form-control" id="jiazhengPhone" name="jiazhengPhone" value=""  placeholder="请输入家长电话"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">错误类型：</label>
+                <div class="col-sm-8">
+                    <select class="form-control help-block m-b-none" name="errorType" id="errorType">
+                        <option value="无" >请选择</option>
+                        <option value="加保">加购险种</option>
+                        <option value="年级错误">年级错误</option>
+                        <option value="班级错误">班级错误</option>
+                        <option value="学生学校名称错误">学生学校名称错误</option>
+                        <option value="身份证被占用">身份证被占用</option>
+                        <option value="监护人信息错误">监护人信息错误</option>
+                        <option value="入学年份错误">入学年份错误</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">错误信息：</label>
+                <div class="col-sm-8">
+                    <input type="text" id="memoOne" name="memoOne" class="form-control" placeholder="例如填到二年级了" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">修改信息：</label>
+                <div class="col-sm-8">
+                    <input type="text" id="memoTwo" name="memoTwo" class="form-control" placeholder="例如修改为三年级" />
+
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b" >提交</button>
+        </form>
+
 
 </div>
 <script src="static/jquery/js/jquery.min.js"></script>
