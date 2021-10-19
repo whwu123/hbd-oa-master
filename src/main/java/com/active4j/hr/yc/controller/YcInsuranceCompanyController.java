@@ -48,7 +48,7 @@ public class YcInsuranceCompanyController extends BaseController {
      * @author 麻木神
      * @time 2020年1月25日 下午9:46:12
      */
-    @RequestMapping("/datagrid2")
+    @RequestMapping("/datagrid")
     public void datagrid2(YcInsuranceCompanyEntity ycInsuranceCompanyEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 
         //拼接查询条件
