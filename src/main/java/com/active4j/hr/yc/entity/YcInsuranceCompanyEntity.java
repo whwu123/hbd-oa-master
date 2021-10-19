@@ -32,7 +32,7 @@ public class YcInsuranceCompanyEntity extends BaseEntity {
 
     @TableField("COMPANY_STATE")
     @QueryField(queryColumn="COMPANY_STATE", condition= QueryCondition.eq)
-    private String companyState;
+    private int companyState;
 
     @TableField("COMPANY_NOTE")
     @QueryField(queryColumn="COMPANY_NOTE", condition= QueryCondition.eq)
