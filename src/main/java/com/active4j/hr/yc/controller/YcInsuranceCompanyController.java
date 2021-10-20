@@ -1,20 +1,13 @@
 package com.active4j.hr.yc.controller;
 
 import com.active4j.hr.base.controller.BaseController;
-import com.active4j.hr.common.constant.GlobalConstant;
 import com.active4j.hr.core.annotation.Log;
 import com.active4j.hr.core.beanutil.MyBeanUtils;
 import com.active4j.hr.core.model.AjaxJson;
 import com.active4j.hr.core.model.LogType;
 import com.active4j.hr.core.query.QueryUtils;
-import com.active4j.hr.core.shiro.ShiroUtils;
 import com.active4j.hr.core.util.ResponseUtil;
 import com.active4j.hr.core.web.tag.model.DataGrid;
-import com.active4j.hr.system.entity.SysDeptEntity;
-import com.active4j.hr.system.entity.SysRoleEntity;
-import com.active4j.hr.system.entity.SysUserEntity;
-import com.active4j.hr.system.model.ActiveUser;
-import com.active4j.hr.system.model.SysUserModel;
 import com.active4j.hr.yc.entity.*;
 import com.active4j.hr.yc.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -32,20 +25,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @Slf4j
-@RequestMapping("/InsuranceCompanyController")
+@RequestMapping("/insuranceController")
 public class YcInsuranceCompanyController extends BaseController {
 
     @Autowired
     private YcInsuranceCompanyService ycInsuranceCompanyService;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model) {
-        return "yc/insurancecompany/list";
+    @RequestMapping(value = "/company/list", method = RequestMethod.GET)
+    public String clist(Model model) {
+        return "yc/insurance/company/list";
     }
 
     /**
@@ -80,7 +71,7 @@ public class YcInsuranceCompanyController extends BaseController {
      */
     @RequestMapping("/addorupdate")
     public ModelAndView addorupdate(YcInsuranceCompanyEntity ycInsuranceCompanyEntity, HttpServletRequest req) {
-        ModelAndView view = new ModelAndView("yc/insurancecompany/company");
+        ModelAndView view = new ModelAndView("yc/insurance/company/company");
 
         if(StringUtils.isEmpty(ycInsuranceCompanyEntity.getId())) {
             //新增
@@ -100,10 +91,10 @@ public class YcInsuranceCompanyController extends BaseController {
      * @author 麻木神
      * @time 2020年2月1日 下午7:08:22
      */
-    @RequestMapping("/save")
+    @RequestMapping("/companySave")
     @ResponseBody
     @Log(type = LogType.save, name = "保存保险公司信息", memo = "新增或编辑保存了保险公司信息")
-    public AjaxJson save(YcInsuranceCompanyEntity ycInsuranceCompanyEntity, HttpServletRequest request) {
+    public AjaxJson companySave(YcInsuranceCompanyEntity ycInsuranceCompanyEntity, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
         try {
 

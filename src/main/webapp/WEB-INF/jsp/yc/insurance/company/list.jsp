@@ -25,7 +25,7 @@
 
 
 <!-- 脚本部分 -->
-<t:datagrid actionUrl="InsuranceCompanyController/datagrid" tableContentId="jqGrid_wrapper" searchGroupId="searchGroupId" fit="true" caption="保险公司管理" name="table_list_2"  sortName="createDate"  sortOrder="desc">
+<t:datagrid actionUrl="insuranceController/datagrid" tableContentId="jqGrid_wrapper" searchGroupId="searchGroupId" fit="true" caption="保险公司管理" name="table_list_2"  sortName="createDate"  sortOrder="desc">
 
 	<t:dgCol name="id" label="编号" hidden="true" key="true" width="20"></t:dgCol>
 	<t:dgCol name="companyName" label="公司名称" width="200" query="true"></t:dgCol>
@@ -33,8 +33,8 @@
 	<t:dgCol name="createDate" label="创建时间" width="150"></t:dgCol>
 	<t:dgCol name="opt" label="操作" width="150"></t:dgCol>
 	<t:dgDelOpt label="删除" url="InsuranceCompanyController/del?id={id}" operationCode="sys:user:del"/>
-	<t:dgToolBar url="InsuranceCompanyController/addorupdate" type="add" width="60%" ></t:dgToolBar>
-	<t:dgToolBar url="InsuranceCompanyController/addorupdate" type="edit" width="60%" ></t:dgToolBar>
+	<t:dgToolBar url="insuranceController/addorupdate" type="add" width="60%" ></t:dgToolBar>
+	<t:dgToolBar url="insuranceController/addorupdate" type="edit" width="60%" ></t:dgToolBar>
 	<t:dgToolBar type="refresh"></t:dgToolBar>
 </t:datagrid>
 <script type="text/javascript">
