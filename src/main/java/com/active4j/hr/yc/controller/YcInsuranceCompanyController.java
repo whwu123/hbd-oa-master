@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -34,9 +35,17 @@ public class YcInsuranceCompanyController extends BaseController {
     @Autowired
     private YcInsuranceCompanyService ycInsuranceCompanyService;
 
+    @Autowired
+    private YcInsurancePersonService ycInsurancePersonService;
+
     @RequestMapping(value = "/company/list", method = RequestMethod.GET)
     public String clist(Model model) {
         return "yc/insurance/company/list";
+    }
+
+    @RequestMapping(value = "/person/list", method = RequestMethod.GET)
+    public String plist(Model model) {
+        return "yc/insurance/person/list";
     }
 
     /**
@@ -47,18 +56,24 @@ public class YcInsuranceCompanyController extends BaseController {
      * @author 麻木神
      * @time 2020年1月25日 下午9:46:12
      */
-    @RequestMapping("/datagrid")
-    public void datagrid2(YcInsuranceCompanyEntity ycInsuranceCompanyEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-
+    @RequestMapping("/company/datagrid")
+    public void datagrid(YcInsuranceCompanyEntity ycInsuranceCompanyEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
         //拼接查询条件
         QueryWrapper<YcInsuranceCompanyEntity> queryWrapper = QueryUtils.installQueryWrapper(ycInsuranceCompanyEntity, request.getParameterMap(), dataGrid);
-
         //执行查询
         IPage<YcInsuranceCompanyEntity> lstResult = ycInsuranceCompanyService.page(new Page<YcInsuranceCompanyEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
-
         //输出结果
         ResponseUtil.writeJson(response, dataGrid, lstResult);
+    }
 
+    @RequestMapping("/person/datagrid")
+    public void datagrid2(YcInsurancePersonEntity ycInsurancePersonEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+        //拼接查询条件
+        QueryWrapper<YcInsurancePersonEntity> queryWrapper = QueryUtils.installQueryWrapper(ycInsurancePersonEntity, request.getParameterMap(), dataGrid);
+        //执行查询
+        IPage<YcInsurancePersonEntity> lstResult = ycInsurancePersonService.page(new Page<YcInsurancePersonEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
+        //输出结果
+        ResponseUtil.writeJson(response, dataGrid, lstResult);
     }
 
     /**
@@ -85,6 +100,27 @@ public class YcInsuranceCompanyController extends BaseController {
         return view;
     }
 
+    @RequestMapping("/paddorupdate")
+    public ModelAndView paddorupdate(YcInsurancePersonEntity ycInsurancePersonEntity, HttpServletRequest req) {
+        ModelAndView view = new ModelAndView("yc/insurance/person/person");
+
+        if(StringUtils.isEmpty(ycInsurancePersonEntity.getId())) {
+            //新增
+            ycInsurancePersonEntity = new YcInsurancePersonEntity();
+            view.addObject("ycInsurancePersonEntity", ycInsurancePersonEntity);
+        }else {
+            //编辑
+            ycInsurancePersonEntity = ycInsurancePersonService.getById(ycInsurancePersonEntity.getId());
+            view.addObject("ycInsurancePersonEntity", ycInsurancePersonEntity);
+        }
+        //取得所有的保险公司
+        QueryWrapper<YcInsuranceCompanyEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("COMPANY_STATE",0);
+        List<YcInsuranceCompanyEntity> companyEntityList =  ycInsuranceCompanyService.list(queryWrapper);
+        view.addObject("companyEntityList",companyEntityList);
+        return view;
+    }
+
     /**
      *
      * @return AjaxJson
@@ -108,9 +144,46 @@ public class YcInsuranceCompanyController extends BaseController {
                 ycInsuranceCompanyService.save(ycInsuranceCompanyEntity);
             }
         }catch(Exception e) {
-            log.error("保存部门信息报错，错误信息:" + e.getMessage());
+            log.error("保存保险公司信息报错，错误信息:" + e.getMessage());
             j.setSuccess(false);
-            j.setMsg("保存部门错误");
+            j.setMsg("保存保险公司错误");
+            e.printStackTrace();
+        }
+
+        return j;
+    }
+
+    /**
+     *
+     * @return AjaxJson
+     * @author 麻木神
+     * @time 2020年2月1日 下午7:08:22
+     */
+    @RequestMapping("/person/save")
+    @ResponseBody
+    @Log(type = LogType.save, name = "保存保险人员公司信息", memo = "新增或编辑保存了保险人员公司信息")
+    public AjaxJson personSave(YcInsurancePersonEntity ycInsurancePersonEntity, HttpServletRequest request) {
+        AjaxJson j = new AjaxJson();
+        try {
+
+            if (StringUtils.isNotEmpty(ycInsurancePersonEntity.getId())) {
+                //编辑保存
+                YcInsurancePersonEntity tmp = ycInsurancePersonService.getById(ycInsurancePersonEntity.getId());
+                MyBeanUtils.copyBeanNotNull2Bean(ycInsurancePersonEntity, tmp);
+                ycInsurancePersonService.saveOrUpdate(tmp);
+            }else {
+                //新增保存
+                if(ycInsurancePersonEntity.getCompanyId()!=null && !ycInsurancePersonEntity.getCompanyId().isEmpty()){
+                    String[] str = ycInsurancePersonEntity.getCompanyId().split("_");
+                    ycInsurancePersonEntity.setCompanyId(str[0]);
+                    ycInsurancePersonEntity.setCompanyName(str[1]);
+                }
+                ycInsurancePersonService.save(ycInsurancePersonEntity);
+            }
+        }catch(Exception e) {
+            log.error("保存保险人员公司信息报错，错误信息:" + e.getMessage());
+            j.setSuccess(false);
+            j.setMsg("保存保险人员公司错误");
             e.printStackTrace();
         }
 
@@ -123,7 +196,7 @@ public class YcInsuranceCompanyController extends BaseController {
      * @author guyp
      * @time 2020年2月8日 下午4:25:02
      */
-    @RequestMapping("/del")
+    @RequestMapping("/company/del")
     @ResponseBody
     @Log(type = LogType.del, name = "删除保险公司信息", memo = "删除了保险公司信息")
     public AjaxJson del(String id, HttpServletRequest req) {

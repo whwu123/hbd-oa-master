@@ -38,4 +38,12 @@ public class YcInsurancePersonEntity extends BaseEntity {
     @QueryField(queryColumn="PERSON_NOTE", condition= QueryCondition.eq)
     private String personNote;
 
+    @TableField("COMPANY_NAME")
+    @QueryField(queryColumn="COMPANY_NAME", condition= QueryCondition.eq)
+    private String companyName;
+
+    @TableField("COMPANY_ID")
+    @QueryField(queryColumn="COMPANY_ID", condition= QueryCondition.eq)
+    private String companyId;
+
 }
