@@ -12,14 +12,14 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 						<t:formvalid action="insuranceController/person/save">
-							<input type="hidden" name="id" id="id" value="${ycInsuranceCompanyEntity.id }">
+							<input type="hidden" name="id" id="id" value="${ycInsurancePersonEntity.id }">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">公司名称：</label>
                                 <div class="col-sm-8">
                                     <select class="form-control help-block m-b-none"  name="companyId" id="companyId" >
                                         <option>请选择</option>
                                         <c:forEach items="${companyEntityList}" var="companyEntityList">
-                                            <option value="${companyEntityList.id }_${companyEntityList.companyName}">${companyEntityList.companyName}</option>
+                                            <option value="${companyEntityList.id }" <c:if test="${companyEntityList.id==ycInsurancePersonEntity.companyId }">selected</c:if>>${companyEntityList.companyName}</option>
                                         </c:forEach>
                                     </select>
 
@@ -37,8 +37,8 @@
                                 <div class="col-sm-8">
                                     <select class="form-control help-block m-b-none"  name="personSex" id="personSex" >
                                         <option>请选择性别</option>
-                                        <option value="0">男性</option>
-                                        <option value="1">女性</option>
+                                        <option value="0" <c:if test="${ycInsurancePersonEntity.personSex== '0' }">selected</c:if>>男性</option>
+                                        <option value="1" <c:if test="${ycInsurancePersonEntity.personSex== '1' }">selected</c:if>>女性</option>
                                     </select>
                                 </div>
                             </div>

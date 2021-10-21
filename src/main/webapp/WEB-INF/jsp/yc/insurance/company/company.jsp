@@ -11,7 +11,7 @@
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						<t:formvalid action="insuranceController/companySave">
+						<t:formvalid action="insuranceController/company/save">
 							<input type="hidden" name="id" id="id" value="${ycInsuranceCompanyEntity.id }">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">公司名称*：</label>
