@@ -28,6 +28,7 @@ public class YcAreaEntity extends BaseEntity {
     private int areaType;
 
     @TableField("AREA_STATE")
+    @QueryField(queryColumn="AREA_STATE", condition= QueryCondition.eq)
     private int areaState;
 
     @TableField("AREA_CODE")

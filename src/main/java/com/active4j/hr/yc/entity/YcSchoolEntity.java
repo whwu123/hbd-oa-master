@@ -55,4 +55,24 @@ public class YcSchoolEntity extends BaseEntity {
     @TableField("INSURANCE_PERSON_ID")
     @QueryField(queryColumn="INSURANCE_PERSON_ID", condition= QueryCondition.eq)
     private String insurancePersonId;
+
+    @TableField("INSURANCE_COMPANY_ID")
+    @QueryField(queryColumn="INSURANCE_COMPANY_ID", condition= QueryCondition.eq)
+    private String insuranceCompanyId;
+
+    @TableField("INSURANCE_TYPE")
+    @QueryField(queryColumn="INSURANCE_TYPE", condition= QueryCondition.eq)
+    private String insuranceType;
+
+    @TableField("SCHOOL_IS_GRAD")
+    private int schoolIsGrad;
+
+
+    @TableField("SCHOOL_STATE")
+    @QueryField(queryColumn="SCHOOL_STATE", condition= QueryCondition.eq)
+    private int schoolState;
+
+    @TableField("SCHOOL_GRAD")
+    @QueryField(queryColumn="SCHOOL_GRAD", condition= QueryCondition.eq)
+    private String schoolGrad;
 }

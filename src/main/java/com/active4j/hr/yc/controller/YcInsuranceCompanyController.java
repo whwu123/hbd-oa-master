@@ -10,6 +10,10 @@ import com.active4j.hr.core.util.ListUtils;
 import com.active4j.hr.core.util.ResponseUtil;
 import com.active4j.hr.core.web.tag.model.DataGrid;
 import com.active4j.hr.system.entity.SysDeptEntity;
+import com.active4j.hr.system.entity.SysDicValueEntity;
+import com.active4j.hr.system.entity.SysRoleEntity;
+import com.active4j.hr.system.model.KeyValueModel;
+import com.active4j.hr.system.util.SystemUtils;
 import com.active4j.hr.yc.entity.*;
 import com.active4j.hr.yc.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -27,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -53,6 +58,32 @@ public class YcInsuranceCompanyController extends BaseController {
 
     @RequestMapping(value = "/school/list", method = RequestMethod.GET)
     public String slist(Model model) {
+        //给所属区县准备数据
+        QueryWrapper<YcAreaEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("AREA_STATE",0);
+        List<YcAreaEntity> list = ycAreaService.list(queryWrapper);
+        String str = ListUtils.listToReplaceStr(list, "areaName", "id");
+        model.addAttribute("areaReplace", str);
+
+        //给供应商电话准备数据
+        QueryWrapper<YcInsurancePersonEntity> queryWrapper2 = new QueryWrapper<>();
+        queryWrapper2.eq("PERSON_STATE",0);
+        List<YcInsurancePersonEntity> list2 = ycInsurancePersonService.list(queryWrapper2);
+        String str2 = ListUtils.listToReplaceStr(list2, "personPhone", "id");
+        model.addAttribute("insurancePhoneReplace", str2);
+        //给供应商姓名准备数据
+        String str3 = ListUtils.listToReplaceStr(list2, "personName", "id");
+        model.addAttribute("insuranceNameReplace", str3);
+
+        //给供应商名称准备数据
+        QueryWrapper<YcInsuranceCompanyEntity> queryWrapper3 = new QueryWrapper<>();
+        queryWrapper3.eq("COMPANY_STATE",0);
+        List<YcInsuranceCompanyEntity> list3 = ycInsuranceCompanyService.list(queryWrapper3);
+        String str4 = ListUtils.listToReplaceStr(list3, "companyName", "id");
+        model.addAttribute("companyReplace", str4);
+
+
+
         return "yc/insurance/school/list";
     }
 
@@ -106,6 +137,16 @@ public class YcInsuranceCompanyController extends BaseController {
         QueryWrapper<YcAreaEntity> queryWrapper = QueryUtils.installQueryWrapper(ycAreaEntity, request.getParameterMap(), dataGrid);
         //执行查询
         IPage<YcAreaEntity> lstResult = ycAreaService.page(new Page<YcAreaEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
+        //输出结果
+        ResponseUtil.writeJson(response, dataGrid, lstResult);
+    }
+
+    @RequestMapping("/school/datagrid")
+    public void datagrid4(YcSchoolEntity ycSchoolEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+        //拼接查询条件
+        QueryWrapper<YcSchoolEntity> queryWrapper = QueryUtils.installQueryWrapper(ycSchoolEntity, request.getParameterMap(), dataGrid);
+        //执行查询
+        IPage<YcSchoolEntity> lstResult = ycSchoolService.page(new Page<YcSchoolEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
         //输出结果
         ResponseUtil.writeJson(response, dataGrid, lstResult);
     }
@@ -165,6 +206,107 @@ public class YcInsuranceCompanyController extends BaseController {
         }
         view.addObject("ycAreaEntity", ycAreaEntity);
         return view;
+    }
+
+    @RequestMapping("/school/addorupdate")
+    public ModelAndView schooladdorupdate(YcSchoolEntity ycSchoolEntity, HttpServletRequest req) {
+        ModelAndView view = new ModelAndView("yc/insurance/school/school");
+        //获取学历类型的数据字典
+        List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
+        view.addObject("xueliList", xueliList);
+
+        //获取保险种类类型的数据字典
+        List<SysDicValueEntity> insuranceList = SystemUtils.getDictionaryLst("insurance_type");
+        view.addObject("insuranceList", insuranceList);
+
+        //获取年级的数据字典
+        List<SysDicValueEntity> gradList = SystemUtils.getDictionaryLst("school_nianji");
+        view.addObject("gradList", gradList);
+
+        QueryWrapper<YcAreaEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("AREA_STATE",0);
+        List<YcAreaEntity> areaList = ycAreaService.list(queryWrapper);
+        view.addObject("areaList", areaList);
+
+        //菜单的树形结构
+        QueryWrapper<YcInsuranceCompanyEntity> queryWrapper2 = new QueryWrapper<>();
+        queryWrapper2.eq("COMPANY_STATE",0);
+        List<KeyValueModel> lstTrees = new ArrayList<KeyValueModel>();
+        List<YcInsuranceCompanyEntity> lstParents = ycInsuranceCompanyService.list(queryWrapper2);
+        if(null != lstParents && lstParents.size() > 0) {
+            for(YcInsuranceCompanyEntity f : lstParents) {
+                KeyValueModel keyValue = new KeyValueModel();
+                keyValue.setKey(f.getCompanyName());
+                keyValue.setValue(f.getId());
+                lstTrees.add(keyValue);
+
+                QueryWrapper<YcInsurancePersonEntity> queryWrapper3 = new QueryWrapper<>();
+                queryWrapper3.eq("COMPANY_ID",f.getId());
+                List<YcInsurancePersonEntity> lstChildren = ycInsurancePersonService.list(queryWrapper3);
+                getYcTreeKeyValue(lstChildren, lstTrees, "　　");
+            }
+        }
+        view.addObject("lstTrees", lstTrees);
+        if(StringUtils.isEmpty(ycSchoolEntity.getId())) {
+            //新增
+            ycSchoolEntity = new YcSchoolEntity();
+        }else {
+            //编辑
+            ycSchoolEntity = ycSchoolService.getById(ycSchoolEntity.getId());
+        }
+        view.addObject("ycSchoolEntity", ycSchoolEntity);
+        return view;
+    }
+    private void getYcTreeKeyValue(List<YcInsurancePersonEntity> lst, List<KeyValueModel> lstTrees, String tag) {
+        if(null != lst && lst.size() > 0) {
+            for(YcInsurancePersonEntity f : lst) {
+                KeyValueModel keyValue = new KeyValueModel();
+                keyValue.setKey(tag + f.getPersonName());
+                keyValue.setValue(f.getId());
+                lstTrees.add(keyValue);
+                QueryWrapper<YcInsurancePersonEntity> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("COMPANY_ID",f.getId());
+                List<YcInsurancePersonEntity> lstChildren = ycInsurancePersonService.list(queryWrapper);
+                getYcTreeKeyValue(lstChildren, lstTrees, "　　");
+            }
+        }
+    }
+    /**
+     * @return AjaxJson
+     */
+    @RequestMapping("/school/save")
+    @ResponseBody
+    @Log(type = LogType.save, name = "保存学校信息", memo = "新增或编辑保存了学校信息")
+    public AjaxJson schoolSave(YcSchoolEntity ycSchoolEntity, HttpServletRequest request) {
+        AjaxJson j = new AjaxJson();
+        try {
+            String InsurancePersonId = ycSchoolEntity.getInsurancePersonId();
+            QueryWrapper<YcInsurancePersonEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("ID",InsurancePersonId);
+            if (StringUtils.isNotEmpty(ycSchoolEntity.getId())) {
+                List<YcInsurancePersonEntity> listPerson = ycInsurancePersonService.list(queryWrapper);
+                if(listPerson.size()>0){
+                    ycSchoolEntity.setInsuranceCompanyId(listPerson.get(0).getCompanyId());
+                }
+                //编辑保存
+                YcSchoolEntity tmp = ycSchoolService.getById(ycSchoolEntity.getId());
+                MyBeanUtils.copyBeanNotNull2Bean(ycSchoolEntity, tmp);
+                ycSchoolService.saveOrUpdate(tmp);
+            }else {
+                //新增保存
+                List<YcInsurancePersonEntity> listPerson = ycInsurancePersonService.list(queryWrapper);
+                if(listPerson.size()>0){
+                    ycSchoolEntity.setInsuranceCompanyId(listPerson.get(0).getCompanyId());
+                }
+                ycSchoolService.save(ycSchoolEntity);
+            }
+        }catch(Exception e) {
+            log.error("保存学校信息报错，错误信息:" + e.getMessage());
+            j.setSuccess(false);
+            j.setMsg("保存学校错误");
+            e.printStackTrace();
+        }
+        return j;
     }
 
     /**
@@ -230,11 +372,43 @@ public class YcInsuranceCompanyController extends BaseController {
     public AjaxJson personSave(YcInsurancePersonEntity ycInsurancePersonEntity, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
         try {
+
+            if(StringUtils.isEmpty(ycInsurancePersonEntity.getCompanyId())) {
+                j.setSuccess(false);
+                j.setMsg("所属保险公司为空");
+                return j;
+            }
+            if(StringUtils.isEmpty(ycInsurancePersonEntity.getPersonName())) {
+                j.setSuccess(false);
+                j.setMsg("姓名为空");
+                return j;
+            }
+
+            if(StringUtils.isEmpty(ycInsurancePersonEntity.getPersonPhone())) {
+                j.setSuccess(false);
+                j.setMsg("人员电话为空");
+                return j;
+            }
+
+
+
+
             if (StringUtils.isNotEmpty(ycInsurancePersonEntity.getId())) {
                 //编辑保存
                 YcInsurancePersonEntity tmp = ycInsurancePersonService.getById(ycInsurancePersonEntity.getId());
                 MyBeanUtils.copyBeanNotNull2Bean(ycInsurancePersonEntity, tmp);
                 ycInsurancePersonService.saveOrUpdate(tmp);
+
+                //修改学校的承保公司信息
+                String insuranceCompanyId = ycInsurancePersonEntity.getCompanyId();
+                String insurancePersonId = ycInsurancePersonEntity.getId();
+                QueryWrapper<YcSchoolEntity> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("INSURANCE_PERSON_ID",insurancePersonId);
+                List<YcSchoolEntity> ycSchoolEntities = ycSchoolService.list(queryWrapper);
+                for(YcSchoolEntity ycSchoolEntity :ycSchoolEntities){
+                        ycSchoolEntity.setInsuranceCompanyId(insuranceCompanyId);
+                        ycSchoolService.saveOrUpdate(ycSchoolEntity);
+                }
             }else {
                 ycInsurancePersonService.save(ycInsurancePersonEntity);
             }
@@ -298,11 +472,35 @@ public class YcInsuranceCompanyController extends BaseController {
     public AjaxJson adel(String id, HttpServletRequest req) {
         AjaxJson j = new AjaxJson();
         try {
-            ycAreaService.removeById(id);
+            YcAreaEntity areaEntity = ycAreaService.getById(id);
+            areaEntity.setAreaState(99);
+            ycAreaService.saveOrUpdate(areaEntity);
         }catch(Exception e) {
             log.error("删除区县信息报错，错误信息：{}", e.getMessage());
             j.setSuccess(false);
             j.setMsg("删除区县信息错误");
+            e.printStackTrace();
+        }
+        return j;
+    }
+
+    /**
+     * @params
+     * @return AjaxJson
+     */
+    @RequestMapping("/school/del")
+    @ResponseBody
+    @Log(type = LogType.del, name = "删除学校信息", memo = "删除了学校信息")
+    public AjaxJson schooldel(String id, HttpServletRequest req) {
+        AjaxJson j = new AjaxJson();
+        try {
+            YcSchoolEntity ycSchoolEntity = ycSchoolService.getById(id);
+            ycSchoolEntity.setSchoolState(99);
+            ycSchoolService.saveOrUpdate(ycSchoolEntity);
+        }catch(Exception e) {
+            log.error("删除学校信息报错，错误信息：{}", e.getMessage());
+            j.setSuccess(false);
+            j.setMsg("删除学校信息错误");
             e.printStackTrace();
         }
         return j;

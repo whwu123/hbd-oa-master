@@ -56,11 +56,12 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">角色：</label>
                                 <div class="col-sm-8">
-                                     <select class="form-control help-block m-b-none"  name="roleid" id="roleid" >
+                                    <%-- <select class="form-control help-block m-b-none"  name="roleid" id="roleid"  >--%>
+                                    <select class="form-control m-b select2" name="roleid" id="roleid" multiple="multiple" >
                                      	<c:forEach items="${lstRoles}" var="role">
                                      		<option value="${role.id }">${role.roleName}</option>
                                      	</c:forEach>
-                                     </select>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
