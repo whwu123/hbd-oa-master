@@ -8,10 +8,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 
-@TableName("yc_school")
+@TableName("yc_school_insured")
 @Getter
 @Setter
-public class YcSchoolEntity extends BaseEntity {
+public class YcSchoolInsuredEntity extends BaseEntity {
     /**
      *
      */

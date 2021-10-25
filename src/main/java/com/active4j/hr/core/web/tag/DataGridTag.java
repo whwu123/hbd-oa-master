@@ -590,6 +590,11 @@ public class DataGridTag extends TagSupport {
 							}else {
 								sbUrl.append(" \" <button class='btn btn-primary btn-xs' type='button' onclick=" + name + "(" + parmars + ")><i class='" + dataGridUrl.getIcon() + "'></i> <span class='bold'>" + dataGridUrl.getLabel() +"</span></button>\"");
 							}
+						}else if(OptTypeDirection.Deff.equals(dataGridUrl.getType())) {
+							String name = TagUtil.getFunction(dataGridUrl.getFunName());
+							String parmars = TagUtil.getFunParams(dataGridUrl.getFunName());
+
+							sbUrl.append(" \" <button class='btn btn-info btn-xs ' type='button' onclick=" + name + "(" + parmars + ")><i class='fa fa-list-ul'></i> <span class='bold'>" + dataGridUrl.getLabel() +"</span></button>\"");
 						}
 					}
 					if(sbUrl.length() > 0) {

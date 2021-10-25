@@ -64,6 +64,7 @@ function submitAction() {
 						</form>
 						<div class="row">
 							<div class="col-sm-11 text-right">
+
 								<p>
 									<button class="btn btn-info" onclick="submitAction();" type="submit">
 										<i class="fa fa-check"></i>&nbsp;&nbsp;确定

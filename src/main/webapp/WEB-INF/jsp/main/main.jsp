@@ -147,6 +147,8 @@
                                 </li>
                                 <li><a class="J_menuItem" href="sys/user/gopwd" onclick="goPersonInfo();">修改密码</a>
                                 </li>
+                                <li><a  href="sys/user/gopwd" >测试</a>
+                                </li>
                                 <li class="divider"></li>
                                 <li class="divider"></li>
                                 <li><a href="javascript:;" onclick="exit();">安全退出</a>

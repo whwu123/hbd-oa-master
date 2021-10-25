@@ -35,12 +35,15 @@
 	<t:dgCol name="createDate" label="创建时间" width="150"></t:dgCol>
 	<t:dgCol name="opt" label="操作" width="150"></t:dgCol>
 	<t:dgDelOpt label="删除" url="insuranceController/area/del?id={id}" />
+	<t:dgFunOpt label="学校管理" funName="updateGrad" icon="fa fa-list-ul" />
 	<t:dgToolBar url="insuranceController/area/addorupdate" type="add" width="60%" ></t:dgToolBar>
 	<t:dgToolBar url="insuranceController/area/addorupdate" type="edit" width="60%" ></t:dgToolBar>
 	<t:dgToolBar type="refresh"></t:dgToolBar>
 </t:datagrid>
 <script type="text/javascript">
-
+	function updateGrad(id){
+		window.location = 'insuranceController/school/list';
+	}
 </script>
 </body>
 </html>

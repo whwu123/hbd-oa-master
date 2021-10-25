@@ -48,7 +48,7 @@
                                 <td>${s.count}</td>
                                 <td>
                                     <span class="label label-primary" >
-                                    <a href="webController/toSchoolIndex?name=${im.schoolName}"  style="color: white;">${im.schoolName}</a>
+                                    <a   href="webController/toSchoolIndex?name=${im.schoolName}"  style="color: white;">${im.schoolName}</a>
                                     </span>
                                 </td>
                                 <td><span class="label ">${im.xuepingxian}</span></td>

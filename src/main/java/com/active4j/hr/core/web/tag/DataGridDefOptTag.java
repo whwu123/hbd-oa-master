@@ -23,12 +23,18 @@ public class DataGridDefOptTag extends TagSupport {
 	public int doEndTag() throws JspTagException {
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-//		parent.setDefUrl(url, title, exp,operationCode);
+		parent.setDefUrl(url, title, exp,operationCode);
 		return EVAL_PAGE;
 	}
 	
 	public void setExp(String exp) {
 		this.exp = exp;
+	}
+	public String getExp(String exp) {
+		return  exp;
+	}
+	public String getUrl() {
+		return url;
 	}
 	public void setUrl(String url) {
 		this.url = url;
@@ -36,8 +42,15 @@ public class DataGridDefOptTag extends TagSupport {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	public String getTitle(String title) {
+		return  title;
+	}
 	public void setOperationCode(String operationCode) {
 		this.operationCode = operationCode;
+	}
+
+	public String getOperationCode(String operationCode) {
+		return  operationCode;
 	}
 	
 }

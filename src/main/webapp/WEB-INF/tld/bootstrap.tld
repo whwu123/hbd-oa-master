@@ -488,7 +488,7 @@
 		</attribute>
 		<attribute>
 			<name>exp</name>
-			<rtexprvalue>true</rtexprvalue>
+			<rtexprvalue>fasle</rtexprvalue>
 			<description>是否显示改链接的表达式,例 字段名#表达式符号#字段值(name#eq#admin)
 				表达式类型支持eq,ne,empty</description>
 		</attribute>

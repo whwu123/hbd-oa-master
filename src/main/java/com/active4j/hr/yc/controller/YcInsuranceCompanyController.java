@@ -9,9 +9,7 @@ import com.active4j.hr.core.query.QueryUtils;
 import com.active4j.hr.core.util.ListUtils;
 import com.active4j.hr.core.util.ResponseUtil;
 import com.active4j.hr.core.web.tag.model.DataGrid;
-import com.active4j.hr.system.entity.SysDeptEntity;
 import com.active4j.hr.system.entity.SysDicValueEntity;
-import com.active4j.hr.system.entity.SysRoleEntity;
 import com.active4j.hr.system.model.KeyValueModel;
 import com.active4j.hr.system.util.SystemUtils;
 import com.active4j.hr.yc.entity.*;
@@ -49,14 +47,14 @@ public class YcInsuranceCompanyController extends BaseController {
     private YcAreaService ycAreaService;
 
     @Autowired
-    private YcSchoolService ycSchoolService;
+    private YcSchoolInsuredService ycSchoolService;
 
     @RequestMapping(value = "/area/list", method = RequestMethod.GET)
     public String alist(Model model) {
         return "yc/insurance/area/list";
     }
 
-    @RequestMapping(value = "/school/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/school/insured/list", method = RequestMethod.GET)
     public String slist(Model model) {
         //给所属区县准备数据
         QueryWrapper<YcAreaEntity> queryWrapper = new QueryWrapper<>();
@@ -84,7 +82,7 @@ public class YcInsuranceCompanyController extends BaseController {
 
 
 
-        return "yc/insurance/school/list";
+        return "yc/insurance/school/insured/list";
     }
 
     @RequestMapping(value = "/company/list", method = RequestMethod.GET)
@@ -141,12 +139,12 @@ public class YcInsuranceCompanyController extends BaseController {
         ResponseUtil.writeJson(response, dataGrid, lstResult);
     }
 
-    @RequestMapping("/school/datagrid")
-    public void datagrid4(YcSchoolEntity ycSchoolEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+    @RequestMapping("/school/insured/datagrid")
+    public void datagrid4(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
         //拼接查询条件
-        QueryWrapper<YcSchoolEntity> queryWrapper = QueryUtils.installQueryWrapper(ycSchoolEntity, request.getParameterMap(), dataGrid);
+        QueryWrapper<YcSchoolInsuredEntity> queryWrapper = QueryUtils.installQueryWrapper(ycSchoolEntity, request.getParameterMap(), dataGrid);
         //执行查询
-        IPage<YcSchoolEntity> lstResult = ycSchoolService.page(new Page<YcSchoolEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
+        IPage<YcSchoolInsuredEntity> lstResult = ycSchoolService.page(new Page<YcSchoolInsuredEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
         //输出结果
         ResponseUtil.writeJson(response, dataGrid, lstResult);
     }
@@ -208,8 +206,8 @@ public class YcInsuranceCompanyController extends BaseController {
         return view;
     }
 
-    @RequestMapping("/school/addorupdate")
-    public ModelAndView schooladdorupdate(YcSchoolEntity ycSchoolEntity, HttpServletRequest req) {
+    @RequestMapping("/school/insured/addorupdate")
+    public ModelAndView schooladdorupdate(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest req) {
         ModelAndView view = new ModelAndView("yc/insurance/school/school");
         //获取学历类型的数据字典
         List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
@@ -249,7 +247,7 @@ public class YcInsuranceCompanyController extends BaseController {
         view.addObject("lstTrees", lstTrees);
         if(StringUtils.isEmpty(ycSchoolEntity.getId())) {
             //新增
-            ycSchoolEntity = new YcSchoolEntity();
+            ycSchoolEntity = new YcSchoolInsuredEntity();
         }else {
             //编辑
             ycSchoolEntity = ycSchoolService.getById(ycSchoolEntity.getId());
@@ -274,10 +272,10 @@ public class YcInsuranceCompanyController extends BaseController {
     /**
      * @return AjaxJson
      */
-    @RequestMapping("/school/save")
+    @RequestMapping("/school/insured/save")
     @ResponseBody
     @Log(type = LogType.save, name = "保存学校信息", memo = "新增或编辑保存了学校信息")
-    public AjaxJson schoolSave(YcSchoolEntity ycSchoolEntity, HttpServletRequest request) {
+    public AjaxJson schoolSave(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
         try {
             String InsurancePersonId = ycSchoolEntity.getInsurancePersonId();
@@ -289,7 +287,7 @@ public class YcInsuranceCompanyController extends BaseController {
                     ycSchoolEntity.setInsuranceCompanyId(listPerson.get(0).getCompanyId());
                 }
                 //编辑保存
-                YcSchoolEntity tmp = ycSchoolService.getById(ycSchoolEntity.getId());
+                YcSchoolInsuredEntity tmp = ycSchoolService.getById(ycSchoolEntity.getId());
                 MyBeanUtils.copyBeanNotNull2Bean(ycSchoolEntity, tmp);
                 ycSchoolService.saveOrUpdate(tmp);
             }else {
@@ -402,10 +400,10 @@ public class YcInsuranceCompanyController extends BaseController {
                 //修改学校的承保公司信息
                 String insuranceCompanyId = ycInsurancePersonEntity.getCompanyId();
                 String insurancePersonId = ycInsurancePersonEntity.getId();
-                QueryWrapper<YcSchoolEntity> queryWrapper = new QueryWrapper<>();
+                QueryWrapper<YcSchoolInsuredEntity> queryWrapper = new QueryWrapper<>();
                 queryWrapper.eq("INSURANCE_PERSON_ID",insurancePersonId);
-                List<YcSchoolEntity> ycSchoolEntities = ycSchoolService.list(queryWrapper);
-                for(YcSchoolEntity ycSchoolEntity :ycSchoolEntities){
+                List<YcSchoolInsuredEntity> ycSchoolEntities = ycSchoolService.list(queryWrapper);
+                for(YcSchoolInsuredEntity ycSchoolEntity :ycSchoolEntities){
                         ycSchoolEntity.setInsuranceCompanyId(insuranceCompanyId);
                         ycSchoolService.saveOrUpdate(ycSchoolEntity);
                 }
@@ -488,13 +486,13 @@ public class YcInsuranceCompanyController extends BaseController {
      * @params
      * @return AjaxJson
      */
-    @RequestMapping("/school/del")
+    @RequestMapping("/school/insured/del")
     @ResponseBody
     @Log(type = LogType.del, name = "删除学校信息", memo = "删除了学校信息")
     public AjaxJson schooldel(String id, HttpServletRequest req) {
         AjaxJson j = new AjaxJson();
         try {
-            YcSchoolEntity ycSchoolEntity = ycSchoolService.getById(id);
+            YcSchoolInsuredEntity ycSchoolEntity = ycSchoolService.getById(id);
             ycSchoolEntity.setSchoolState(99);
             ycSchoolService.saveOrUpdate(ycSchoolEntity);
         }catch(Exception e) {

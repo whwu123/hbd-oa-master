@@ -38,7 +38,8 @@
 	<t:dgCol name="insurancePersonId" label="承保公司负责人姓名" width="200"  query="true" replace="${insuranceNameReplace}" queryId="insurancePersonId" valueId="insurancePersonId" ></t:dgCol>
 	<t:dgCol name="insurancePersonId" label="承保公司负责人电话" width="200"  replace="${insurancePhoneReplace}" queryId="insurancePersonId" valueId="insurancePersonId" ></t:dgCol>
 	<t:dgCol name="createDate" label="创建时间" width="150"></t:dgCol>
-	<t:dgCol name="opt" label="操作" width="100"></t:dgCol>
+
+	<t:dgCol name="opt" label="操作" width="150"></t:dgCol>
 	<t:dgDelOpt label="删除" url="insuranceController/school/del?id={id}"/>
 	<t:dgToolBar url="insuranceController/school/addorupdate" type="add" width="60%" ></t:dgToolBar>
 	<t:dgToolBar url="insuranceController/school/addorupdate" type="edit" width="60%" ></t:dgToolBar>
