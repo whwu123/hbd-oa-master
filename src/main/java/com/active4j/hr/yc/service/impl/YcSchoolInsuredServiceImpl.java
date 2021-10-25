@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Service("YcSchoolService")
+@Service("YcSchoolInsuredService")
 @Transactional
 public class YcSchoolInsuredServiceImpl extends ServiceImpl<YcSchoolInsuredDao, YcSchoolInsuredEntity> implements YcSchoolInsuredService {
 
