@@ -208,7 +208,7 @@ public class YcInsuranceCompanyController extends BaseController {
 
     @RequestMapping("/school/insured/addorupdate")
     public ModelAndView schooladdorupdate(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest req) {
-        ModelAndView view = new ModelAndView("yc/insurance/school/school");
+        ModelAndView view = new ModelAndView("yc/insurance/school/insured/school");
         //获取学历类型的数据字典
         List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
         view.addObject("xueliList", xueliList);

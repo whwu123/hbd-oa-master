@@ -25,7 +25,7 @@
 
 
 <!-- 脚本部分 -->
-<t:datagrid actionUrl="insuranceController/school/datagrid" tableContentId="jqGrid_wrapper" searchGroupId="searchGroupId" fit="true" caption="保险公司管理" name="table_list_2"  sortName="createDate"  sortOrder="desc">
+<t:datagrid actionUrl="insuranceController/school/insured/datagrid" tableContentId="jqGrid_wrapper" searchGroupId="searchGroupId" fit="true" caption="保险公司管理" name="table_list_2"  sortName="createDate"  sortOrder="desc">
 
 	<t:dgCol name="id" label="编号" hidden="true" key="true" width="20"></t:dgCol>
 	<t:dgCol name="schoolAreaId" label="所属区县" width="120" query="true" replace="${areaReplace}" queryId="schoolAreaId" valueId="schoolAreaId"></t:dgCol>
@@ -40,9 +40,9 @@
 	<t:dgCol name="createDate" label="创建时间" width="150"></t:dgCol>
 
 	<t:dgCol name="opt" label="操作" width="150"></t:dgCol>
-	<t:dgDelOpt label="删除" url="insuranceController/school/del?id={id}"/>
-	<t:dgToolBar url="insuranceController/school/addorupdate" type="add" width="60%" ></t:dgToolBar>
-	<t:dgToolBar url="insuranceController/school/addorupdate" type="edit" width="60%" ></t:dgToolBar>
+	<t:dgDelOpt label="删除" url="insuranceController/school/insured/del?id={id}"/>
+	<t:dgToolBar url="insuranceController/school/insured/addorupdate" type="add" width="60%" ></t:dgToolBar>
+	<t:dgToolBar url="insuranceController/school/insured/addorupdate" type="edit" width="60%" ></t:dgToolBar>
 	<t:dgToolBar type="refresh"></t:dgToolBar>
 </t:datagrid>
 <script type="text/javascript">

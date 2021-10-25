@@ -42,7 +42,7 @@
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						<t:formvalid action="insuranceController/school/save">
+						<t:formvalid action="insuranceController/school/insured/save">
 							<input type="hidden" name="id" id="id" value="${ycSchoolEntity.id }">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">所属区县*：</label>
