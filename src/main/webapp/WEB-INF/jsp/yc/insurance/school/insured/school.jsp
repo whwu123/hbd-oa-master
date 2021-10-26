@@ -81,9 +81,10 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">学校显示顺序*：</label>
                                 <div class="col-sm-8">
-                                    <input   type="number" class="form-control" id="schoolSort" name="schoolSort" value="${ycSchoolEntity.schoolSort}"/>
+                                    <input   type="number" class="form-control" id="schoolSort" name="schoolSort" value="${ycSchoolEntity.schoolSort}" placeholder="数值越小排越前"/>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">学校类型*：</label>
                                 <div class="col-sm-8">
@@ -94,7 +95,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <%--<div class="form-group">
                                 <label class="col-sm-3 control-label">学校性质*：</label>
                                 <div class="col-sm-8">
                                     <select class="form-control m-b" name="schoolPublic" id="schoolPublic">
@@ -102,7 +103,7 @@
                                         <option value="1" >私立学校</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div>--%>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">承保公司区分年级*：</label>
                                 <div class="col-sm-8">

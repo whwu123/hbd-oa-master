@@ -1,6 +1,8 @@
 package com.active4j.hr.yc.entity;
 
 import com.active4j.hr.common.entity.BaseEntity;
+import com.active4j.hr.core.annotation.QueryField;
+import com.active4j.hr.core.query.QueryCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
@@ -28,30 +30,35 @@ public class YcSchoolEntity extends BaseEntity{
 	 * 学校编号
 	 */
 	@TableField("DEPT_NO")
+	@QueryField(queryColumn="DEPT_NO", condition= QueryCondition.like)
 	private String deptNo;
 	
 	/**
 	 * 名称  全称
 	 */
 	@TableField("NAME")
+	@QueryField(queryColumn="NAME", condition= QueryCondition.like)
 	private String name;
 	
 	/**
 	 * 类型  0公立      1： 私立
 	 */
 	@TableField("TYPE")
+	@QueryField(queryColumn="TYPE", condition= QueryCondition.eq)
 	private String type;
 	
 	/**
 	 * 上级ID
 	 */
 	@TableField("PARENT_ID")
+	@QueryField(queryColumn="PARENT_ID", condition= QueryCondition.eq)
 	private String parentId;
 	
 	/**
 	 * 排序
 	 */
 	@TableField("LEVEL")
+	@QueryField(queryColumn="LEVEL", condition= QueryCondition.eq)
 	private int level;
 	
 	/**
@@ -65,5 +72,18 @@ public class YcSchoolEntity extends BaseEntity{
 	 */
 	@TableField("MEMO")
 	private String memo;
+
+	@TableField("STATE")
+	@QueryField(queryColumn="STATE", condition= QueryCondition.eq)
+	private int state;
+
+	/**
+	 * 学历
+	 */
+	@TableField("RECORD")
+	private String record;
+
+	@TableField("SORT")
+	private String sort;
 }
 

@@ -58,7 +58,52 @@ public class YcInsuranceCompanyController extends BaseController {
     }
     @RequestMapping(value = "/school/list", method = RequestMethod.GET)
     public String silist(Model model) {
+        //给所属区县准备数据
+        QueryWrapper<YcAreaEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("AREA_STATE",0);
+        List<YcAreaEntity> list = ycAreaService.list(queryWrapper);
+        String str = ListUtils.listToReplaceStr(list, "areaName", "id");
+        model.addAttribute("areaReplace", str);
         return "yc/insurance/school/list";
+    }
+
+    @RequestMapping(value = "/school/grade/list", method = RequestMethod.GET)
+    public String gradelist(Model model,String schoolId) {
+        if(schoolId!=null){
+            //通过学校ID查询学校信息
+            YcSchoolEntity ycSchoolEntity = ycSchoolService.getById(schoolId);
+            String str = ycSchoolEntity.getName()+"_"+ycSchoolEntity.getId();
+            System.out.println("str==="+str);
+            model.addAttribute("schoolStr",str);
+
+        }
+        System.out.println("schoolId==="+schoolId);
+        model.addAttribute("schoolId",schoolId);
+        return "yc/insurance/school/grade/list";
+    }
+
+    @RequestMapping(value = "/school/class/list", method = RequestMethod.GET)
+    public String classlist(Model model,String gradeId) {
+        if(gradeId!=null){
+            //通过年级ID查询信息
+            YcSchoolEntity ycSchoolGradeEntity = ycSchoolService.getById(gradeId);
+            String gradeStr = ycSchoolGradeEntity.getName()+"_"+ycSchoolGradeEntity.getId();
+            System.out.println("gradeStr==="+gradeStr);
+            model.addAttribute("gradeStr",gradeStr);
+
+           /* //通过年级信息的父ID拿到学校信息
+            QueryWrapper<YcSchoolEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("PARENT_ID",ycSchoolGradeEntity.getParentId());
+            List<YcSchoolEntity> ycSchoolEntityList = ycSchoolService.list(queryWrapper);
+            YcSchoolEntity ycSchoolEntity = ycSchoolEntityList.get(0);
+
+            String schoolStr = ycSchoolEntity.getName()+"_"+ycSchoolEntity.getId();
+            System.out.println("schoolStr==="+schoolStr);*/
+
+        }
+        System.out.println("gradeId==="+gradeId);
+        model.addAttribute("gradeId",gradeId);
+        return "yc/insurance/school/schoolclass/list";
     }
 
     @RequestMapping(value = "/school/insured/list", method = RequestMethod.GET)
@@ -86,9 +131,6 @@ public class YcInsuranceCompanyController extends BaseController {
         List<YcInsuranceCompanyEntity> list3 = ycInsuranceCompanyService.list(queryWrapper3);
         String str4 = ListUtils.listToReplaceStr(list3, "companyName", "id");
         model.addAttribute("companyReplace", str4);
-
-
-
         return "yc/insurance/school/insured/list";
     }
 
@@ -108,7 +150,6 @@ public class YcInsuranceCompanyController extends BaseController {
         return "yc/insurance/person/list";
     }
 
-
     /**
      *
      * @description
@@ -119,6 +160,7 @@ public class YcInsuranceCompanyController extends BaseController {
      */
     @RequestMapping("/school/datagrid")
     public void datagridsi(YcSchoolEntity ycSchoolEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+        ycSchoolEntity.setLevel(2);
         //拼接查询条件
         QueryWrapper<YcSchoolEntity> queryWrapper = QueryUtils.installQueryWrapper(ycSchoolEntity, request.getParameterMap(), dataGrid);
         //执行查询
@@ -126,14 +168,7 @@ public class YcInsuranceCompanyController extends BaseController {
         //输出结果
         ResponseUtil.writeJson(response, dataGrid, lstResult);
     }
-    /**
-     *
-     * @description
-     *  	表格数据显示
-     * @return void
-     * @author 麻木神
-     * @time 2020年1月25日 下午9:46:12
-     */
+
     @RequestMapping("/company/datagrid")
     public void datagrid(YcInsuranceCompanyEntity ycInsuranceCompanyEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
         //拼接查询条件
@@ -174,6 +209,28 @@ public class YcInsuranceCompanyController extends BaseController {
         ResponseUtil.writeJson(response, dataGrid, lstResult);
     }
 
+    @RequestMapping("/school/grade/datagrid")
+    public void datagrid5(YcSchoolEntity ycSchoolEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+        ycSchoolEntity.setLevel(3);
+        //拼接查询条件
+        QueryWrapper<YcSchoolEntity> queryWrapper = QueryUtils.installQueryWrapper(ycSchoolEntity, request.getParameterMap(), dataGrid);
+        //执行查询
+        IPage<YcSchoolEntity> lstResult = ycSchoolService.page(new Page<YcSchoolEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
+        //输出结果
+        ResponseUtil.writeJson(response, dataGrid, lstResult);
+    }
+
+    @RequestMapping("/school/class/datagrid")
+    public void datagrid6(YcSchoolEntity ycSchoolEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+        ycSchoolEntity.setLevel(4);
+        //拼接查询条件
+        QueryWrapper<YcSchoolEntity> queryWrapper = QueryUtils.installQueryWrapper(ycSchoolEntity, request.getParameterMap(), dataGrid);
+        //执行查询
+        IPage<YcSchoolEntity> lstResult = ycSchoolService.page(new Page<YcSchoolEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
+        //输出结果
+        ResponseUtil.writeJson(response, dataGrid, lstResult);
+    }
+
     /**
      *
      * @description 新增或编辑跳转
@@ -191,6 +248,46 @@ public class YcInsuranceCompanyController extends BaseController {
             //编辑
             ycInsuranceCompanyEntity = ycInsuranceCompanyService.getById(ycInsuranceCompanyEntity.getId());
             view.addObject("ycInsuranceCompanyEntity", ycInsuranceCompanyEntity);
+        }
+        return view;
+    }
+
+    @RequestMapping("/school/grade/addorupdate")
+    public ModelAndView schoolgradeaddorupdate(YcSchoolEntity ycSchoolEntity, HttpServletRequest req) {
+        ModelAndView view = new ModelAndView("yc/insurance/school/grade/grade");
+        String parentId = "";
+        if(ycSchoolEntity.getParentId()!=null && !ycSchoolEntity.getParentId().isEmpty()){
+            parentId = ycSchoolEntity.getParentId();
+        }
+        if(StringUtils.isEmpty(ycSchoolEntity.getId())) {
+            //新增
+            ycSchoolEntity = new YcSchoolEntity();
+            ycSchoolEntity.setParentId(parentId);
+            view.addObject("ycSchoolEntity", ycSchoolEntity);
+        }else {
+            //编辑
+            ycSchoolEntity = ycSchoolService.getById(ycSchoolEntity.getId());
+            view.addObject("ycSchoolEntity", ycSchoolEntity);
+        }
+        return view;
+    }
+
+    @RequestMapping("/school/class/addorupdate")
+    public ModelAndView schoolclassaddorupdate(YcSchoolEntity ycSchoolEntity, HttpServletRequest req) {
+        ModelAndView view = new ModelAndView("yc/insurance/school/schoolclass/schoolclass");
+        String parentId = "";
+        if(ycSchoolEntity.getParentId()!=null && !ycSchoolEntity.getParentId().isEmpty()){
+            parentId = ycSchoolEntity.getParentId();
+        }
+        if(StringUtils.isEmpty(ycSchoolEntity.getId())) {
+            //新增
+            ycSchoolEntity = new YcSchoolEntity();
+            ycSchoolEntity.setParentId(parentId);
+            view.addObject("ycSchoolEntity", ycSchoolEntity);
+        }else {
+            //编辑
+            ycSchoolEntity = ycSchoolService.getById(ycSchoolEntity.getId());
+            view.addObject("ycSchoolEntity", ycSchoolEntity);
         }
         return view;
     }
@@ -219,7 +316,6 @@ public class YcInsuranceCompanyController extends BaseController {
     @RequestMapping("/area/addorupdate")
     public ModelAndView areaaddorupdate(YcAreaEntity ycAreaEntity, HttpServletRequest req) {
         ModelAndView view = new ModelAndView("yc/insurance/area/area");
-
         if(StringUtils.isEmpty(ycAreaEntity.getId())) {
             //新增
             ycAreaEntity = new YcAreaEntity();
@@ -231,8 +327,30 @@ public class YcInsuranceCompanyController extends BaseController {
         return view;
     }
 
+    @RequestMapping("/school/addorupdate")
+    public ModelAndView schooladdorupdate(YcSchoolEntity ycSchoolEntity, HttpServletRequest req) {
+        ModelAndView view = new ModelAndView("yc/insurance/school/school");
+        //获取学历类型的数据字典
+        QueryWrapper<YcAreaEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("AREA_STATE",0);
+        List<YcAreaEntity> areaList = ycAreaService.list(queryWrapper);
+        view.addObject("areaList", areaList);
+        List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
+        view.addObject("xueliList", xueliList);
+
+        if(StringUtils.isEmpty(ycSchoolEntity.getId())) {
+            //新增
+            ycSchoolEntity = new YcSchoolEntity();
+        }else {
+            //编辑
+            ycSchoolEntity = ycSchoolService.getById(ycSchoolEntity.getId());
+        }
+        view.addObject("ycSchoolEntity", ycSchoolEntity);
+        return view;
+    }
+
     @RequestMapping("/school/insured/addorupdate")
-    public ModelAndView schooladdorupdate(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest req) {
+    public ModelAndView schoolinsuredaddorupdate(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest req) {
         ModelAndView view = new ModelAndView("yc/insurance/school/insured/school");
         //获取学历类型的数据字典
         List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
@@ -243,7 +361,7 @@ public class YcInsuranceCompanyController extends BaseController {
         view.addObject("insuranceList", insuranceList);
 
         //获取年级的数据字典
-        List<SysDicValueEntity> gradList = SystemUtils.getDictionaryLst("school_nianji");
+        List<SysDicValueEntity> gradList = SystemUtils.getDictionaryLst("school_grade");
         view.addObject("gradList", gradList);
 
         QueryWrapper<YcAreaEntity> queryWrapper = new QueryWrapper<>();
@@ -299,9 +417,10 @@ public class YcInsuranceCompanyController extends BaseController {
      */
     @RequestMapping("/school/insured/save")
     @ResponseBody
-    @Log(type = LogType.save, name = "保存学校信息", memo = "新增或编辑保存了学校信息")
-    public AjaxJson schoolSave(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest request) {
+    @Log(type = LogType.save, name = "保存学校供应商信息", memo = "新增或编辑保存了学校供应商信息")
+    public AjaxJson schoolInsuredSave(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
+
         try {
             String InsurancePersonId = ycSchoolEntity.getInsurancePersonId();
             QueryWrapper<YcInsurancePersonEntity> queryWrapper = new QueryWrapper<>();
@@ -322,6 +441,81 @@ public class YcInsuranceCompanyController extends BaseController {
                     ycSchoolEntity.setInsuranceCompanyId(listPerson.get(0).getCompanyId());
                 }
                 ycSchoolInsuredService.save(ycSchoolEntity);
+            }
+        }catch(Exception e) {
+            log.error("保存学校供应商信息报错，错误信息:" + e.getMessage());
+            j.setSuccess(false);
+            j.setMsg("保存学校供应商错误");
+            e.printStackTrace();
+        }
+        return j;
+    }
+
+    @RequestMapping("/school/grade/save")
+    @ResponseBody
+    @Log(type = LogType.save, name = "保存学校年级信息", memo = "新增或编辑保存了学校年级信息")
+    public AjaxJson schoogradelSave(YcSchoolEntity ycSchoolEntity, HttpServletRequest request) {
+        AjaxJson j = new AjaxJson();
+        ycSchoolEntity.setLevel(3);
+        try {
+            if (StringUtils.isNotEmpty(ycSchoolEntity.getId())) {
+                //编辑保存
+                YcSchoolEntity tmp = ycSchoolService.getById(ycSchoolEntity.getId());
+                MyBeanUtils.copyBeanNotNull2Bean(ycSchoolEntity, tmp);
+                ycSchoolService.saveOrUpdate(tmp);
+            }else {
+                //新增保存
+                ycSchoolService.save(ycSchoolEntity);
+            }
+        }catch(Exception e) {
+            log.error("保存学校年级信息报错，错误信息:" + e.getMessage());
+            j.setSuccess(false);
+            j.setMsg("保存学校年级错误");
+            e.printStackTrace();
+        }
+        return j;
+    }
+
+    @RequestMapping("/school/class/save")
+    @ResponseBody
+    @Log(type = LogType.save, name = "保存学校班级信息", memo = "新增或编辑保存了学校班级信息")
+    public AjaxJson schoolclasslSave(YcSchoolEntity ycSchoolEntity, HttpServletRequest request) {
+        AjaxJson j = new AjaxJson();
+        ycSchoolEntity.setLevel(4);
+        try {
+            if (StringUtils.isNotEmpty(ycSchoolEntity.getId())) {
+                //编辑保存
+                YcSchoolEntity tmp = ycSchoolService.getById(ycSchoolEntity.getId());
+                MyBeanUtils.copyBeanNotNull2Bean(ycSchoolEntity, tmp);
+                ycSchoolService.saveOrUpdate(tmp);
+            }else {
+                //新增保存
+                ycSchoolService.save(ycSchoolEntity);
+            }
+        }catch(Exception e) {
+            log.error("保存学校班级信息报错，错误信息:" + e.getMessage());
+            j.setSuccess(false);
+            j.setMsg("保存学校班级错误");
+            e.printStackTrace();
+        }
+        return j;
+    }
+
+    @RequestMapping("/school/save")
+    @ResponseBody
+    @Log(type = LogType.save, name = "保存学校信息", memo = "新增或编辑保存了学校班级信息")
+    public AjaxJson schoolSave(YcSchoolEntity ycSchoolEntity, HttpServletRequest request) {
+        AjaxJson j = new AjaxJson();
+        ycSchoolEntity.setLevel(2);
+        try {
+            if (StringUtils.isNotEmpty(ycSchoolEntity.getId())) {
+                //编辑保存
+                YcSchoolEntity tmp = ycSchoolService.getById(ycSchoolEntity.getId());
+                MyBeanUtils.copyBeanNotNull2Bean(ycSchoolEntity, tmp);
+                ycSchoolService.saveOrUpdate(tmp);
+            }else {
+                //新增保存
+                ycSchoolService.save(ycSchoolEntity);
             }
         }catch(Exception e) {
             log.error("保存学校信息报错，错误信息:" + e.getMessage());
@@ -513,13 +707,35 @@ public class YcInsuranceCompanyController extends BaseController {
      */
     @RequestMapping("/school/insured/del")
     @ResponseBody
+    @Log(type = LogType.del, name = "删除学校承保商信息", memo = "删除了学校承保商信息")
+    public AjaxJson schoolInsuredDel(String id, HttpServletRequest req) {
+        AjaxJson j = new AjaxJson();
+        try {
+            YcSchoolInsuredEntity ycSchoolInsuredEntity = ycSchoolInsuredService.getById(id);
+            ycSchoolInsuredEntity.setSchoolState(99);
+            ycSchoolInsuredService.saveOrUpdate(ycSchoolInsuredEntity);
+        }catch(Exception e) {
+            log.error("删除学校承保商信息报错，错误信息：{}", e.getMessage());
+            j.setSuccess(false);
+            j.setMsg("删除学校承保商信息错误");
+            e.printStackTrace();
+        }
+        return j;
+    }
+
+    /**
+     * @params
+     * @return AjaxJson
+     */
+    @RequestMapping("/school/del")
+    @ResponseBody
     @Log(type = LogType.del, name = "删除学校信息", memo = "删除了学校信息")
     public AjaxJson schooldel(String id, HttpServletRequest req) {
         AjaxJson j = new AjaxJson();
         try {
-            YcSchoolInsuredEntity ycSchoolEntity = ycSchoolInsuredService.getById(id);
-            ycSchoolEntity.setSchoolState(99);
-            ycSchoolInsuredService.saveOrUpdate(ycSchoolEntity);
+            YcSchoolEntity ycSchoolEntity = ycSchoolService.getById(id);
+            ycSchoolEntity.setState(99);
+            ycSchoolService.saveOrUpdate(ycSchoolEntity);
         }catch(Exception e) {
             log.error("删除学校信息报错，错误信息：{}", e.getMessage());
             j.setSuccess(false);

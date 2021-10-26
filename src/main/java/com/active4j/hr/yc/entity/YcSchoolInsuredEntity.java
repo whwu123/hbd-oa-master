@@ -34,7 +34,7 @@ public class YcSchoolInsuredEntity extends BaseEntity {
     private String schoolCode;
 
     @TableField("SCHOOL_SORT")
-    private int schoolSort;
+    private String schoolSort;
 
     @TableField("SCHOOL_PUBLIC")
     @QueryField(queryColumn="SCHOOL_PUBLIC", condition= QueryCondition.eq)

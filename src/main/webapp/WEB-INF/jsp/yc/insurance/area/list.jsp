@@ -40,10 +40,11 @@
 	<t:dgToolBar url="insuranceController/area/addorupdate" type="edit" width="60%" ></t:dgToolBar>
 	<t:dgToolBar type="refresh"></t:dgToolBar>
 </t:datagrid>
+
+</body>
 <script type="text/javascript">
 	function updateGrad(id){
 		window.location = 'insuranceController/school/list';
 	}
 </script>
-</body>
 </html>
