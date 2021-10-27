@@ -21,9 +21,9 @@ public class YcSchoolInsuredEntity extends BaseEntity {
     @QueryField(queryColumn="SCHOOL_AREA_ID", condition= QueryCondition.eq)
     private String schoolAreaId;
 
-    @TableField("SCHOOL_NAME")
-    @QueryField(queryColumn="SCHOOL_NAME", condition= QueryCondition.like)
-    private String schoolName;
+    @TableField("SCHOOL_ID")
+    @QueryField(queryColumn="SCHOOL_ID", condition= QueryCondition.like)
+    private String schoolId;
 
     @TableField("SCHOOL_TYPE")
     @QueryField(queryColumn="SCHOOL_TYPE", condition= QueryCondition.eq)

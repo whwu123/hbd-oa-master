@@ -8,6 +8,12 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.active4j.hr.yc.entity.YcAreaEntity;
+import com.active4j.hr.yc.entity.YcInsuranceCompanyEntity;
+import com.active4j.hr.yc.entity.YcSchoolEntity;
+import com.active4j.hr.yc.service.YcAreaService;
+import com.active4j.hr.yc.service.YcSchoolService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +58,12 @@ public class CommonController extends BaseController {
 	
 	@Autowired
 	private OaHrJobService oaHrJobService;
+
+	@Autowired
+	private YcAreaService ycAreaService;
+
+	@Autowired
+	private YcSchoolService ycSchoolService;
 	
 	/**
 	 * 系统中 跳转到操作成功页面
@@ -97,7 +109,78 @@ public class CommonController extends BaseController {
 		req.setAttribute("treeData", sb.toString());
 		return view;
 	}
-	
+
+	/**
+	 * 学校选择弹出框
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value = "/selectSchool")
+	public ModelAndView selectSchool(HttpServletRequest req) {
+		ModelAndView view = new ModelAndView("system/common/selectSchool");
+
+		//查询学校
+		//先查询顶级区县
+		QueryWrapper<YcAreaEntity> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("AREA_STATE",0);
+		List<YcAreaEntity> list = ycAreaService.list(queryWrapper);
+
+		//拼接成bootstrap treeview树形结构
+		StringBuffer sb = new StringBuffer();
+		sb = sb.append("[");
+		schoolContact(list, sb);
+		sb = sb.append("]");
+
+
+		req.setAttribute("treeData", sb.toString());
+		return view;
+	}
+
+	/**
+	 * 递归的方式 循环显示各部门及其子部门
+	 * @param sb
+	 */
+	private void schoolContact(List<YcAreaEntity> list, StringBuffer sb) {
+		if(null != list && list.size() > 0) {
+			for(int i = 0; i < list.size(); i++) {
+				YcAreaEntity entity = list.get(i);
+				//查询所有组织架构
+				sb = sb.append("{").append("text:").append("\"").append(entity.getAreaName()).append("\",").append("id:").append("\"").append(entity.getId()).append("\"");
+				//查询学校
+				String parentId = entity.getId();
+
+				QueryWrapper<YcSchoolEntity> queryWrapper = new QueryWrapper<>();
+				queryWrapper.eq("PARENT_ID",parentId);
+				queryWrapper.eq("LEVEL",2);
+				List<YcSchoolEntity> lstChild = ycSchoolService.list(queryWrapper);
+				if(null != lstChild && lstChild.size() > 0) {
+					//递归遍历
+					sb = sb.append(", nodes: [");
+					schoolContact2(lstChild, sb);
+					sb.append("]");
+				}
+				if(i == list.size() - 1) {
+					sb = sb.append("}");
+				}else {
+					sb = sb.append("},");
+				}
+			}
+		}
+	}
+	private void schoolContact2(List<YcSchoolEntity> list, StringBuffer sb) {
+		if(null != list && list.size() > 0) {
+			for(int i = 0; i < list.size(); i++) {
+				YcSchoolEntity entity = list.get(i);
+				sb = sb.append("{").append("text:").append("\"").append(entity.getName()).append("\",").append("id:").append("\"").append(entity.getId()).append("\"");
+
+				if(i == list.size() - 1) {
+					sb = sb.append("}");
+				}else {
+					sb = sb.append("},");
+				}
+			}
+		}
+	}
 	/**
 	 * 岗位选择弹出框
 	 * @param req
@@ -116,6 +199,7 @@ public class CommonController extends BaseController {
 		sb = sb.append("[");
 		jobContact(lstJobs, sb);
 		sb = sb.append("]");
+		System.out.println("sb=="+sb);
 		req.setAttribute("treeData", sb.toString());
 		return view;
 	}
@@ -129,25 +213,19 @@ public class CommonController extends BaseController {
 	@RequestMapping("/selectUsers")
 	public ModelAndView selectUsers(HttpServletRequest req) {
 		ModelAndView view = new ModelAndView("system/common/selectusers");
-		
-	
 		String userTreeStr = getCompanyOfUser(null);
 		view.addObject("userTreeStr", userTreeStr);
-		
 		return view;
 	}
 	
 	public String getCompanyOfUser(Set<String> lstUserIds) {
 		//先查询顶级部门
 		List<SysDeptEntity> lstDeparts = sysDeptService.getParentDepts();
-		
 		//拼接字符串
 		StringBuffer sb = new StringBuffer();
 		sb = sb.append("[");
 		departUserContact(lstDeparts, sb, lstUserIds);
-		
 		sb = sb.append("]");
-		
 		return sb.toString();
 	}
 	
@@ -251,7 +329,9 @@ public class CommonController extends BaseController {
 			}
 		}
 	}
-	
+
+
+
 	/**
 	 * 递归的方式 循环显示各部门及其子部门
 	 * @param lstDeparts

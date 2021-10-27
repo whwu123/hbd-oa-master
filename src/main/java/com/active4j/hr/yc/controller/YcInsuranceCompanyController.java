@@ -131,6 +131,16 @@ public class YcInsuranceCompanyController extends BaseController {
         List<YcInsuranceCompanyEntity> list3 = ycInsuranceCompanyService.list(queryWrapper3);
         String str4 = ListUtils.listToReplaceStr(list3, "companyName", "id");
         model.addAttribute("companyReplace", str4);
+
+
+        //给学校准备数据
+        QueryWrapper<YcSchoolEntity> queryWrapper4 = new QueryWrapper<>();
+        queryWrapper4.eq("STATE",0);
+        queryWrapper4.eq("LEVEL",2);
+        List<YcSchoolEntity> list4 = ycSchoolService.list(queryWrapper4);
+        String schoolReplace = ListUtils.listToReplaceStr(list4, "name", "id");
+
+        model.addAttribute("schoolReplace", schoolReplace);
         return "yc/insurance/school/insured/list";
     }
 
@@ -335,8 +345,8 @@ public class YcInsuranceCompanyController extends BaseController {
         queryWrapper.eq("AREA_STATE",0);
         List<YcAreaEntity> areaList = ycAreaService.list(queryWrapper);
         view.addObject("areaList", areaList);
-        List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
-        view.addObject("xueliList", xueliList);
+       /* List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
+        view.addObject("xueliList", xueliList);*/
 
         if(StringUtils.isEmpty(ycSchoolEntity.getId())) {
             //新增
@@ -350,11 +360,11 @@ public class YcInsuranceCompanyController extends BaseController {
     }
 
     @RequestMapping("/school/insured/addorupdate")
-    public ModelAndView schoolinsuredaddorupdate(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest req) {
+    public ModelAndView schoolinsuredaddorupdate(YcSchoolInsuredEntity ycSchoolInsuredEntity, HttpServletRequest req) {
         ModelAndView view = new ModelAndView("yc/insurance/school/insured/school");
         //获取学历类型的数据字典
-        List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
-        view.addObject("xueliList", xueliList);
+       /* List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
+        view.addObject("xueliList", xueliList);*/
 
         //获取保险种类类型的数据字典
         List<SysDicValueEntity> insuranceList = SystemUtils.getDictionaryLst("insurance_type");
@@ -388,14 +398,19 @@ public class YcInsuranceCompanyController extends BaseController {
             }
         }
         view.addObject("lstTrees", lstTrees);
-        if(StringUtils.isEmpty(ycSchoolEntity.getId())) {
+
+        if(StringUtils.isEmpty(ycSchoolInsuredEntity.getId())) {
             //新增
-            ycSchoolEntity = new YcSchoolInsuredEntity();
+            ycSchoolInsuredEntity = new YcSchoolInsuredEntity();
         }else {
             //编辑
-            ycSchoolEntity = ycSchoolInsuredService.getById(ycSchoolEntity.getId());
+            ycSchoolInsuredEntity = ycSchoolInsuredService.getById(ycSchoolInsuredEntity.getId());
+            //根据学校ID取得学校名称
+            String schoolId = ycSchoolInsuredEntity.getSchoolId();
+            YcSchoolEntity ycSchoolEntity = ycSchoolService.getById(schoolId);
+            view.addObject("schoolName", ycSchoolEntity.getName());
         }
-        view.addObject("ycSchoolEntity", ycSchoolEntity);
+        view.addObject("ycSchoolInsuredEntity", ycSchoolInsuredEntity);
         return view;
     }
     private void getYcTreeKeyValue(List<YcInsurancePersonEntity> lst, List<KeyValueModel> lstTrees, String tag) {
@@ -418,29 +433,33 @@ public class YcInsuranceCompanyController extends BaseController {
     @RequestMapping("/school/insured/save")
     @ResponseBody
     @Log(type = LogType.save, name = "保存学校供应商信息", memo = "新增或编辑保存了学校供应商信息")
-    public AjaxJson schoolInsuredSave(YcSchoolInsuredEntity ycSchoolEntity, HttpServletRequest request) {
+    public AjaxJson schoolInsuredSave(YcSchoolInsuredEntity ycSchoolInsuredEntity, HttpServletRequest request) {
         AjaxJson j = new AjaxJson();
-
+        String schoolId = ycSchoolInsuredEntity.getSchoolId();
+        YcSchoolEntity ycSchoolEntity = ycSchoolService.getById(schoolId);
+        if(ycSchoolInsuredEntity != null ){
+            ycSchoolInsuredEntity.setSchoolAreaId(ycSchoolEntity.getParentId());
+        }
         try {
-            String InsurancePersonId = ycSchoolEntity.getInsurancePersonId();
+            String InsurancePersonId = ycSchoolInsuredEntity.getInsurancePersonId();
             QueryWrapper<YcInsurancePersonEntity> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("ID",InsurancePersonId);
-            if (StringUtils.isNotEmpty(ycSchoolEntity.getId())) {
+            if (StringUtils.isNotEmpty(ycSchoolInsuredEntity.getId())) {
                 List<YcInsurancePersonEntity> listPerson = ycInsurancePersonService.list(queryWrapper);
                 if(listPerson.size()>0){
-                    ycSchoolEntity.setInsuranceCompanyId(listPerson.get(0).getCompanyId());
+                    ycSchoolInsuredEntity.setInsuranceCompanyId(listPerson.get(0).getCompanyId());
                 }
                 //编辑保存
-                YcSchoolInsuredEntity tmp = ycSchoolInsuredService.getById(ycSchoolEntity.getId());
-                MyBeanUtils.copyBeanNotNull2Bean(ycSchoolEntity, tmp);
+                YcSchoolInsuredEntity tmp = ycSchoolInsuredService.getById(ycSchoolInsuredEntity.getId());
+                MyBeanUtils.copyBeanNotNull2Bean(ycSchoolInsuredEntity, tmp);
                 ycSchoolInsuredService.saveOrUpdate(tmp);
             }else {
                 //新增保存
                 List<YcInsurancePersonEntity> listPerson = ycInsurancePersonService.list(queryWrapper);
                 if(listPerson.size()>0){
-                    ycSchoolEntity.setInsuranceCompanyId(listPerson.get(0).getCompanyId());
+                    ycSchoolInsuredEntity.setInsuranceCompanyId(listPerson.get(0).getCompanyId());
                 }
-                ycSchoolInsuredService.save(ycSchoolEntity);
+                ycSchoolInsuredService.save(ycSchoolInsuredEntity);
             }
         }catch(Exception e) {
             log.error("保存学校供应商信息报错，错误信息:" + e.getMessage());

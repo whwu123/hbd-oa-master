@@ -18,7 +18,7 @@
         }
 
         $(function() {
-            $("#schoolGrad").val("${ycSchoolEntity.schoolGrad}".split(",")).trigger("change");
+            $("#schoolGrad").val("${ycSchoolInsuredEntity.schoolGrad}".split(",")).trigger("change");
 
 
             var level =  $("#schoolIsGrad").val();
@@ -43,8 +43,8 @@
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 						<t:formvalid action="insuranceController/school/insured/save">
-							<input type="hidden" name="id" id="id" value="${ycSchoolEntity.id }">
-                            <div class="form-group">
+							<input type="hidden" name="id" id="id" value="${ycSchoolInsuredEntity.id }">
+                            <%--<div class="form-group">
                                 <label class="col-sm-3 control-label">所属区县*：</label>
                                 <div class="col-sm-8">
                                     <select class="form-control m-b" name="schoolAreaId" id="schoolAreaId">
@@ -53,39 +53,48 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                            </div>
+                            </div>--%>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">学校名称*：</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <t:choose url="common/selectSchool" hiddenName="schoolId" hiddenValue="${ycSchoolInsuredEntity.schoolId }" textValue="${schoolName}"
+                                                  textName="departLabel" hiddenId="schoolId" textId="departLabel"></t:choose>
+                                    </div>
+                                </div>
+                            </div>
+                            <%--<div class="form-group">
                                 <label class="col-sm-3 control-label">学校名称*：</label>
                                 <div class="col-sm-8">
                                     <input   type="text" class="form-control" id="schoolName" name="schoolName" value="${ycSchoolEntity.schoolName}"/>
                                 </div>
-                            </div>
+                            </div>--%>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">学校编码*：</label>
                                 <div class="col-sm-8">
-                                    <input   type="text" class="form-control" id="schoolCode" name="schoolCode" value="${ycSchoolEntity.schoolCode}"/>
+                                    <input   type="text" class="form-control" id="schoolCode" name="schoolCode" value="${ycSchoolInsuredEntity.schoolCode}"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">学校负责人姓名：</label>
                                 <div class="col-sm-8">
-                                    <input   type="text" class="form-control" id="schoolHearName" name="schoolHearName" value="${ycSchoolEntity.schoolHearName}"/>
+                                    <input   type="text" class="form-control" id="schoolHearName" name="schoolHearName" value="${ycSchoolInsuredEntity.schoolHearName}"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">学校负责人电话：</label>
                                 <div class="col-sm-8">
-                                    <input   type="text" class="form-control" id="schoolHrarPhone" name="schoolHrarPhone" value="${ycSchoolEntity.schoolHrarPhone}"/>
+                                    <input   type="text" class="form-control" id="schoolHrarPhone" name="schoolHrarPhone" value="${ycSchoolInsuredEntity.schoolHrarPhone}"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">学校显示顺序*：</label>
                                 <div class="col-sm-8">
-                                    <input   type="number" class="form-control" id="schoolSort" name="schoolSort" value="${ycSchoolEntity.schoolSort}" placeholder="数值越小排越前"/>
+                                    <input   type="number" class="form-control" id="schoolSort" name="schoolSort" value="${ycSchoolInsuredEntity.schoolSort}" placeholder="数值越小排越前"/>
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                           <%-- <div class="form-group">
                                 <label class="col-sm-3 control-label">学校类型*：</label>
                                 <div class="col-sm-8">
                                     <select class="form-control m-b" name="schoolType" id="schoolType">
@@ -94,7 +103,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                            </div>
+                            </div>--%>
                             <%--<div class="form-group">
                                 <label class="col-sm-3 control-label">学校性质*：</label>
                                 <div class="col-sm-8">
@@ -108,8 +117,8 @@
                                 <label class="col-sm-3 control-label">承保公司区分年级*：</label>
                                 <div class="col-sm-8">
                                     <select class="form-control m-b" name="schoolIsGrad" id="schoolIsGrad"onchange="changeQuFen();">
-                                        <option value="0" <c:if test="${ycSchoolEntity.schoolIsGrad eq 0}">selected="selected"</c:if>>不区分</option>
-                                        <option value="1" <c:if test="${ycSchoolEntity.schoolIsGrad > 0}">selected="selected"</c:if>>区分</option>
+                                        <option value="0" <c:if test="${ycSchoolInsuredEntity.schoolIsGrad eq 0}">selected="selected"</c:if>>不区分</option>
+                                        <option value="1" <c:if test="${ycSchoolInsuredEntity.schoolIsGrad > 0}">selected="selected"</c:if>>区分</option>
                                     </select>
                                 </div>
                             </div>
@@ -128,7 +137,7 @@
                                 <div class="col-sm-8">
                                     <select class="form-control m-b" name="insuranceType" id="insuranceType">
                                             <c:forEach items="${insuranceList }" var="t">
-                                                <option value="${t.value }" <c:if test="${ycSchoolEntity.insuranceType == t.value}">selected</c:if>>${t.label }</option>
+                                                <option value="${t.value }" <c:if test="${ycSchoolInsuredEntity.insuranceType == t.value}">selected</c:if>>${t.label }</option>
                                             </c:forEach>
                                      </select>
                                 </div>
@@ -138,7 +147,7 @@
                                 <div class="col-sm-8">
                                     <select class="form-control m-b" name="insurancePersonId" id="insurancePersonId">
                                     <c:forEach items="${lstTrees}" var="f">
-                                        <option value="${f.value}" <c:if test="${ycSchoolEntity.insurancePersonId == f.value }">selected='selected'</c:if>>${f.key}</option>
+                                        <option value="${f.value}" <c:if test="${ycSchoolInsuredEntity.insurancePersonId == f.value }">selected='selected'</c:if>>${f.key}</option>
                                     </c:forEach>
                                     </select>
                                 </div>
