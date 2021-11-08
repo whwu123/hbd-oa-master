@@ -34,45 +34,19 @@
         <%--<div>
             <h3 class="logo-name">YC2</h3>
         </div>--%>
-        <h3>请您选择所需地区下订单</h3>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            温馨提示：灰色地区表示暂未开通
-        </p>
+        <h3 style="text-align: left;color: #9d9d9d">身份证号查询</h3>
+
         <div id="div1"></div>
-    <div style="margin-top: 10px">
-        <button class="btn btn-primary" id="gx" onclick="cl();" type="button" style="width: 90px;">高校</button>
-        <button class="btn btn-primary" id="cs" onclick="cl();" type="button"  style="width: 90px;">长沙市</button>
-        <button class="btn btn-primary" id="hh" onclick="cl('hh');" type="button" style="width: 90px;background-color: #1c84c6;color: #ddd" >怀化市</button>
+
+            <form class="form-horizontal m-t" id="signupForm" action="login" method="post">
+                <div class="form-group">
+                    <input type="text" name="userName" id="userName" value="" class="form-control" placeholder="请输入学生身份证号" required="">
+                </div>
+
+                <button type="button" class="btn btn-primary block full-width m-b" onclick="doSubmit()">立即缴费</button>
+            </form>
 
 
-    </div>
-
-    <div style="margin-top: 10px">
-        <button class="btn btn-primary" id="hy" onclick="cl();" type="button" style="width: 90px;">衡阳市</button>
-        <button class="btn btn-primary" id="sy" onclick="cl();" type="button" style="width: 90px;">邵阳市</button>
-        <button class="btn btn-primary" id="yy" onclick="cl();" type="button" style="width: 90px;">岳阳市</button>
-
-    </div>
-
-    <div style="margin-top: 10px">
-        <button class="btn btn-primary" id="cd" onclick="cl();" type="button" style="width: 90px;">常德市</button>
-        <button class="btn btn-primary" id="zjj" onclick="cl();" type="button" style="width: 90px;">张家界市</button>
-        <button class="btn btn-primary" id="yiy" onclick="cl();" type="button" style="width: 90px;">益阳市</button>
-
-    </div>
-
-    <div style="margin-top: 10px">
-        <button class="btn btn-primary" id="cz" onclick="cl();" type="button" style="width: 90px;">郴州市</button>
-        <button class="btn btn-primary" id="yz" onclick="cl();" type="button" style="width: 90px;">永州市</button>
-        <button class="btn btn-primary" id="zz" onclick="cl();" type="button" style="width: 90px;">株洲市</button>
-
-    </div>
-
-    <div style="margin-top: 10px">
-        <button class="btn btn-primary" id="ld" onclick="cl();" type="button" style="width: 90px;" >娄底市</button>
-        <button class="btn btn-primary" id="xxzzz" onclick="cl();" type="button" style="width: 90px;">湘西自治州</button>
-        <button class="btn btn-primary" id="xt" onclick="cl();" type="button" style="width: 90px;">湘潭市</button>
-    </div>
 
 
 </div>

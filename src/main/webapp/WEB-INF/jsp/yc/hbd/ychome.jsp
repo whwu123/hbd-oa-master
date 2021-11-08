@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>财信育才管理系统</title>
-    <meta name="keywords" content="active4j-oa演示系统">
-    <meta name="description" content="active4j-oa演示系统">
+    <title>在线缴费系统</title>
+    <meta name="keywords" content="在线缴费系统">
+    <meta name="description" content="在线缴费系统">
     <link rel="shortcut icon" href="../static/bootstrap/image/favicon.ico">
     <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../static/bootstrap/css/font-awesome.min.css" rel="stylesheet">
@@ -56,20 +56,20 @@
         &nbsp;&nbsp;&nbsp;&nbsp;学生平安保险是专门针对学生风险开发的产品，保险责任涵盖了意外事故的门诊和住院、疾病住院、保费低、保障高。为您的孩子提供全方位的风险保障，有效化解和转移家庭的经济风险(具体的保险责任、理赔要求和理赔程序以保险公司相关规定为准)。
     </p>
     <p style="text-align: left; ">
-        &nbsp;&nbsp;&nbsp;&nbsp;xxxxxxxx有限公司愿与您共同关心、呵护孩子的长。如需要为您的孩子投保字生平安保险，请您仔细阅读此一封信，保险公司的<a href="tiaokuan" style="color: #1237ea;">《相关条款与保障范围》</a>和<a href="tebie" style="color: #1237ea;">《特别约定》</a>，按照自愿的原则办理网上投保手续。
+        &nbsp;&nbsp;&nbsp;&nbsp;湖南财信育才保险代理有限公司怀化分公司愿与您共同关心、呵护孩子的长。如需要为您的孩子投保字生平安保险，请您仔细阅读此一封信，保险公司的<a href="tiaokuan" style="color: #1237ea;">《相关条款与保障范围》</a>和<a href="tebie" style="color: #1237ea;">《特别约定》</a>，按照自愿的原则办理网上投保手续。
     </p>
     <p style="text-align: left;">
-        &nbsp;&nbsp;&nbsp;&nbsp;报案、服务咨询电话:0745-xxxxxxx
+        &nbsp;&nbsp;&nbsp;&nbsp;报案、服务咨询电话:0745-2289827
     </p>
     <p style="text-align: left; ">
         &nbsp;&nbsp;&nbsp;&nbsp;微信支付交费程序
     </p>
     <p style="text-align: left; ">
-        &nbsp;&nbsp;&nbsp;&nbsp;请学生家长(或监护人)签署好自愿购买保险项目的委托后，通过手机扫描学生保险微信二维码进入“怀化市校园安全风险管理”系统，按照系统提示完成交费。不具备条件的家长(或监护人)可通过他人代交保险费。
+        &nbsp;&nbsp;&nbsp;&nbsp;通过手机扫码学生保险微信二维码进入“财信学生服务”公众号，按照系统提示完成交费。不具备条件的家长(或监护人)可通过他人代交保险费。
     </p>
-    <div>
+   <%-- <div>
         <img src="../yucai/home.jpg" width="100px" height="100px">
-    </div>
+    </div>--%>
    <div style="text-align: left; ">
        <input type="checkbox" id="checkbox1"/>
        我已仔细阅读本信的内容、<a href="tiaokuan" style="color: #1237ea;">《相关条款与保障范围》</a> 和<a href="tebie" style="color: #1237ea;">《特别约定》</a>
