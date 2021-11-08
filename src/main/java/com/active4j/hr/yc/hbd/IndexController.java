@@ -4,8 +4,10 @@ import com.active4j.hr.base.controller.BaseController;
 import com.active4j.hr.core.model.AjaxJson;
 import com.active4j.hr.yc.entity.YcAreaEntity;
 import com.active4j.hr.yc.entity.YcSchoolEntity;
+import com.active4j.hr.yc.entity.YcStudentInformationEntity;
 import com.active4j.hr.yc.service.YcAreaService;
 import com.active4j.hr.yc.service.YcSchoolService;
+import com.active4j.hr.yc.service.YcStudentInformationService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class IndexController extends BaseController {
     private YcAreaService ycAreaService;
     @Autowired
     private YcSchoolService ycSchoolService;
+    @Autowired
+    private YcStudentInformationService ycStudentInformationService;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Model model) {
@@ -52,16 +56,43 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/checkPayMoney", method = RequestMethod.GET)
     public String checkPayMoney(Model model,String studentCard) {
-        if(studentCard!=null && !studentCard.isEmpty()){
-
-            model.addAttribute("studentCard",studentCard);
-        }
-        //没有学生信息就
         //查询业务区县列表
         QueryWrapper<YcAreaEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("AREA_STATE",0);
         List<YcAreaEntity> areaList = ycAreaService.list(queryWrapper);
         model.addAttribute("areaList",areaList);
+        if(studentCard!=null && !studentCard.isEmpty()){
+            QueryWrapper<YcStudentInformationEntity> queryWrapper2 = new QueryWrapper<>();
+            queryWrapper2.eq("STUDENT_CARD",studentCard);
+            List<YcStudentInformationEntity> informationList = ycStudentInformationService.list(queryWrapper2);
+
+            if(informationList.size()>0){
+                YcStudentInformationEntity ycStudentInformationEntity =informationList.get(0);
+                model.addAttribute("information",ycStudentInformationEntity);
+                //根据区域ID查询该区域下的所有学校
+                QueryWrapper<YcSchoolEntity> queryWrapper3 = new QueryWrapper<>();
+                queryWrapper3.eq("PARENT_ID",ycStudentInformationEntity.getAreaId());
+                List<YcSchoolEntity> ycSchoolList = ycSchoolService.list(queryWrapper3);
+                model.addAttribute("ycSchoolList",ycSchoolList);
+
+                QueryWrapper<YcSchoolEntity> queryWrapper4 = new QueryWrapper<>();
+                queryWrapper4.eq("PARENT_ID",ycStudentInformationEntity.getSchoolId());
+                List<YcSchoolEntity> ycSchoolList2 = ycSchoolService.list(queryWrapper4);
+                model.addAttribute("ycSchoolList2",ycSchoolList2);
+
+                QueryWrapper<YcSchoolEntity> queryWrapper5 = new QueryWrapper<>();
+                queryWrapper5.eq("PARENT_ID",ycStudentInformationEntity.getNianjiId());
+                List<YcSchoolEntity> ycSchoolList3 = ycSchoolService.list(queryWrapper5);
+                model.addAttribute("ycSchoolList3",ycSchoolList3);
+
+
+
+            }else{
+                YcStudentInformationEntity ycStudentInformationEntity = new YcStudentInformationEntity();
+                ycStudentInformationEntity.setStudentCard(studentCard);
+                model.addAttribute("information",ycStudentInformationEntity);
+            }
+        }
         return "yc/hbd/studentInformation";
     }
 
@@ -76,5 +107,13 @@ public class IndexController extends BaseController {
             j.setObj(schoolList);
         }
         return j;
+    }
+
+    @RequestMapping(value = "/student/save", method = RequestMethod.POST)
+    public String studentSave(Model model, YcStudentInformationEntity informationEntity) {
+        if(informationEntity!=null){
+            ycStudentInformationService.saveOrUpdate(informationEntity);
+        }
+        return "yc/hbd/list";
     }
 }

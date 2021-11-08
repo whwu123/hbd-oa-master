@@ -73,11 +73,9 @@ public class YcInsuranceCompanyController extends BaseController {
             //通过学校ID查询学校信息
             YcSchoolEntity ycSchoolEntity = ycSchoolService.getById(schoolId);
             String str = ycSchoolEntity.getName()+"_"+ycSchoolEntity.getId();
-            System.out.println("str==="+str);
             model.addAttribute("schoolStr",str);
 
         }
-        System.out.println("schoolId==="+schoolId);
         model.addAttribute("schoolId",schoolId);
         return "yc/insurance/school/grade/list";
     }

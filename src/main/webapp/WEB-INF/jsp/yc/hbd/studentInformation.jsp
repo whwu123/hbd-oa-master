@@ -34,94 +34,91 @@
 <body class="gray-bg">
 <div class="middle-box text-center loginscreen  animated fadeInDown">
 
-        <form class="form-horizontal m-t" id="signupForm" action="login" method="post">
+        <form class="form-horizontal m-t" id="signupForm" action="webhbd/student/save" method="post">
             <h3 style="text-align: left;color: #9d9d9d">学生信息</h3>
 
             <div id="div1"></div>
-            <%--<input type="hidden" id="diquId" value="${diquId}"/>
-            <input type="hidden" id="quxianId" value="${quxianId}"/>--%>
+            <input type="hidden" id="id" value="${information.id}"/>
+            <%-- <input type="hidden" id="quxianId" value="${quxianId}"/>--%>
             <div class="form-group">
                 <label class="col-sm-4 control-label">所在区县：</label>
                 <div class="col-sm-8">
-                    <select class="form-control help-block m-b-none" id="selectQuxian" onchange="func()">
+                    <select class="form-control help-block m-b-none" name="areaId" id="selectQuxian" onchange="func()">
                         <option>请选择区县</option>
                         <c:forEach items="${areaList }" var="t">
-                            <option value="${t.id }" >${t.areaName }</option>
+
+                            <option value="${t.id }" <c:if test="${t.id ==information.areaId}">selected</c:if> >${t.areaName }</option>
                         </c:forEach>
                     </select>
 
+                    </div>
                 </div>
-            </div>
-
-
-
                 <div class="form-group">
                     <label class="col-sm-4 control-label">所在学校：</label>
                     <div class="col-sm-8">
-                        <select class="form-control help-block m-b-none" id="xuexiaoList" onchange="func2()">
+                        <select class="form-control help-block m-b-none" name="schoolId" id="xuexiaoList" onchange="func2()">
                             <option>请选择学校</option>
-                            <c:forEach items="${ycLocalEntityList }" var="t">
-                                <option value="${t.id }" >${t.name }</option>
+                            <c:forEach items="${ycSchoolList }" var="t">
+                                <option value="${t.id }" <c:if test="${t.id ==information.schoolId}">selected</c:if> >${t.name }</option>
                             </c:forEach>
                         </select>
-
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">所在年级：</label>
                     <div class="col-sm-8">
-                        <select class="form-control help-block m-b-none" id="nianjiList" onchange="func3()">
+                        <select class="form-control help-block m-b-none" name="nianjiId" id="nianjiList" onchange="func3()">
                             <option>请选择年级</option>
-
+                            <c:forEach items="${ycSchoolList2 }" var="t">
+                                <option value="${t.id }" <c:if test="${t.id ==information.nianjiId}">selected</c:if> >${t.name }</option>
+                            </c:forEach>
                         </select>
-
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">所在班级：</label>
                     <div class="col-sm-8">
-                        <select class="form-control help-block m-b-none" id="banjiList">
+                        <select class="form-control help-block m-b-none" name="banjiId" id="banjiList">
                             <option>请选择班级</option>
-
+                            <c:forEach items="${ycSchoolList3 }" var="t">
+                                <option value="${t.id }" <c:if test="${t.id ==information.banjiId}">selected</c:if> >${t.name }</option>
+                            </c:forEach>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">学生姓名：</label>
                     <div class="col-sm-8">
-                        <input  type="text" class="form-control" value="" placeholder="请输入学生真实姓名" id="xueshengName"/>
+                        <input  type="text" class="form-control" value="${information.studentName}" name="studentName" placeholder="请输入学生真实姓名" id="xueshengName"/>
                     </div>
                 </div>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">学生身份证：</label>
-                <div class="col-sm-8">
-                    <input   type="text" class="form-control" value="${studentCard}" placeholder="请输入有效的学生身份证" id="xueshengCard"/>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">学生身份证：</label>
+                    <div class="col-sm-8">
+                        <input   type="text" class="form-control" value="${information.studentCard}"  name="studentCard" placeholder="请输入有效的学生身份证" id="xueshengCard"/>
+                    </div>
                 </div>
-            </div>
-            <h3 style="text-align: left;color: #9d9d9d;margin-top: 30px">家长信息</h3>
-            <div id="div1"></div>
-
-            <div class="form-group">
-                <label class="col-sm-4 control-label">家长姓名：</label>
-                <div class="col-sm-8">
-                    <input   type="text" class="form-control" value=""  placeholder="请输入家长的真实姓名" />
+                <h3 style="text-align: left;color: #9d9d9d;margin-top: 30px">家长信息</h3>
+                <div id="div1"></div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">家长姓名：</label>
+                    <div class="col-sm-8">
+                        <input   type="text" class="form-control" value="${information.parentName}" name="parentName"  placeholder="请输入家长的真实姓名" />
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">家长电话：</label>
-                <div class="col-sm-8">
-                    <input   type="text" class="form-control" value=""  placeholder="请输入家长手机电话" />
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">家长电话：</label>
+                    <div class="col-sm-8">
+                        <input   type="text" class="form-control" value="${information.parentPhone}" name="parentPhone"  placeholder="请输入家长手机电话" />
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">家长身份证：</label>
-                <div class="col-sm-8">
-                    <input   type="text" class="form-control" value=""  placeholder="请输入家长身份证" />
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">家长身份证：</label>
+                    <div class="col-sm-8">
+                        <input   type="text" class="form-control" value="${information.parentCard}" name="parentCard"  placeholder="请输入家长身份证" />
+                    </div>
                 </div>
-            </div>
-
-            <button type="button" class="btn btn-primary block full-width m-b" onclick="doNxet()">下一步</button>
-
+                <button type="submit" class="btn btn-primary block full-width m-b" >下一步</button>
         </form>
 
 

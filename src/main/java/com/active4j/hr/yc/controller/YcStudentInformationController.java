@@ -17,6 +17,7 @@ import com.active4j.hr.system.service.SysDeptService;
 import com.active4j.hr.system.service.SysUserService;
 import com.active4j.hr.yc.entity.YcPaymentRecord;
 import com.active4j.hr.yc.entity.YcStudentEntity;
+import com.active4j.hr.yc.entity.YcStudentInformationEntity;
 import com.active4j.hr.yc.entity.YcUpdateStulog;
 import com.active4j.hr.yc.service.YcPaymentRecordService;
 import com.active4j.hr.yc.service.YcStudentService;
@@ -44,8 +45,8 @@ import java.util.List;
 @RequestMapping("/ycStudentInformation")
 public class YcStudentInformationController extends BaseController {
 
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(Model model) {
+	@RequestMapping(value = "/student/save", method = RequestMethod.GET)
+	public String save(Model model, YcStudentInformationEntity informationEntity) {
 
 		return "yc/student/list";
 	}
