@@ -38,7 +38,7 @@
             <h3 style="text-align: left;color: #9d9d9d">学生信息</h3>
 
             <div id="div1"></div>
-            <input type="hidden" id="id" value="${information.id}"/>
+            <input type="hidden" id="id" name="id" value="${information.id}"/>
             <%-- <input type="hidden" id="quxianId" value="${quxianId}"/>--%>
             <div class="form-group">
                 <label class="col-sm-4 control-label">所在区县：</label>
@@ -46,7 +46,6 @@
                     <select class="form-control help-block m-b-none" name="areaId" id="selectQuxian" onchange="func()">
                         <option>请选择区县</option>
                         <c:forEach items="${areaList }" var="t">
-
                             <option value="${t.id }" <c:if test="${t.id ==information.areaId}">selected</c:if> >${t.areaName }</option>
                         </c:forEach>
                     </select>
@@ -235,8 +234,6 @@
         var banji = $("#banji").val();
         var diquId = $("#diquId").val();
         var xiangzhengId = $("#xiangzhenList option:selected").val();
-
-
         window.location.href="ychome/form2?quxianId="+quxianId+"&xueshengCard="+xueshengCard+ "&xueshengName="+xueshengName+"&jieduanId="+jieduanId+"&xuexiaoName="+xuexiaoName+"&nianji="+nianji+"&banji="+banji+"&xuexiaoValue="+xuexiaoValue+"&diquId="+diquId+"&xiangzhengId="+xiangzhengId;
     }
 

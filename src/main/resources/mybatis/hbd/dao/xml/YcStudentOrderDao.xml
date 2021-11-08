@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.active4j.hr.yc.dao.YcStudentOrderDao">
+
+	<select id="getOrderByStudentCard" resultType="com.active4j.hr.yc.entity.YcStudentOrderModelEntity">
+		SELECT
+			so.TYPE_ONE as one,
+			so.TYPE_TWO as two,
+			so.TYPE_THREE as three,
+			so.TYPE_FOR as tfor,
+			so.PAY_NUMBER as payNumber,
+			si.STUDENT_NAME as studentName,
+			si.STUDENT_CARD as studentCard ,
+			si.SCHOOL_ID as schoolId,
+			si.NIANJI_ID as nianjiId,
+			si.BANJI_ID as banjiId,
+			si.PARENT_NAME as parentName,
+			si.PARENT_CARD as parentCard,
+			si.PARENT_PHONE as parentPhone
+		FROM
+			yc_student_order AS so
+				INNER JOIN yc_student_information AS si ON so.STUDENT_ID = si.ID where STUDENT_CARD = #{StudenCard}
+	</select>
+
+
+
+</mapper>

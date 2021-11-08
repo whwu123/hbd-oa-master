@@ -2,12 +2,11 @@ package com.active4j.hr.yc.hbd;
 
 import com.active4j.hr.base.controller.BaseController;
 import com.active4j.hr.core.model.AjaxJson;
-import com.active4j.hr.yc.entity.YcAreaEntity;
-import com.active4j.hr.yc.entity.YcSchoolEntity;
-import com.active4j.hr.yc.entity.YcStudentInformationEntity;
+import com.active4j.hr.yc.entity.*;
 import com.active4j.hr.yc.service.YcAreaService;
 import com.active4j.hr.yc.service.YcSchoolService;
 import com.active4j.hr.yc.service.YcStudentInformationService;
+import com.active4j.hr.yc.service.YcStudentOrderService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,8 @@ public class IndexController extends BaseController {
     private YcSchoolService ycSchoolService;
     @Autowired
     private YcStudentInformationService ycStudentInformationService;
+    @Autowired
+    private YcStudentOrderService ycStudentOrderService;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Model model) {
@@ -62,6 +63,16 @@ public class IndexController extends BaseController {
         List<YcAreaEntity> areaList = ycAreaService.list(queryWrapper);
         model.addAttribute("areaList",areaList);
         if(studentCard!=null && !studentCard.isEmpty()){
+
+            YcStudentOrderModelEntity ycStudentOrderModelEntity = ycStudentOrderService.getOrderByStudentCard(studentCard);
+        //如果存在支付信息就跳转到订单界面
+            if(ycStudentOrderModelEntity!=null){
+                model.addAttribute("ycStudentOrderModelEntity",ycStudentOrderModelEntity);
+
+                return "yc/hbd/successOrder";
+            }
+
+
             QueryWrapper<YcStudentInformationEntity> queryWrapper2 = new QueryWrapper<>();
             queryWrapper2.eq("STUDENT_CARD",studentCard);
             List<YcStudentInformationEntity> informationList = ycStudentInformationService.list(queryWrapper2);
@@ -113,7 +124,46 @@ public class IndexController extends BaseController {
     public String studentSave(Model model, YcStudentInformationEntity informationEntity) {
         if(informationEntity!=null){
             ycStudentInformationService.saveOrUpdate(informationEntity);
+            model.addAttribute("informationEntity",informationEntity);
         }
-        return "yc/hbd/list";
+        return "yc/hbd/caseSelect";
+    }
+
+    @RequestMapping(value = "/getInitData", method = RequestMethod.GET)
+    @ResponseBody
+    public AjaxJson getInitData(Model model, String id) {
+        AjaxJson j = new AjaxJson();
+        if(id!=null && !id.isEmpty()){
+            YcSchoolEntity school = ycSchoolService.getById(id);
+            j.setObj(school);
+        }
+        return j;
+    }
+
+    @RequestMapping(value = "/saveStudentOrder", method = RequestMethod.POST)
+    public String saveStudentOrder(Model model, String id,String baoxianStr) {
+        YcStudentOrderEntity ycStudentOrderEntity = new YcStudentOrderEntity();
+        if(id!=null && !id.isEmpty()){
+            ycStudentOrderEntity.setStudentId(id);
+            if(baoxianStr!=null && !baoxianStr.isEmpty()){
+               String[] str =  baoxianStr.split(",");
+               for(int i=0;i<str.length;i++){
+                   if(Integer.parseInt(str[i])==10){
+                       ycStudentOrderEntity.setTypeOne(10);
+                   }else if(Integer.parseInt(str[i])==20){
+                        ycStudentOrderEntity.setTypeTwo(20);
+                   }else if(Integer.parseInt(str[i])==40){
+                        ycStudentOrderEntity.setTypeThree(40);
+                   }
+               }
+               if(ycStudentOrderEntity.getTypeOne()+ ycStudentOrderEntity.getTypeTwo()+ ycStudentOrderEntity.getTypeThree()+ycStudentOrderEntity.getTypeFor() == 70){
+                   ycStudentOrderEntity.setOrderFlag(1);
+               }else{
+                   ycStudentOrderEntity.setOrderFlag(0);
+               }
+            }
+        }
+        ycStudentOrderService.saveOrUpdate(ycStudentOrderEntity);
+        return "yc/hbd/successOrder";
     }
 }
