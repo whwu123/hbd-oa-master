@@ -38,12 +38,13 @@
 
         <div id="div1"></div>
 
-            <form class="form-horizontal m-t" id="signupForm" action="login" method="post">
+            <form class="form-horizontal m-t" id="signupForm" action="checkPayMoney" >
                 <div class="form-group">
-                    <input type="text" name="userName" id="userName" value="" class="form-control" placeholder="请输入学生身份证号" required="">
+                    <input type="text" name="studentCard" id="studentCard" value="" class="form-control" placeholder="请输入学生身份证号" required="">
                 </div>
 
-                <button type="button" class="btn btn-primary block full-width m-b" onclick="doSubmit()">立即缴费</button>
+                <button type="submit" class="btn btn-primary block full-width m-b" >立即缴费</button>
+
             </form>
 
 
@@ -58,11 +59,9 @@
 <script src="../static/login/js/login.js"></script>
 <script src="../static/toastr/js/toastr.min.js"></script>
 <script>
-    function cl(str) {
-       if(str=='hh'){
-         //  alert('进入怀化区县');
-           window.location.href="hh_quxian?diquId=e92085932471c255d56284fbd07c0611";
-       }
+    function payMoney(str) {
+       var studentCard  = $("#studentCard").val();
+       alert(studentCard);
     }
 
 </script>
