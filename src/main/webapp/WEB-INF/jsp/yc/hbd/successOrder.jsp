@@ -59,6 +59,24 @@
             总保费：  ￥${ycStudentOrderModelEntity.one+ycStudentOrderModelEntity.two+ycStudentOrderModelEntity.three} 元
         </p>
         <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
+            已购险种：
+        </p>
+        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
+            <c:if test="${ycStudentOrderModelEntity.one == 10}">
+                监护人责任险  ￥10元
+            </c:if>
+        </p>
+        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
+            <c:if test="${ycStudentOrderModelEntity.two == 20}">
+                交通意外重大疾病险  ￥20元
+            </c:if>
+        </p>
+        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
+            <c:if test="${ycStudentOrderModelEntity.three == 40}">
+                学生平安保险  ￥40元
+            </c:if>
+        </p>
+        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
             订单编号：${ycStudentOrderModelEntity.payNumber}
         </p>
         <hr class="hr_new"/>
@@ -97,31 +115,34 @@
             险种：监护人责任险
         </p>
         <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            承保公司：<span></span>
+            承保公司：<span id="cjhr"></span>
         </p>
         <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            负责人：<span></span>
+            负责人：<span id="jhrheat"></span>
         </p>
         <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
             险种：交通意外重疾险
         </p>
         <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            承保公司：<span></span>
+            承保公司：<span id="cjt"></span>
         </p>
         <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            负责人：<span></span>
+            负责人：<span id="jtheat"></span>
         </p>
         <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
             险种：学生平安保险
         </p>
         <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            承保公司：<span></span>
+            承保公司：<span id="cxpx"></span>
         </p>
         <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            负责人：<span></span>
+            负责人：<span id="xpxheat"></span>
         </p>
         <hr class="hr_new"/>
-        <button type="submit" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doNxet()">去修改：￥ <span id="totalmoney">70</span> 元</button>
+        <c:if test="${ycStudentOrderModelEntity.one+ycStudentOrderModelEntity.two+ycStudentOrderModelEntity.three < 70}">
+            <button type="submit" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doNxet()">补交费用</button>
+        </c:if>
+        <button type="button" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doUpdate('123')">去修改</button>
 
     </form>
 
@@ -187,15 +208,32 @@
 
         //根据学校ID拿到承保公司信息
         $.ajax({
-            url: 'webhbd/getSchoolInsuredData?id='+banjiId,
+            url: 'webhbd/getSchoolInsuredData?id='+schoolId,
             type: 'GET',
             dataType: 'json',
             success: function (res) {
                 if(res.success == true){
                     console.log(res)
                     //对数据进行处理
-                    if(res.obj != null ){
-                        $("#banjiName").html(res.obj.name)
+                    if(res.obj.length>0){
+
+                        for(var i in res.obj){
+                            var position=res.obj[i];
+                            var pphone = position.pphone;
+                            var pname = position.pname;
+                            var cname = position.cname
+                            var type = position.insuranceType
+                            if(type == "xuepingxian"){
+                                $("#cxpx").html(cname)
+                                $("#xpxheat").html(pname+"|"+pphone);
+                            }else if(type == "jiaotongjibing"){
+                                $("#cjt").html(cname)
+                                $("#jtheat").html(pname+"|"+pphone);
+                            }else if(type =="jianhuren"){
+                                $("#cjhr").html(cname)
+                                $("#jhrheat").html(pname+"|"+pphone);
+                            }
+                        }
                     }
 
                 }
@@ -205,9 +243,13 @@
 
     function doNxet() {
         checkboxOnclick2();
-        var baoxianStr =  $("#baoxianStr").val();
-        alert("保存订单="+baoxianStr)
+        //var baoxianStr =  $("#baoxianStr").val();
+        //alert("保存订单="+baoxianStr)
 
+    }
+
+    function doUpdate(studentCard){
+        alert(studentCard);
     }
 
     function checkboxOnclick() {

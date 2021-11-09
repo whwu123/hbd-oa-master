@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.active4j.hr.yc.dao.YcInsurancePersonDao">
+
+	<select id="getHbdList" resultType="com.active4j.hr.yc.entity.HbdModel" >
+		SELECT
+			yip.PERSON_NAME as pname,
+			yip.PERSON_PHONE as pphone,
+			yic.COMPANY_NAME as cname,
+			ysi.SCHOOL_ID as schoolId,
+			ysi.INSURANCE_TYPE as insuranceType
+		FROM
+			yc_insurance_person AS yip
+				INNER JOIN yc_insurance_company AS yic ON yip.COMPANY_ID = yic.ID
+				INNER JOIN yc_school_insured as ysi ON ysi.INSURANCE_PERSON_ID = yip.ID
+		where ysi.SCHOOL_ID = #{schoolId}
+	</select>
+
+</mapper>

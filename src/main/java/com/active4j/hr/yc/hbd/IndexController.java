@@ -3,10 +3,7 @@ package com.active4j.hr.yc.hbd;
 import com.active4j.hr.base.controller.BaseController;
 import com.active4j.hr.core.model.AjaxJson;
 import com.active4j.hr.yc.entity.*;
-import com.active4j.hr.yc.service.YcAreaService;
-import com.active4j.hr.yc.service.YcSchoolService;
-import com.active4j.hr.yc.service.YcStudentInformationService;
-import com.active4j.hr.yc.service.YcStudentOrderService;
+import com.active4j.hr.yc.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,10 @@ public class IndexController extends BaseController {
     private YcStudentInformationService ycStudentInformationService;
     @Autowired
     private YcStudentOrderService ycStudentOrderService;
+    @Autowired
+    private YcSchoolInsuredService ycSchoolInsuredService;
+    @Autowired
+    private YcInsurancePersonService ycInsurancePersonService;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Model model) {
@@ -43,7 +44,6 @@ public class IndexController extends BaseController {
     public String diqu(Model model) {
         return "yc/hbd/diqu";
     }
-
 
     @RequestMapping(value = "/tiaokuan", method = RequestMethod.GET)
     public String tiaokuan(Model model) {
@@ -63,20 +63,15 @@ public class IndexController extends BaseController {
         List<YcAreaEntity> areaList = ycAreaService.list(queryWrapper);
         model.addAttribute("areaList",areaList);
         if(studentCard!=null && !studentCard.isEmpty()){
-
             YcStudentOrderModelEntity ycStudentOrderModelEntity = ycStudentOrderService.getOrderByStudentCard(studentCard);
-        //如果存在支付信息就跳转到订单界面
+            //如果存在支付信息就跳转到订单界面
             if(ycStudentOrderModelEntity!=null){
                 model.addAttribute("ycStudentOrderModelEntity",ycStudentOrderModelEntity);
-
                 return "yc/hbd/successOrder";
             }
-
-
             QueryWrapper<YcStudentInformationEntity> queryWrapper2 = new QueryWrapper<>();
             queryWrapper2.eq("STUDENT_CARD",studentCard);
             List<YcStudentInformationEntity> informationList = ycStudentInformationService.list(queryWrapper2);
-
             if(informationList.size()>0){
                 YcStudentInformationEntity ycStudentInformationEntity =informationList.get(0);
                 model.addAttribute("information",ycStudentInformationEntity);
@@ -95,7 +90,6 @@ public class IndexController extends BaseController {
                 queryWrapper5.eq("PARENT_ID",ycStudentInformationEntity.getNianjiId());
                 List<YcSchoolEntity> ycSchoolList3 = ycSchoolService.list(queryWrapper5);
                 model.addAttribute("ycSchoolList3",ycSchoolList3);
-
 
 
             }else{
@@ -164,6 +158,29 @@ public class IndexController extends BaseController {
             }
         }
         ycStudentOrderService.saveOrUpdate(ycStudentOrderEntity);
+
+        String studentId = ycStudentOrderEntity.getStudentId();
+
+        YcStudentInformationEntity ycStudentInformation = ycStudentInformationService.getById(studentId);
+
+        YcStudentOrderModelEntity ycStudentOrderModelEntity = ycStudentOrderService.getOrderByStudentCard(ycStudentInformation.getStudentCard());
+        //如果存在支付信息就跳转到订单界面
+        if(ycStudentOrderModelEntity!=null){
+            model.addAttribute("ycStudentOrderModelEntity",ycStudentOrderModelEntity);
+
+        }
         return "yc/hbd/successOrder";
+    }
+
+    @RequestMapping(value = "/getSchoolInsuredData", method = RequestMethod.GET)
+    @ResponseBody
+    public AjaxJson getSchoolInsuredData(Model model, String id) {
+        AjaxJson j = new AjaxJson();
+        if(id!=null && !id.isEmpty()){
+            List<HbdModel> modelList = ycInsurancePersonService.getHbdList(id);
+            j.setObj(modelList);
+
+        }
+        return j;
     }
 }

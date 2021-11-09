@@ -103,7 +103,8 @@
                 止保时间：2022年02月28日二十四时止
             </p>
             <hr class="hr_new"/>
-            <button type="submit" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doNxet()">金额：￥ <span id="totalmoney">70</span> 元</button>
+            <button type="submit" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doNxet()">
+                金额：￥ <span id="totalmoney">70</span> 元</button>
 
         </form>
 
@@ -171,7 +172,7 @@
     function doNxet() {
         checkboxOnclick2();
        var baoxianStr =  $("#baoxianStr").val();
-       alert("保存订单="+baoxianStr)
+       //alert("保存订单="+baoxianStr)
 
     }
     
