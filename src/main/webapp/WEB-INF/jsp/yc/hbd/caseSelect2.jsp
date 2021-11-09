@@ -45,8 +45,8 @@
 <body class="gray-bg">
 <div class="middle-box text-center loginscreen  animated fadeInDown">
 
-        <form class="form-horizontal m-t" id="signupForm" action="webhbd/saveStudentOrder" method="post">
-            <input type="hidden" value="${informationEntity.id}" id="id" name="id"/>
+        <form class="form-horizontal m-t" id="signupForm" action="webhbd/handStudentOrder" method="post">
+            <input type="hidden" value="${orderStudent.id}" id="id" name="id"/>
             <input type="hidden" value="${informationEntity.schoolId}" id="schoolId"/>
             <input type="hidden" value="${informationEntity.nianjiId}" id="nianjiId"/>
             <input type="hidden" value="${informationEntity.banjiId}" id="banjiId"/>
@@ -76,24 +76,45 @@
 
             <p style="text-align: left;margin-top: 10px;color: #9d9d9d" id="fruit">
                 学平险
-                <span style="float: right;color: black;">
-                   40 <input type="checkbox" id="xpx" text ="1_学平险" checked value="40"  name="chk"  onclick="checkboxOnclick('ywx')" />
-                </span>
+                <c:if test="${orderStudent.typeThree eq 40}">
+                    <span style="float: right;color: black;">
+                       40
+                    </span>
+                </c:if>
+                <c:if test="${orderStudent.typeThree ne 40}">
+                    <span style="float: right;color: black;">
+                       40 <input type="checkbox" id="xpx" text ="1_学平险" checked value="40"  name="chk"  onclick="checkboxOnclick('ywx')" />
+                    </span>
+                </c:if>
+
             </p>
             <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
                 交通意外重疾险
-                <span style="float: right;color: black;">
-                    20 <input type="checkbox" id="ywx" text = "2_交通意外重疾险" checked value="20" name="chk"  onclick="checkboxOnclick('ywx')" />
-                </span>
+                <c:if test="${orderStudent.typeTwo eq 20}">
+                    <span style="float: right;color: black;">
+                       20
+                    </span>
+                </c:if>
+                <c:if test="${orderStudent.typeTwo ne 20}">
+                    <span style="float: right;color: black;">
+                        20 <input type="checkbox" id="ywx" text = "2_交通意外重疾险" checked value="20" name="chk"  onclick="checkboxOnclick('ywx')" />
+                    </span>
+                </c:if>
+
             </p>
             <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
                 监护人责任险
-                <span style="float: right;color: black;">
-                   10 <input type="checkbox" id="zrx" text = "3_护人责任险" checked value="10" name="chk"  onclick="checkboxOnclick('zrx')" />
-                </span>
+                <c:if test="${orderStudent.typeOne eq 10}">
+                    <span style="float: right;color: black;">
+                       10
+                    </span>
+                </c:if>
+                <c:if test="${orderStudent.typeOne ne 10}">
+                    <span style="float: right;color: black;">
+                       10 <input type="checkbox" id="zrx" text = "3_护人责任险" checked value="10" name="chk"  onclick="checkboxOnclick('zrx')" />
+                    </span>
+                </c:if>
             </p>
-
-
             <h3 style="text-align: left;margin-top: 20px;">保险期间</h3>
             <hr class="hr_new"/>
             <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
@@ -105,7 +126,6 @@
             <hr class="hr_new"/>
             <button type="submit" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doNxet()">
                 金额：￥ <span id="totalmoney">70</span> 元</button>
-
         </form>
 
 
@@ -118,6 +138,7 @@
 <script src="static/toastr/js/toastr.min.js"></script>
 <script>
     $(function(){
+        checkboxOnclick2();
         //alert("初始化数据")
         var schoolId = $("#schoolId").val();
         var nianjiId = $("#nianjiId").val();

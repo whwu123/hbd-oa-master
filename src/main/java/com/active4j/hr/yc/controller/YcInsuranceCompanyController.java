@@ -343,8 +343,8 @@ public class YcInsuranceCompanyController extends BaseController {
         queryWrapper.eq("AREA_STATE",0);
         List<YcAreaEntity> areaList = ycAreaService.list(queryWrapper);
         view.addObject("areaList", areaList);
-       /* List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
-        view.addObject("xueliList", xueliList);*/
+        List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
+        view.addObject("xueliList", xueliList);
 
         if(StringUtils.isEmpty(ycSchoolEntity.getId())) {
             //新增
@@ -361,8 +361,8 @@ public class YcInsuranceCompanyController extends BaseController {
     public ModelAndView schoolinsuredaddorupdate(YcSchoolInsuredEntity ycSchoolInsuredEntity, HttpServletRequest req) {
         ModelAndView view = new ModelAndView("yc/insurance/school/insured/school");
         //获取学历类型的数据字典
-       /* List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
-        view.addObject("xueliList", xueliList);*/
+        List<SysDicValueEntity> xueliList = SystemUtils.getDictionaryLst("xueli_type");
+        view.addObject("xueliList", xueliList);
 
         //获取保险种类类型的数据字典
         List<SysDicValueEntity> insuranceList = SystemUtils.getDictionaryLst("insurance_type");

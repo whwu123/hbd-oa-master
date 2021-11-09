@@ -23,4 +23,8 @@ public class HbdModel implements Serializable {
 
     private String insuranceType;
 
+    private String grad;
+
+    private String igrad;
+
 }

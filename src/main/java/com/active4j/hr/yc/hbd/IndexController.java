@@ -108,6 +108,7 @@ public class IndexController extends BaseController {
         if(id!=null && !id.isEmpty()){
             QueryWrapper<YcSchoolEntity> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("PARENT_ID",id);
+            queryWrapper.orderByDesc("record","sort");
             List<YcSchoolEntity> schoolList = ycSchoolService.list(queryWrapper);
             j.setObj(schoolList);
         }
@@ -178,9 +179,120 @@ public class IndexController extends BaseController {
         AjaxJson j = new AjaxJson();
         if(id!=null && !id.isEmpty()){
             List<HbdModel> modelList = ycInsurancePersonService.getHbdList(id);
-            j.setObj(modelList);
 
+            j.setObj(modelList);
         }
         return j;
+    }
+
+    @RequestMapping(value = "/doupdate", method = RequestMethod.GET)
+    public String doupdate(Model model, String studentCard) {
+        if(studentCard!=null){
+            //查询业务区县列表
+            QueryWrapper<YcAreaEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("AREA_STATE",0);
+            List<YcAreaEntity> areaList = ycAreaService.list(queryWrapper);
+            model.addAttribute("areaList",areaList);
+            if(studentCard!=null && !studentCard.isEmpty()){
+                QueryWrapper<YcStudentInformationEntity> queryWrapper2 = new QueryWrapper<>();
+                queryWrapper2.eq("STUDENT_CARD",studentCard);
+                List<YcStudentInformationEntity> informationList = ycStudentInformationService.list(queryWrapper2);
+                if(informationList.size()>0){
+                    YcStudentInformationEntity ycStudentInformationEntity =informationList.get(0);
+                    model.addAttribute("information",ycStudentInformationEntity);
+                    //根据区域ID查询该区域下的所有学校
+                    QueryWrapper<YcSchoolEntity> queryWrapper3 = new QueryWrapper<>();
+                    queryWrapper3.eq("PARENT_ID",ycStudentInformationEntity.getAreaId());
+                    List<YcSchoolEntity> ycSchoolList = ycSchoolService.list(queryWrapper3);
+                    model.addAttribute("ycSchoolList",ycSchoolList);
+
+                    QueryWrapper<YcSchoolEntity> queryWrapper4 = new QueryWrapper<>();
+                    queryWrapper4.eq("PARENT_ID",ycStudentInformationEntity.getSchoolId());
+                    List<YcSchoolEntity> ycSchoolList2 = ycSchoolService.list(queryWrapper4);
+                    model.addAttribute("ycSchoolList2",ycSchoolList2);
+
+                    QueryWrapper<YcSchoolEntity> queryWrapper5 = new QueryWrapper<>();
+                    queryWrapper5.eq("PARENT_ID",ycStudentInformationEntity.getNianjiId());
+                    List<YcSchoolEntity> ycSchoolList3 = ycSchoolService.list(queryWrapper5);
+                    model.addAttribute("ycSchoolList3",ycSchoolList3);
+                }else{
+                    YcStudentInformationEntity ycStudentInformationEntity = new YcStudentInformationEntity();
+                    ycStudentInformationEntity.setStudentCard(studentCard);
+                    model.addAttribute("information",ycStudentInformationEntity);
+                }
+            }
+        }
+        return "yc/hbd/studentInformation2";
+    }
+
+    @RequestMapping(value = "/student/save2", method = RequestMethod.POST)
+    public String studentSave2(Model model, YcStudentInformationEntity informationEntity) {
+        if(informationEntity!=null){
+            ycStudentInformationService.saveOrUpdate(informationEntity);
+            YcStudentOrderModelEntity ycStudentOrderModelEntity = ycStudentOrderService.getOrderByStudentCard(informationEntity.getStudentCard());
+            //如果存在支付信息就跳转到订单界面
+            if(ycStudentOrderModelEntity!=null){
+                model.addAttribute("ycStudentOrderModelEntity",ycStudentOrderModelEntity);
+            }
+        }
+        return "yc/hbd/successOrder";
+    }
+
+    @RequestMapping(value = "/doHand", method = RequestMethod.GET)
+    public String doHand(Model model, String studentCard) {
+        if(studentCard!=null && !studentCard.isEmpty()){
+            QueryWrapper<YcStudentInformationEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("STUDENT_CARD",studentCard);
+            List<YcStudentInformationEntity> list = ycStudentInformationService.list(queryWrapper);
+            if(list.size()>0){
+                model.addAttribute("informationEntity",list.get(0));
+            }
+            String studentId = list.get(0).getId();
+
+            QueryWrapper<YcStudentOrderEntity> queryWrapper2 = new QueryWrapper<>();
+            queryWrapper2.eq("STUDENT_ID",studentId);
+            List<YcStudentOrderEntity> orderList = ycStudentOrderService.list(queryWrapper2);
+            if(orderList.size()>0){
+                model.addAttribute("orderStudent",orderList.get(0));
+            }
+        }
+        return "yc/hbd/caseSelect2";
+    }
+
+    @RequestMapping(value = "/handStudentOrder", method = RequestMethod.POST)
+    public String handStudentOrder(Model model, String id,String baoxianStr) {
+        YcStudentOrderEntity ycStudentOrderEntity = null;
+        if(id!=null && !id.isEmpty()){
+            ycStudentOrderEntity = ycStudentOrderService.getById(id);
+            if(baoxianStr!=null && !baoxianStr.isEmpty()){
+                String[] str =  baoxianStr.split(",");
+                for(int i=0;i<str.length;i++){
+                    if(Integer.parseInt(str[i])==10){
+                        ycStudentOrderEntity.setTypeOne(10);
+                    }else if(Integer.parseInt(str[i])==20){
+                        ycStudentOrderEntity.setTypeTwo(20);
+                    }else if(Integer.parseInt(str[i])==40){
+                        ycStudentOrderEntity.setTypeThree(40);
+                    }
+                }
+                if(ycStudentOrderEntity.getTypeOne()+ ycStudentOrderEntity.getTypeTwo()+ ycStudentOrderEntity.getTypeThree()+ycStudentOrderEntity.getTypeFor() == 70){
+                    ycStudentOrderEntity.setOrderFlag(1);
+                }else{
+                    ycStudentOrderEntity.setOrderFlag(0);
+                }
+            }
+        }
+        ycStudentOrderService.saveOrUpdate(ycStudentOrderEntity);
+
+        String studentId = ycStudentOrderEntity.getStudentId();
+        YcStudentInformationEntity ycStudentInformation = ycStudentInformationService.getById(studentId);
+
+        YcStudentOrderModelEntity ycStudentOrderModelEntity = ycStudentOrderService.getOrderByStudentCard(ycStudentInformation.getStudentCard());
+        //如果存在支付信息就跳转到订单界面
+        if(ycStudentOrderModelEntity!=null){
+            model.addAttribute("ycStudentOrderModelEntity",ycStudentOrderModelEntity);
+
+        }
+        return "yc/hbd/successOrder";
     }
 }

@@ -111,38 +111,15 @@
 
         <h3 style="text-align: left;margin-top: 20px;">承保信息</h3>
         <hr class="hr_new"/>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
+        <p style="text-align: left;margin-top: 10px;color: #9d9d9d" id="chengbaodata">
             险种：监护人责任险
         </p>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            承保公司：<span id="cjhr"></span>
-        </p>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            负责人：<span id="jhrheat"></span>
-        </p>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            险种：交通意外重疾险
-        </p>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            承保公司：<span id="cjt"></span>
-        </p>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            负责人：<span id="jtheat"></span>
-        </p>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            险种：学生平安保险
-        </p>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            承保公司：<span id="cxpx"></span>
-        </p>
-        <p style="text-align: left;margin-top: 10px;color: #9d9d9d">
-            负责人：<span id="xpxheat"></span>
-        </p>
+
         <hr class="hr_new"/>
         <c:if test="${ycStudentOrderModelEntity.one+ycStudentOrderModelEntity.two+ycStudentOrderModelEntity.three < 70}">
-            <button type="submit" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doNxet()">补交费用</button>
+            <button type="button" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doHand('${ycStudentOrderModelEntity.studentCard}')">补交费用</button>
         </c:if>
-        <button type="button" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doUpdate('123')">去修改</button>
+        <button type="button" class="btn btn-primary block full-width m-b" style="background-color: #1136ea;" onclick="doUpdate('${ycStudentOrderModelEntity.studentCard}')">去修改</button>
 
     </form>
 
@@ -166,7 +143,7 @@
             dataType: 'json',
             success: function (res) {
                 if(res.success == true){
-                    console.log(res)
+                    //console.log(res)
                     //对数据进行处理
                     if(res.obj != null ){
                         $("#schoolName").html(res.obj.name)
@@ -181,7 +158,7 @@
             dataType: 'json',
             success: function (res) {
                 if(res.success == true){
-                    console.log(res)
+                    //console.log(res)
                     //对数据进行处理
                     if(res.obj != null ){
                         $("#nianjiName").html(res.obj.name)
@@ -196,7 +173,7 @@
             dataType: 'json',
             success: function (res) {
                 if(res.success == true){
-                    console.log(res)
+                    //console.log(res)
                     //对数据进行处理
                     if(res.obj != null ){
                         $("#banjiName").html(res.obj.name)
@@ -213,27 +190,29 @@
             dataType: 'json',
             success: function (res) {
                 if(res.success == true){
-                    console.log(res)
+                    //console.log(res)
                     //对数据进行处理
                     if(res.obj.length>0){
-
+                        var html = "";
                         for(var i in res.obj){
                             var position=res.obj[i];
                             var pphone = position.pphone;
                             var pname = position.pname;
-                            var cname = position.cname
+                            var cname = position.cname;
+                            var igrad = position.igrad;
                             var type = position.insuranceType
                             if(type == "xuepingxian"){
-                                $("#cxpx").html(cname)
-                                $("#xpxheat").html(pname+"|"+pphone);
+                                html += "险种：学生平安保险"+"<br/>"+" 承保公司:"+ cname +"<br/> 联系人："+ pname +"|"+pphone +"<br/>"
                             }else if(type == "jiaotongjibing"){
-                                $("#cjt").html(cname)
-                                $("#jtheat").html(pname+"|"+pphone);
+                                html += "险种：交通意外重大疾病险"+"<br/>"+" 承保公司:"+ cname +"<br/> 联系人："+ pname +"|"+pphone +"<br/>"
                             }else if(type =="jianhuren"){
-                                $("#cjhr").html(cname)
-                                $("#jhrheat").html(pname+"|"+pphone);
+                                html += "险种：监护人责任险"+"<br/>"+"承保公司:"+ cname +"<br/> 联系人："+ pname +"|"+pphone +"<br/>"
+                            }
+                            if(igrad == 1){
+                                html += "保险范围："+position.grad+"<br/>";
                             }
                         }
+                        $("#chengbaodata").html(html);
                     }
 
                 }
@@ -241,15 +220,12 @@
         });
     });
 
-    function doNxet() {
-        checkboxOnclick2();
-        //var baoxianStr =  $("#baoxianStr").val();
-        //alert("保存订单="+baoxianStr)
-
+    function doHand(studentCard){
+        window.location.href = 'webhbd/doHand?studentCard='+studentCard
     }
-
     function doUpdate(studentCard){
-        alert(studentCard);
+        //alert(studentCard);
+        window.location.href = 'webhbd/doupdate?studentCard='+studentCard
     }
 
     function checkboxOnclick() {
@@ -291,8 +267,6 @@
         $("#baoxianStr").val(baoxianStr);
         $("#baoxianTotalmoney").val(total);
     }
-
-
 </script>
 </body>
 </html>
