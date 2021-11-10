@@ -6,9 +6,9 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>财信育才投保系统</title>
-    <meta name="keywords" content="财信育才投保系统">
-    <meta name="description" content="财信育才投保系统">
+    <title>财信育才缴费系统</title>
+    <meta name="keywords" content="财信育才缴费系统">
+    <meta name="description" content="财信育才缴费系统">
     <link rel="shortcut icon" href="static/bootstrap/image/favicon.ico">
     <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/bootstrap/css/font-awesome.min.css" rel="stylesheet">
@@ -99,7 +99,7 @@
                 </div>
                 <h3 style="text-align: left;color: #9d9d9d;margin-top: 30px">家长信息</h3>
                 <div id="div1"></div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 10px;">
                     <label class="col-sm-4 control-label">家长姓名：</label>
                     <div class="col-sm-8">
                         <input   type="text" class="form-control" value="${information.parentName}" name="parentName"  placeholder="请输入家长的真实姓名" />

@@ -99,7 +99,7 @@
                 </div>
                 <h3 style="text-align: left;color: #9d9d9d;margin-top: 30px">家长信息</h3>
                 <div id="div1"></div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 10px;">
                     <label class="col-sm-4 control-label">家长姓名：</label>
                     <div class="col-sm-8">
                         <input   type="text" class="form-control" value="${information.parentName}" name="parentName"  placeholder="请输入家长的真实姓名" />
